@@ -35,32 +35,40 @@ struct Transaksi
 };
 
 int menu_awal, i_pga;
+
 struct Pengguna pengguna[50];
 struct Pengguna input;
+struct Pengguna pengguna_login;
 
-#include "validasi.h"
-#include "data.h"
-#include "opening.h"
-#include "register.h"
+#include "src/validasi.h"
+#include "src/data.h"
+#include "src/opening.h"
+#include "src/login.h"
+#include "src/register.h"
+#include "src/opsi_pajak.h"
 
 int main()
 {
     opening(&menu_awal);
+    sinkronDataPengguna();
 
     if (menu_awal == 1)
     {
         system("cls");
+        login_menu();
     }
     else if (menu_awal == 2)
     {
         system("cls");
-        register_menu(input);
+        register_menu();
     }
     else
     {
         printf("\n\tPilihan Anda Salah!");
         printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
     }
+
+    opsi_pajak();
 
     system("PAUSE");
     return 0;

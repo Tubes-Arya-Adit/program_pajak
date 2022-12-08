@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void register_menu(struct Pengguna input)
+void register_menu()
 {
+
   printf("\n\t=========================================================\n");
   printf("\n\t                    Laman Registrasi                     \n");
-  printf("\n\t---------------------------------------------------------\n");
+  printf("\n\t=========================================================\n");
   printf("\n\tMasukkan NPWP     : ");
   input_str(input.npwp);
   printf("\n\tMasukkan NIK      : ");
@@ -20,5 +21,12 @@ void register_menu(struct Pengguna input)
   input_str(input.username);
   printf("\n\tMasukkan Password : ");
   input_str(input.password);
+
+  tambahDataPengguna();
+  sinkronDataPengguna();
+
   printf("\n\t----------------------------------------------------------\n");
+
+  system("cls");
+  login_menu();
 }
