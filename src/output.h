@@ -1,4 +1,3 @@
-#include <stdio.h>
 
 void output_pph()
 {
@@ -45,7 +44,7 @@ void output_pph()
     printf("\n\t Jumlah Penghasilan Netto              |              ");
     printf("\n\t Penghasilan Tidak Kena Pajak (PTKP)   |              ");
     printf("\n\t Penghasilan Kena Pajak (PKP)          |              ");
-    printf("\n\t Besar Tarif Progresif (%%)             |             ");
+    printf("\n\t Besar Tarif Progresif (%%)            |             ");
     printf("\n\t Total Pajak Penghasilan               |              ");
     printf("\n\t---------------------------------------+--------------");
     printf("\n");
@@ -56,7 +55,7 @@ void output_pph()
     printf("\n\t Waktu Transaksi :");
     printf("\n\t Status Pajak    :");
     printf("\n\t Masa Pajak      :");
-    printf("\n\t------------------------------------------------------");    
+    printf("\n\t------------------------------------------------------");
 }
 
 void output_pbb()

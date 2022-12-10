@@ -1,4 +1,4 @@
-void opening(int *menu_awal)
+void opening()
 {
   printf("\n\t=========================================================\n");
   printf("\n\t    Selamat Datang di Aplikasi Pembayaran Pajak Online    \n");
@@ -9,5 +9,5 @@ void opening(int *menu_awal)
   printf("\n\t              [1] Login           [2] Register\n");
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\tMasukkan Pilihan Anda  : ");
-  *menu_awal = input_int();
+  menu_awal = input_int();
 }

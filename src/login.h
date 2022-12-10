@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 void login_menu()
 {
   char temp_username[100], temp_password[100];
@@ -18,7 +14,6 @@ void login_menu()
     check_username = checkData("username", temp_username);
 
     pindahData(temp_username);
-    printf("%s#%s#%s#%s#%s#%s#%s\n", pengguna_login.nama, pengguna_login.alamat, pengguna_login.no_telp, pengguna_login.username, pengguna_login.password, pengguna_login.npwp, pengguna_login.nik);
 
     printf("\n\tPassword : ");
     input_str(temp_password);

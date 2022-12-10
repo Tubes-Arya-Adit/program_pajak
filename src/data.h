@@ -27,13 +27,31 @@ void sinkronDataPengguna()
 {
   FILE *file = fopen("./data/pengguna.txt", "r");
   char buff[255];
-  i_pga = 0;
-  memset(pengguna, 0, sizeof(pengguna));
   if (file)
   {
-    while (!feof(file))
+    while (fgets(buff, sizeof(buff), file))
     {
-      fscanf(file, "%[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%[^#]#%[^#]", pengguna[i_pga].nama, pengguna[i_pga].alamat, pengguna[i_pga].no_telp, pengguna[i_pga].username, pengguna[i_pga].password, pengguna[i_pga].npwp, pengguna[i_pga].nik);
+      char *token = strtok(buff, "#");
+      int i = 0;
+      while (token != NULL)
+      {
+        if (i == 0)
+          strcpy(pengguna[i_pga].nama, token);
+        else if (i == 1)
+          strcpy(pengguna[i_pga].alamat, token);
+        else if (i == 2)
+          strcpy(pengguna[i_pga].no_telp, token);
+        else if (i == 3)
+          strcpy(pengguna[i_pga].username, token);
+        else if (i == 4)
+          strcpy(pengguna[i_pga].password, token);
+        else if (i == 5)
+          strcpy(pengguna[i_pga].npwp, token);
+        else if (i == 6)
+          strcpy(pengguna[i_pga].nik, token);
+        token = strtok(NULL, "#");
+        i++;
+      }
       i_pga++;
     }
   }

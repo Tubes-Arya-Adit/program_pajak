@@ -49,7 +49,7 @@ struct Pengguna pengguna_login;
 
 int main()
 {
-    opening(&menu_awal);
+    opening();
     sinkronDataPengguna();
 
     if (menu_awal == 1)
