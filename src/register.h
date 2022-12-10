@@ -8,6 +8,15 @@ void register_menu()
   printf("\n\t=========================================================\n");
   printf("\n\tMasukkan NPWP     : ");
   input_str(input.npwp);
+
+  while (checkData("npwp", input.npwp) == 0)
+  {
+    printf("\n\tNPWP sudah terdaftar, masukkan NPWP yang lain!");
+    printf("\n\tMasukkan NPWP     : ");
+    input_str(input.npwp);
+    system("cls");
+  }
+
   printf("\n\tMasukkan NIK      : ");
   input_str(input.nik);
   printf("\n\tMasukkan Nama     : ");
@@ -25,7 +34,9 @@ void register_menu()
   sinkronDataPengguna();
 
   printf("\n\t----------------------------------------------------------\n");
-
+  printf("\n\t                    Berhasil Register!                     ");
+  printf("\n\t                 Tekan enter untuk login                   ");
+  getch();
   system("cls");
   login_menu();
 }

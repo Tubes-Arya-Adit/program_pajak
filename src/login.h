@@ -11,8 +11,8 @@ void login_menu()
 
     printf("\n\tUsername : ");
     input_str(temp_username);
-    check_username = checkData("username", temp_username);
 
+    check_username = checkData("username", temp_username);
     pindahData(temp_username);
 
     printf("\n\tPassword : ");
@@ -23,7 +23,9 @@ void login_menu()
     if (check_username == 0 && check_password == 0)
     {
       printf("\n\t----------------------------------------------------------\n");
-      printf("\n\tLogin berhasil");
+      printf("\n\t                      Login berhasil                      ");
+      printf("\n\t             Tekan enter untuk masuk ke program           ");
+      getch();
       system("cls");
       break;
     }
@@ -32,6 +34,7 @@ void login_menu()
       printf("\n\t----------------------------------------------------------\n");
       printf("\n\tLogin gagal, masukan username & password dengan benar!");
       printf("\tTekan enter untuk mengulang");
+      getch();
       system("cls");
     }
   }

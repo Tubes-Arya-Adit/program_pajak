@@ -89,24 +89,21 @@ int checkData(char *data, char *comparator)
       if (strcmp(pengguna[i].password, comparator) == 0)
         return 0;
     }
+    else if (strcmp(data, "npwp") == 0)
+    {
+      if (strcmp(pengguna[i].npwp, comparator) == 0)
+        return 0;
+    }
   }
   return -1;
 }
 
 int cariIndeksPengguna(char *username)
 {
-  int low = 0;
-  int high = i_pga - 1;
-  int mid;
-  while (low <= high)
+  for (int i = 0; i < i_pga; i++)
   {
-    mid = (low + high) / 2;
-    if (strcmp(pengguna[mid].username, username) == 0)
-      return mid;
-    else if (strcmp(pengguna[mid].username, username) > 0)
-      high = mid - 1;
-    else
-      low = mid + 1;
+    if (strcmp(pengguna[i].username, username) == 0)
+      return i;
   }
   return -1;
 }

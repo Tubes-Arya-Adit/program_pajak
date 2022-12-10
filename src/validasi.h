@@ -3,7 +3,7 @@
   YANG DIMASUKAN OLEH PENGGUNA
 */
 
-float input_float()
+double input_double()
 {
   char input[5];
   int i = 0, error = 0, negative = 0, decimal = 0, whole_num = 0, fract_num = 0, chars = 0;
@@ -71,7 +71,7 @@ float input_float()
   {
     printf("\n\tHarus berupa angka dan lebih dari 0! ");
     printf("\n\tSilahkan masukan angka kembali : ");
-    return input_float();
+    return input_double();
   }
   else
     return output;
@@ -81,7 +81,6 @@ char *input_str(char *input)
 {
   int i = 0, error = 0;
 
-  // fgets(input, sizeof(input), stdin);
   scanf("%[^\n]", input);
   getchar();
 

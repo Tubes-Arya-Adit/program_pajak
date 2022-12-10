@@ -9,8 +9,10 @@ void opsi_pajak()
   printf("\n\t [4] Pembayaran Pajak Impor             \n");
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\t [5] Lihat Riwayat Pembayaran                              \n");
-  printf("\n\t [5] Lihat Data Anda                               \n");
-  printf("\n\t [6] Tentang Kami                               \n");
-  printf("\n\t [7] Keluar                               \n");
+  printf("\n\t [6] Lihat Data Anda                               \n");
+  printf("\n\t [7] Tentang Kami                               \n");
+  printf("\n\t [8] Keluar                               \n");
   printf("\n\t----------------------------------------------------------\n");
+  printf("\n\tPilihan Anda : ");
+  menu_opsi_pajak = input_int(menu_opsi_pajak);
 }
