@@ -42,6 +42,7 @@ struct Pengguna pengguna_login;
 #include "src/opsi_pajak.h"
 #include "src/pph.h"
 #include "src/pbb.h"
+#include "src/output.h"
 
 int main()
 {
@@ -80,7 +81,7 @@ int main()
         break;
     case 2:
         system("cls");
-        pph_menu();
+        pbb_menu();
         break;
     case 3:
         system("cls");
