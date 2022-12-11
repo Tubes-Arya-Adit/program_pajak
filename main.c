@@ -81,7 +81,7 @@ int main()
         break;
     case 2:
         system("cls");
-        pbb_menu();
+        pph_menu();
         break;
     case 3:
         system("cls");

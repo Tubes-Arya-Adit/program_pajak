@@ -6,7 +6,8 @@ double njop,
     nilai_bangunan_meter,
     nilai_tanah,
     nilai_bangunan,
-    pbb;
+    pbb,
+    njoptkp = 0;
 int menu_pbb, sektor, lihat_rincian;
 char lokasi[100], provinsi[100], kota_kabupaten[100], kecamatan[100], kelurahan_desa[100];
 
@@ -147,18 +148,31 @@ void output_pbb()
     printf("\n\t Kelurahan/Desa : %s", kelurahan_desa);
     printf("\n\t------------------------------------------------------");
     printf("\n");
-    printf("\n\tC. RINCIAN OBJEK PAJAK DAN PERHITUNGAN PBB");
-    printf("\n\t---------------+-------------+---------+---------------+-------------");
-    printf("\n\t  OBJEK PAJAK  |  LUAS (M2)  |  KELAS  |  NJOP PER M2  | TOTAL NJOP  ");
-    printf("\n\t---------------+-------------+---------+---------------+-------------");
-    printf("\n\t Bumi          |             |         |               |             ");
-    printf("\n\t Bangunan      |             |         |               |             ");
-    printf("\n\t---------------+-------------+---------+---------------+-------------");
-    printf("\n\t NJOP sebagai dasar pengenaan PBB :");
-    printf("\n\t NJOPTKP (NJOP Tidak Kena Pajak)  :");
-    printf("\n\t NJOP untuk penghitungan PBB      :");
-    printf("\n\t Total Pajak Bumi Bangunan        : %0.f", pbb);
-    printf("\n\t------------------------------------------------------");
+    printf("\n\tC. RINCIAN OBJEK PAJAK DAN PERHITUNGAN PBB");    
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t                  URAIAN               |        JUMLAH       ");
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t BUMI                                                        ");
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t Luas (M2)                             | %*.0lf M2", 16, luas_tanah);
+    printf("\n\t Kelas                                 | ");
+    printf("\n\t NJOP per M2                           | Rp.%*.0lf", 16, nilai_tanah_meter);
+    printf("\n\t Total NJOP Bumi                       | Rp.%*.0lf", 16, nilai_tanah);
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t BANGUNAN                                                    ");
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t Luas (M2)                             | %*.0lf M2", 16, luas_bangunan);
+    printf("\n\t Kelas                                 | ");
+    printf("\n\t NJOP per M2                           | Rp.%*.0lf", 16, nilai_bangunan_meter);
+    printf("\n\t Total NJOP Bangunan                   | Rp.%*.0lf", 16, nilai_bangunan);
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t PERHITUNGAN PBB                                             ");
+    printf("\n\t---------------------------------------+---------------------");
+    printf("\n\t NJOP sebagai dasar pengenaan PBB      | Rp.%*.0lf", 16, njop);
+    printf("\n\t NJOPTKP (NJOP Tidak Kena Pajak)       | Rp.%*.0lf", 16, njoptkp);
+    printf("\n\t NJOP untuk penghitungan PBB           | Rp.%*.0lf", 16, njop - njoptkp);
+    printf("\n\t Total Pajak Bumi Bangunan             | Rp.%*.0lf", 16, pbb);
+    printf("\n\t---------------------------------------+---------------------");
     printf("\n");
     printf("\n\tD. RINCIAN TRANSAKSI");
     printf("\n\t------------------------------------------------------");
