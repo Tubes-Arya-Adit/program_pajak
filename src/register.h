@@ -38,5 +38,5 @@ void register_menu()
   printf("\n\t                 Tekan enter untuk login                   ");
   getch();
   system("cls");
-  login_menu();
+  login_menu(pengguna_login);
 }

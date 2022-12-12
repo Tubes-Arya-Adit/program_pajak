@@ -11,6 +11,88 @@ double penghasilan_pokok, // perbulan
 int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian;
 char nama_jabatan[100];
 
+void pph_menu();
+
+void output_pph()
+{
+  char filename[100];
+  sprintf(filename, "%s-bukti-bayar-pph.txt", pengguna_login.npwp);
+
+  FILE *file = fopen(filename, "a");
+  if (file)
+  {
+    fprintf(file, "\n\t--------------------+---------------------------------");
+    fprintf(file, "\n\t       *******      |                                 ");
+    fprintf(file, "\n\t     ***********    |     BUKTI PEMBAYARAN PAJAK      ");
+    fprintf(file, "\n\t     *@@     ***    |      PENGHASILAN PASAL 21       ");
+    fprintf(file, "\n\t     &&&     **@    |     BAGI PEGAWAI TETAP ATAU     ");
+    fprintf(file, "\n\t     &&&&&&&&&&&    |    PENERIMA PENSIUN BERKALA.    ");
+    fprintf(file, "\n\t       &&&&&&&      |                                 ");
+    fprintf(file, "\n\t--------------------+---------------------------------");
+    fprintf(file, "\n");
+    fprintf(file, "\n\tA. IDENTITAS WAJIB PAJAK");
+    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t NPWP              : %s", pengguna_login.npwp);
+    fprintf(file, "\n\t NIK               : %s", pengguna_login.nik);
+    fprintf(file, "\n\t Nama              : %s", pengguna_login.nama);
+    fprintf(file, "\n\t Alamat            : %s", pengguna_login.alamat);
+    fprintf(file, "\n\t No. Telp          : %s", pengguna_login.no_telp);
+    fprintf(file, "\n\t Status            : ");
+    if (menikah == 1)
+      fprintf(file, "Menikah");
+    else if (menikah == 2)
+      fprintf(file, "Lajang");
+    fprintf(file, "\n\t Jumlah Tanggungan : %d", jml_anak);
+    fprintf(file, "\n\t Nama Jabatan      : %s", nama_jabatan);
+    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n");
+    fprintf(file, "\n\tB. RINCIAN PENGHASILAN DAN PERHITUNGAN PPh PASAL 21");
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t                  URAIAN               |        JUMLAH       ");
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t PENGHASILAN BRUTO                                           ");
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t Penghasilan Pokok                     | Rp.%*.0f", 16, penghasilan_pokok);
+    fprintf(file, "\n\t Penghasilan Lainnya                   | Rp.%*.0f", 16, penghasilan_tambahan);
+    fprintf(file, "\n\t Jumlah Penghasilan Bruto              | Rp.%*.0f", 16, bruto);
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t PENGURANGAN                                                 ");
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t Biaya Jabatan                         | Rp.%*.0f", 16, biaya_jabatan);
+    fprintf(file, "\n\t Iuran Pensiun                         | Rp.%*.0f", 16, iuran_pensiun);
+    fprintf(file, "\n\t Jumlah Pengurangan                    | Rp.%*.0f", 16, biaya_jabatan + iuran_pensiun);
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t PERHITUNGAN PPh PASAL 21                                    ");
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n\t Jumlah Penghasilan Netto              | Rp.%*.0f", 16, netto);
+    fprintf(file, "\n\t Penghasilan Tidak Kena Pajak (PTKP)   | Rp.%*.0f", 16, ptkp);
+    fprintf(file, "\n\t Penghasilan Kena Pajak (PKP)          | Rp.%*.0f", 16, pkp);
+    fprintf(file, "\n\t Besar Tarif Progresif (%%)             | %*d%%", 18, tarif_persen);
+    fprintf(file, "\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph);
+    fprintf(file, "\n\t---------------------------------------+---------------------");
+    fprintf(file, "\n");
+    fprintf(file, "\n\tC. RINCIAN TRANSAKSI");
+    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t Nomor           :");
+    fprintf(file, "\n\t Tahun Pajak     :%02d", waktu_sekarang.tahun);
+    fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
+    fprintf(file, "\n\t Status Pajak    : Lunas");
+    fprintf(file, "\n\t Masa Pajak      :");
+    fprintf(file, "\n\t------------------------------------------------------");
+  }
+  else
+    printf("Unable to load file!");
+  fclose(file);
+
+  printf("\n\t==========================================================\n");
+  printf("\n\t             Rincian Pembayaran berhasil dicetak          \n");
+  printf("\n\t==========================================================\n");
+  printf("\n\tSilahkan tekan tombol apapun untuk kembali ke Program\n");
+  getch();
+  system("cls");
+  pph_menu();
+}
+
 void pph_hitung()
 {
   printf("\n\t=========================================================\n");
@@ -111,10 +193,14 @@ void pph_hitung()
 
   pph = temp1 + temp2 + temp3 + temp4;
 
-  printf("\n\tPPh Setahun : %.0f", pph);      
-  printf("\n\tPPh Sebulan : %.0f", pph / 12); 
+  printf("\n\t--------------------------------------------------------\n");
+  printf("\n\tJumlah pajak yang harus dibayar\n");
+  printf("\n\tPPh Setahun : %.0f", pph);
+  printf("\n\tPPh Sebulan : %.0f", pph / 12);
+  printf("\n\t--------------------------------------------------------\n");
 
-  printf("\n\n\tLihat rincian pembayaran? [1] Ya [2] Tidak : ");
+  printf("\n\n\tLihat rincian pembayaran?");
+  printf("\n\t[1] Ya    [2] Tidak ");
   printf("\n\tMasukan Pilihan Anda : ");
   lihat_rincian = input_int(lihat_rincian);
   while (lihat_rincian != 1 && lihat_rincian != 2)
@@ -130,6 +216,11 @@ void pph_hitung()
     system("cls");
     output_pph();
   }
+  else
+  {
+    system("cls");
+    pph_menu();
+  }
 }
 
 void pph_menu()
@@ -140,6 +231,7 @@ void pph_menu()
   printf("\n\t1. Hitung Pajak Penghasilan");
   printf("\n\t2. Kembali");
   printf("\n\t---------------------------------------------------------\n");
+
   printf("\n\tPilihan Anda : ");
   menu_pph = input_int(menu_pph);
 
@@ -155,66 +247,4 @@ void pph_menu()
   default:
     break;
   }
-}
-
-void output_pph()
-{
-    printf("\n\t--------------------+---------------------------------");
-    printf("\n\t       *******      |                                 ");
-    printf("\n\t     ***********    |     BUKTI PEMBAYARAN PAJAK      ");
-    printf("\n\t     *@@     ***    |      PENGHASILAN PASAL 21       ");
-    printf("\n\t     &&&     **@    |     BAGI PEGAWAI TETAP ATAU     ");
-    printf("\n\t     &&&&&&&&&&&    |    PENERIMA PENSIUN BERKALA.    ");
-    printf("\n\t       &&&&&&&      |                                 ");
-    printf("\n\t--------------------+---------------------------------");
-    printf("\n");
-    printf("\n\tA. IDENTITAS WAJIB PAJAK");
-    printf("\n\t------------------------------------------------------");
-    printf("\n\t NPWP              :");
-    printf("\n\t NIK               :");
-    printf("\n\t Nama              :");
-    printf("\n\t Alamat            :");
-    printf("\n\t No. Telp          :");
-    printf("\n\t Status            : ");
-    if (menikah == 1)
-      printf("Menikah");
-    else if (menikah == 2)
-      printf("Lajang");
-    printf("\n\t Jumlah Tanggungan : %d", jml_anak);
-    printf("\n\t Nama Jabatan      : %s", nama_jabatan);
-    printf("\n\t------------------------------------------------------");
-    printf("\n");
-    printf("\n\tB. RINCIAN PENGHASILAN DAN PERHITUNGAN PPh PASAL 21");
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t                  URAIAN               |        JUMLAH       ");
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t PENGHASILAN BRUTO                                           ");
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t Penghasilan Pokok                     | Rp.%*.0f", 16, penghasilan_pokok);
-    printf("\n\t Penghasilan Lainnya                   | Rp.%*.0f", 16, penghasilan_tambahan);
-    printf("\n\t Jumlah Penghasilan Bruto              | Rp.%*.0f", 16, bruto);
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t PENGURANGAN                                                 ");
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t Biaya Jabatan                         | Rp.%*.0f", 16, biaya_jabatan);
-    printf("\n\t Iuran Pensiun                         | Rp.%*.0f", 16, iuran_pensiun);
-    printf("\n\t Jumlah Pengurangan                    | Rp.%*.0f", 16, biaya_jabatan + iuran_pensiun);
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t PERHITUNGAN PPh PASAL 21                                    ");
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n\t Jumlah Penghasilan Netto              | Rp.%*.0f", 16, netto);
-    printf("\n\t Penghasilan Tidak Kena Pajak (PTKP)   | Rp.%*.0f", 16, ptkp);
-    printf("\n\t Penghasilan Kena Pajak (PKP)          | Rp.%*.0f", 16, pkp);
-    printf("\n\t Besar Tarif Progresif (%%)             | %*d%%", 18, tarif_persen);
-    printf("\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph);
-    printf("\n\t---------------------------------------+---------------------");
-    printf("\n");
-    printf("\n\tC. RINCIAN TRANSAKSI");
-    printf("\n\t------------------------------------------------------");
-    printf("\n\t Nomor           :");
-    printf("\n\t Tahun Pajak     :");
-    printf("\n\t Waktu Transaksi :");
-    printf("\n\t Status Pajak    : Lunas");
-    printf("\n\t Masa Pajak      :");
-    printf("\n\t------------------------------------------------------");
 }

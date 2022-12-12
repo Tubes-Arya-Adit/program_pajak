@@ -1,0 +1,56 @@
+
+	--------------------+---------------------------------
+	       *******      |                                 
+	     ***********    |     BUKTI PEMBAYARAN PAJAK      
+	     *@@     ***    |      PENGHASILAN PASAL 21       
+	     &&&     **@    |     BAGI PEGAWAI TETAP ATAU     
+	     &&&&&&&&&&&    |    PENERIMA PENSIUN BERKALA.    
+	       &&&&&&&      |                                 
+	--------------------+---------------------------------
+
+	A. IDENTITAS WAJIB PAJAK
+	------------------------------------------------------
+	 NPWP              : 321
+	 NIK               : 321
+
+	 Nama              : 321
+	 Alamat            : 321
+	 No. Telp          : 321
+	 Status            : Lajang
+	 Jumlah Tanggungan : 0
+	 Nama Jabatan      : Programmer
+	------------------------------------------------------
+
+	B. RINCIAN PENGHASILAN DAN PERHITUNGAN PPh PASAL 21
+	---------------------------------------+---------------------
+	                  URAIAN               |        JUMLAH       
+	---------------------------------------+---------------------
+	 PENGHASILAN BRUTO                                           
+	---------------------------------------+---------------------
+	 Penghasilan Pokok                     | Rp.        10000000
+	 Penghasilan Lainnya                   | Rp.          100000
+	 Jumlah Penghasilan Bruto              | Rp.        10100000
+	---------------------------------------+---------------------
+	 PENGURANGAN                                                 
+	---------------------------------------+---------------------
+	 Biaya Jabatan                         | Rp.          500000
+	 Iuran Pensiun                         | Rp.          200000
+	 Jumlah Pengurangan                    | Rp.          700000
+	---------------------------------------+---------------------
+	 PERHITUNGAN PPh PASAL 21                                    
+	---------------------------------------+---------------------
+	 Jumlah Penghasilan Netto              | Rp.       112800000
+	 Penghasilan Tidak Kena Pajak (PTKP)   | Rp.        54000000
+	 Penghasilan Kena Pajak (PKP)          | Rp.        58800000
+	 Besar Tarif Progresif (%)             |                 15%
+	 Total Pajak Penghasilan Setahun       | Rp.         3820000
+	---------------------------------------+---------------------
+
+	C. RINCIAN TRANSAKSI
+	------------------------------------------------------
+	 Nomor           :
+	 Tahun Pajak     :2022
+	 Waktu Transaksi : 12-12-2022 12:30:33
+	 Status Pajak    : Lunas
+	 Masa Pajak      :
+	------------------------------------------------------
