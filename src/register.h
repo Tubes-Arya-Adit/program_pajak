@@ -14,7 +14,6 @@ void register_menu()
     printf("\n\tNPWP sudah terdaftar, masukkan NPWP yang lain!");
     printf("\n\tMasukkan NPWP     : ");
     input_str(input.npwp);
-    system("cls");
   }
 
   printf("\n\tMasukkan NIK      : ");

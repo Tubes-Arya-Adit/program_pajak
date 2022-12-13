@@ -1,0 +1,62 @@
+
+	--------------------+---------------------------------
+	       *******      |                                 
+	     ***********    |         BUKTI PEMBAYARAN        
+	     *@@     ***    |         LUNAS PAJAK BUMI        
+	     &&&     **@    |           DAN BANGUNAN          
+	     &&&&&&&&&&&    |         NEGARA INDONESIA        
+	       &&&&&&&      |                                 
+	--------------------+---------------------------------
+
+	A. IDENTITAS WAJIB PAJAK
+	------------------------------------------------------
+	 NPWP              : 12
+	 NIK               : 12
+
+	 Nama              : 12
+	 Alamat            : 12
+	 No. Telp          : 1
+	------------------------------------------------------
+
+	B. LETAK OBJEK PAJAK
+	------------------------------------------------------
+	 Sektor         : Pedesaan dan Perkotaan
+	 Lokasi         : jl lingkar timur
+	 Provinsi       : bali
+	 Kota/Kabupaten : badung
+	 Kecamatan      : kuta
+	 Kelurahan/Desa : jimbaran
+	------------------------------------------------------
+
+	C. RINCIAN OBJEK PAJAK DAN PERHITUNGAN PBB
+	---------------------------------------+---------------------
+	                  URAIAN               |        JUMLAH       
+	---------------------------------------+---------------------
+	 BUMI                                                        
+	---------------------------------------+---------------------
+	 Luas (M2)                             |              150 M2
+	 Kelas                                 | 
+	 NJOP per M2                           | Rp.         1200000
+	 Total NJOP Bumi                       | Rp.       180000000
+	---------------------------------------+---------------------
+	 BANGUNAN                                                    
+	---------------------------------------+---------------------
+	 Luas (M2)                             |              100 M2
+	 Kelas                                 | 
+	 NJOP per M2                           | Rp.         1000000
+	 Total NJOP Bangunan                   | Rp.       100000000
+	---------------------------------------+---------------------
+	 PERHITUNGAN PBB                                             
+	---------------------------------------+---------------------
+	 NJOP sebagai dasar pengenaan PBB      | Rp.       280000000
+	 NJOPTKP (NJOP Tidak Kena Pajak)       | Rp.               0
+	 NJOP untuk penghitungan PBB           | Rp.       280000000
+	 Total Pajak Bumi Bangunan             | Rp.          280000
+	---------------------------------------+---------------------
+
+	D. RINCIAN TRANSAKSI
+	------------------------------------------------------
+	 Tahun Pajak     : 2022
+	 Waktu Transaksi : 13-12-2022 11:20:27
+	 Status Pajak    : Lunas
+	------------------------------------------------------

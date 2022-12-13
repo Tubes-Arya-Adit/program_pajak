@@ -52,6 +52,7 @@ struct Tanggal waktu_sekarang;
 #include "src/register.h"
 #include "src/opsi_pajak.h"
 #include "src/pph.h"
+#include "src/ppn.h"
 #include "src/pbb.h"
 #include "src/output.h"
 
@@ -89,12 +90,52 @@ int main()
         system("cls");
     }
 
-    // while (menu_opsi_pajak != 8)
-    // {
-    // system("cls");
-    opsi_pajak();
-
-    // }
+    while (menu_opsi_pajak != 8)
+    {
+        system("cls");
+        opsi_pajak();
+        switch (menu_opsi_pajak)
+        {
+        case 1:
+            system("cls");
+            pph_menu();
+            break;
+        case 2:
+            system("cls");
+            ppn_menu();
+            break;
+        case 3:
+            system("cls");
+            pbb_menu();
+            break;
+        case 4:
+            system("cls");
+            pph_menu();
+            break;
+        case 5:
+            system("cls");
+            pph_menu();
+            break;
+        case 6:
+            system("cls");
+            pph_menu();
+            break;
+        case 7:
+            system("cls");
+            pph_menu();
+            break;
+        case 8:
+            exit(1);
+            break;
+        default:
+            printf("\n\tNilai yang Anda masukkan salah!");
+            printf("\n\tSilahkan masukkan nilai yang benar!");
+            printf("\n\tPilihan Anda : ");
+            menu_opsi_pajak = input_int(menu_opsi_pajak);
+            system("cls");
+            break;
+        }
+    }
 
     system("PAUSE");
     return 0;

@@ -187,9 +187,9 @@ void pbb_hitung()
 void pbb_menu()
 {
   printf("\n\t=========================================================\n");
-  printf("\n\t              Laman Pajak Bumi dan Bangunan              \n");
+  printf("\n\t      Konfirmasi Pembayaran Pajak Bumi dan Bangunan      \n");
   printf("\n\t=========================================================\n");
-  printf("\n\t1. Hitung Pajak Bumi dan Bangunan");
+  printf("\n\t1. Bayar Pajak Bumi dan Bangunan");
   printf("\n\t2. Kembali");
   printf("\n\t---------------------------------------------------------\n");
   printf("\n\tPilihan Anda : ");
