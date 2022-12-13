@@ -31,7 +31,6 @@ struct Transaksi
 {
     char id;
     double denda;
-    double biaya_admin;
     double jumlah_tagihan;
     double jumlah_tunai;
     char tanggal_pembayaran[11];
@@ -90,52 +89,12 @@ int main()
         system("cls");
     }
 
-    while (menu_opsi_pajak != 8)
-    {
-        system("cls");
-        opsi_pajak();
-        switch (menu_opsi_pajak)
-        {
-        case 1:
-            system("cls");
-            pph_menu();
-            break;
-        case 2:
-            system("cls");
-            pph_menu();
-            break;
-        case 3:
-            system("cls");
-            pbb_menu();
-            break;
-        case 4:
-            system("cls");
-            pph_menu();
-            break;
-        case 5:
-            system("cls");
-            pph_menu();
-            break;
-        case 6:
-            system("cls");
-            pph_menu();
-            break;
-        case 7:
-            system("cls");
-            pph_menu();
-            break;
-        case 8:
-            exit(1);
-            break;
-        default:
-            printf("\n\tNilai yang Anda masukkan salah!");
-            printf("\n\tSilahkan masukkan nilai yang benar!");
-            printf("\n\tPilihan Anda : ");
-            menu_opsi_pajak = input_int(menu_opsi_pajak);
-            system("cls");
-            break;
-        }
-    }
+    // while (menu_opsi_pajak != 8)
+    // {
+    // system("cls");
+    opsi_pajak();
+
+    // }
 
     system("PAUSE");
     return 0;
