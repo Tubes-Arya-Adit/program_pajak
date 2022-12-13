@@ -113,54 +113,54 @@
 //     printf("\n\t------------------------------------------------------");
 // }
 
-void output_ppn()
-{
-    printf("\n\t--------------------+---------------------------------");
-    printf("\n\t       *******      |                                 ");
-    printf("\n\t     ***********    |         BUKTI PEMBAYARAN        ");
-    printf("\n\t     *@@     ***    |            LUNAS PAJAK          ");
-    printf("\n\t     &&&     **@    |         PERTAMBAHAN NILAI       ");
-    printf("\n\t     &&&&&&&&&&&    |         NEGARA INDONESIA        ");
-    printf("\n\t       &&&&&&&      |                                 ");
-    printf("\n\t--------------------+---------------------------------");
-    printf("\n");
-    printf("\n\tA. IDENTITAS PENGUSAHA KENA PAJAK");
-    printf("\n\t------------------------------------------------------");
-    printf("\n\t NPWP              :");
-    printf("\n\t NIK               :");
-    printf("\n\t Nama              :");
-    printf("\n\t Alamat            :");
-    printf("\n\t------------------------------------------------------");
-    printf("\n");
-    printf("\n\tB. IDENTITAS PEMBELI BARANG KENA PAJAK");
-    printf("\n\t------------------------------------------------------");
-    printf("\n\t NIK               :");
-    printf("\n\t Nama              :");
-    printf("\n\t Alamat            :");
-    printf("\n\t No. Telp          :");
-    printf("\n\t------------------------------------------------------");
-    printf("\n");
-    printf("\n\tC. RINCIAN BARANG/JASA KENA PAJAK DAN PERHITUNGAN PPN");
-    printf("\n\t----+----------------------------------+--------------");
-    printf("\n\t NO |        URAIAN BARANG/JASA        |     HARGA    ");
-    printf("\n\t----+----------------------------------+--------------");
-    printf("\n\t    |                                  |              ");
-    printf("\n\t----+----------------------------------+--------------");
-    printf("\n\t Jumlah Harga Jual                       :");
-    printf("\n\t Dikurangi Potongan Harga                :");
-    printf("\n\t Dikurangi Uang Muka yang Telah Diterima :");
-    printf("\n\t Dasar Pengenaan Pajak                   :");
-    printf("\n\t PPn = 10%% * Dasar Pengenaan Pajak       :");
-    printf("\n\t------------------------------------------------------");
-    printf("\n");
-    printf("\n\tD. RINCIAN TRANSAKSI");
-    printf("\n\t------------------------------------------------------");
-    printf("\n\t Nomor           :");
-    printf("\n\t Tahun Pajak     :");
-    printf("\n\t Waktu Transaksi :");
-    printf("\n\t Status Pajak    :");
-    printf("\n\t------------------------------------------------------");
-}
+// void output_ppn()
+// {
+//     printf("\n\t--------------------+---------------------------------");
+//     printf("\n\t       *******      |                                 ");
+//     printf("\n\t     ***********    |         BUKTI PEMBAYARAN        ");
+//     printf("\n\t     *@@     ***    |            LUNAS PAJAK          ");
+//     printf("\n\t     &&&     **@    |         PERTAMBAHAN NILAI       ");
+//     printf("\n\t     &&&&&&&&&&&    |         NEGARA INDONESIA        ");
+//     printf("\n\t       &&&&&&&      |                                 ");
+//     printf("\n\t--------------------+---------------------------------");
+//     printf("\n");
+//     printf("\n\tA. IDENTITAS PENGUSAHA KENA PAJAK");
+//     printf("\n\t------------------------------------------------------");
+//     printf("\n\t NPWP              :");
+//     printf("\n\t NIK               :");
+//     printf("\n\t Nama              :");
+//     printf("\n\t Alamat            :");
+//     printf("\n\t------------------------------------------------------");
+//     printf("\n");
+//     printf("\n\tB. IDENTITAS PEMBELI BARANG KENA PAJAK");
+//     printf("\n\t------------------------------------------------------");
+//     printf("\n\t NIK               :");
+//     printf("\n\t Nama              :");
+//     printf("\n\t Alamat            :");
+//     printf("\n\t No. Telp          :");
+//     printf("\n\t------------------------------------------------------");
+//     printf("\n");
+//     printf("\n\tC. RINCIAN BARANG/JASA KENA PAJAK DAN PERHITUNGAN PPN");
+//     printf("\n\t----+----------------------------------+--------------");
+//     printf("\n\t NO |        URAIAN BARANG/JASA        |     HARGA    ");
+//     printf("\n\t----+----------------------------------+--------------");
+//     printf("\n\t    |                                  |              ");
+//     printf("\n\t----+----------------------------------+--------------");
+//     printf("\n\t Jumlah Harga Jual                       :");
+//     printf("\n\t Dikurangi Potongan Harga                :");
+//     printf("\n\t Dikurangi Uang Muka yang Telah Diterima :");
+//     printf("\n\t Dasar Pengenaan Pajak                   :");
+//     printf("\n\t PPn = 10%% * Dasar Pengenaan Pajak       :");
+//     printf("\n\t------------------------------------------------------");
+//     printf("\n");
+//     printf("\n\tD. RINCIAN TRANSAKSI");
+//     printf("\n\t------------------------------------------------------");
+//     printf("\n\t Nomor           :");
+//     printf("\n\t Tahun Pajak     :");
+//     printf("\n\t Waktu Transaksi :");
+//     printf("\n\t Status Pajak    :");
+//     printf("\n\t------------------------------------------------------");
+// }
 
 void output_impor()
 {

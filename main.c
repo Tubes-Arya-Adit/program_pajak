@@ -52,6 +52,7 @@ struct Tanggal waktu_sekarang;
 #include "src/register.h"
 #include "src/opsi_pajak.h"
 #include "src/pph.h"
+#include "src/ppn.h"
 #include "src/pbb.h"
 #include "src/output.h"
 
@@ -101,7 +102,7 @@ int main()
             break;
         case 2:
             system("cls");
-            pph_menu();
+            ppn_menu();
             break;
         case 3:
             system("cls");
