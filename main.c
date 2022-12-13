@@ -31,7 +31,6 @@ struct Transaksi
 {
     char id;
     double denda;
-    double biaya_admin;
     double jumlah_tagihan;
     double jumlah_tunai;
     char tanggal_pembayaran[11];

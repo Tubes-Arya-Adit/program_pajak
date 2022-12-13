@@ -226,9 +226,9 @@ void pph_hitung()
 void pph_menu()
 {
   printf("\n\t=========================================================\n");
-  printf("\n\t                  Laman Pajak Penghasilan                \n");
+  printf("\n\t          Konfirmasi Pembayaran Pajak Penghasilan        \n");
   printf("\n\t=========================================================\n");
-  printf("\n\t1. Hitung Pajak Penghasilan");
+  printf("\n\t1. Bayar Pajak Penghasilan");
   printf("\n\t2. Kembali");
   printf("\n\t---------------------------------------------------------\n");
 
