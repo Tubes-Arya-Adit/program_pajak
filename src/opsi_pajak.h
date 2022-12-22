@@ -1,3 +1,5 @@
+void pph_menu(), pbb_menu(), ppn_menu();
+
 void opsi_pajak()
 {
   printf("\n\t==========================================================\n");
@@ -15,4 +17,45 @@ void opsi_pajak()
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\tPilihan Anda : ");
   menu_opsi_pajak = input_int(menu_opsi_pajak);
+  switch (menu_opsi_pajak)
+  {
+  case 1:
+    system("cls");
+    pph_menu();
+    break;
+  case 2:
+    system("cls");
+    ppn_menu();
+    break;
+  case 3:
+    system("cls");
+    pbb_menu();
+    break;
+  case 4:
+    system("cls");
+    pph_menu();
+    break;
+  case 5:
+    system("cls");
+    pph_menu();
+    break;
+  case 6:
+    system("cls");
+    pph_menu();
+    break;
+  case 7:
+    system("cls");
+    pph_menu();
+    break;
+  case 8:
+    exit(1);
+    break;
+  default:
+    printf("\n\tNilai yang Anda masukkan salah!");
+    printf("\n\tSilahkan masukkan nilai yang benar!");
+    printf("\n\tPilihan Anda : ");
+    menu_opsi_pajak = input_int(menu_opsi_pajak);
+    system("cls");
+    break;
+  }
 }

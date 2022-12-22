@@ -11,7 +11,6 @@ double input_double()
 
   fflush(stdin);
   scanf("%s", input);
-  getchar();
 
   if (input[i] == '\0')
     error = 1;
@@ -84,7 +83,6 @@ char *input_str(char *input)
 
   fflush(stdin);
   scanf("%[^\n]", input);
-  getchar();
 
   if (input[i] == '\0')
     error = 1;
@@ -106,7 +104,7 @@ char *input_str(char *input)
   if (error == 1)
   {
     printf("\n\tMasukan huruf dengan benar ");
-    printf("\n\tSilahkan masukan angka kembali : ");
+    printf("\n\tSilahkan masukan kembali : ");
     return input_str(input);
   }
   else
@@ -120,7 +118,6 @@ int input_int()
 
   fflush(stdin);
   scanf("%s", input);
-  getchar();
 
   if (input[i] == '\0')
     error = 1;
@@ -146,4 +143,66 @@ int input_int()
   }
   else
     return output;
+}
+
+char masking(char *password)
+{
+  char ch;
+  int i = 0;
+  while (1)
+  {
+    ch = getch();
+    if (ch == 13)
+    {
+      password[i] = '\0';
+      break;
+    }
+    else if (ch == 8)
+    {
+      if (i > 0)
+      {
+        i--;
+        printf("\b \b");
+      }
+    }
+    else
+    {
+      password[i] = ch;
+      i++;
+      printf("*");
+    }
+  }
+}
+
+char *input_password(char *input)
+{
+  int i = 0, error = 0;
+
+  fflush(stdin);
+  masking(input);
+
+  if (input[i] == '\0')
+    error = 1;
+
+  while (input[i] != '\0')
+  {
+    if (isdigit(input[i]))
+      i++;
+    else if (isalpha(input[i]))
+      i++;
+    else
+    {
+      error = 1;
+      input[i] = '\0';
+    }
+  }
+
+  if (error == 1)
+  {
+    printf("\n\tMasukan huruf dengan benar ");
+    printf("\n\tSilahkan masukan kembali : ");
+    return input_password(input);
+  }
+  else
+    return input;
 }
