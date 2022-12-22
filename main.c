@@ -46,7 +46,7 @@ struct Tanggal waktu_sekarang;
 
 #include "src/validasi.h"
 #include "src/data.h"
-#include "src/opening.h"
+#include "src/open-close.h"
 #include "src/login.h"
 #include "src/register.h"
 #include "src/opsi_pajak.h"

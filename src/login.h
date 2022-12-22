@@ -23,7 +23,7 @@ void login_menu()
 
     if (check_username == 0 && check_password == 0)
     {
-      printf("\n\t----------------------------------------------------------\n");
+      printf("\n\n\t----------------------------------------------------------\n");
       printf("\n\t                      Login berhasil                      ");
       printf("\n\t             Tekan enter untuk masuk ke program           \n");
       printf("\n\t----------------------------------------------------------\n");
@@ -33,7 +33,7 @@ void login_menu()
     }
     else
     {
-      printf("\n\t----------------------------------------------------------\n");
+      printf("\n\n\t----------------------------------------------------------\n");
       printf("\n\tLogin gagal, masukan username & password dengan benar!");
       printf("\tTekan enter untuk mengulang \n");
       printf("\n\t----------------------------------------------------------\n");

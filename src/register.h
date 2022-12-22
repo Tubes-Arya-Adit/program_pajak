@@ -45,7 +45,7 @@ void register_menu()
   tambahDataPengguna();
   sinkronDataPengguna();
 
-  printf("\n\t----------------------------------------------------------\n");
+  printf("\n\n\t----------------------------------------------------------\n");
   printf("\n\t                    Berhasil Register!                     ");
   printf("\n\t                 Tekan enter untuk login                   \n");
   printf("\n\t----------------------------------------------------------\n");

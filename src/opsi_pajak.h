@@ -1,7 +1,8 @@
-void pph_menu(), pbb_menu(), ppn_menu();
+void pph_menu(), pbb_menu(), ppn_menu(), profil();
 
 void opsi_pajak()
 {
+  system("cls");
   printf("\n\t==========================================================\n");
   printf("\n\t            Program Pembayaran Pajak Online               \n");
   printf("\n\t==========================================================\n");
@@ -12,7 +13,7 @@ void opsi_pajak()
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\t [5] Lihat Riwayat Pembayaran                              \n");
   printf("\n\t [6] Lihat Data Anda                               \n");
-  printf("\n\t [7] Tentang Kami                               \n");
+  printf("\n\t [7] Profil Dirjen Pajak                               \n");
   printf("\n\t [8] Keluar                               \n");
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\tPilihan Anda : ");
@@ -45,10 +46,10 @@ void opsi_pajak()
     break;
   case 7:
     system("cls");
-    pph_menu();
+    profil();
     break;
   case 8:
-    exit(1);
+    closing();
     break;
   default:
     printf("\n\tNilai yang Anda masukkan salah!");
@@ -58,4 +59,21 @@ void opsi_pajak()
     system("cls");
     break;
   }
+}
+
+void profil()
+{
+  int menu_profil;
+  printf("\n\t==========================================================\n");
+  printf("\n\t                    Profil Dirjen Pajak                \n");
+  printf("\n\t==========================================================\n");
+  printf("\n\tMembuka halaman website......\n");
+
+  system("start https://pajak.go.id/id/selayang-pandang/");
+
+  printf("\n\tTekan enter untuk kembali ke menu utama\n");
+  printf("\n\t----------------------------------------------------------\n");
+  fflush(stdin);
+  getch();
+  opsi_pajak();
 }

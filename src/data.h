@@ -94,6 +94,11 @@ int checkData(char *data, char *comparator)
       if (strcmp(pengguna[i].npwp, comparator) == 0)
         return 0;
     }
+    else if (strcmp(data, "no_telp") == 0)
+    {
+      if (strcmp(pengguna[i].no_telp, comparator) == 0)
+        return 0;
+    }
   }
   return -1;
 }
