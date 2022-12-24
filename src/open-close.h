@@ -20,7 +20,7 @@ void closing()
   printf("\n\t=========================================================\n\n\n");
   loadImage();
   printf("\n\n\n\t      Terima kasih telah membayar pajak tepat waktu\n");
-  printf("\n\t                  \"Pajak Kita, Untuk Kita\"\n");
+  printf("\n\t                 \"Pajak Kita, Untuk Kita\"\n");
   printf("\n\t=========================================================\n\n\n");
   getch();
   exit(0);

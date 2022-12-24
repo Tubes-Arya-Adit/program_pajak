@@ -1,4 +1,4 @@
-void pph_menu(), pbb_menu(), ppn_menu(), profil();
+void pph_menu(), pbb_menu(), ppn_menu(), profil(), info_pengguna();
 
 void opsi_pajak()
 {
@@ -42,7 +42,7 @@ void opsi_pajak()
     break;
   case 6:
     system("cls");
-    pph_menu();
+    info_pengguna();
     break;
   case 7:
     system("cls");
@@ -67,7 +67,7 @@ void profil()
   printf("\n\t==========================================================\n");
   printf("\n\t                    Profil Dirjen Pajak                \n");
   printf("\n\t==========================================================\n");
-  printf("\n\tMembuka halaman website......\n");
+  printf("\n\tMembuka halaman website...\n");
 
   system("start https://pajak.go.id/id/selayang-pandang/");
 

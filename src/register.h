@@ -18,12 +18,16 @@ void register_menu()
 
   printf("\n\tMasukkan NIK           : ");
   input_str(input.nik);
+
   printf("\n\tMasukkan Nama          : ");
   input_str(input.nama);
+
   printf("\n\tMasukkan Alamat        : ");
   input_str(input.alamat);
+
   printf("\n\tMasukkan Nomor Telepon : ");
   input_str(input.no_telp);
+
   while (checkData("no_telp", input.no_telp) == 0)
   {
     printf("\n\tNomor telepon sudah terdaftar, masukkan nomor yang lain!");

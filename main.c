@@ -43,6 +43,7 @@ struct Pengguna pengguna[50];
 struct Pengguna input;
 struct Pengguna pengguna_login;
 struct Tanggal waktu_sekarang;
+struct Transaksi trs_pengguna[50];
 
 #include "src/validasi.h"
 #include "src/data.h"
@@ -54,6 +55,7 @@ struct Tanggal waktu_sekarang;
 #include "src/ppn.h"
 #include "src/pbb.h"
 #include "src/output.h"
+#include "src/info-pengguna.h"
 
 int main()
 {
