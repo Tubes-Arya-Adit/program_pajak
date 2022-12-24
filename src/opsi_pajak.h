@@ -1,4 +1,4 @@
-void pph_menu(), pbb_menu(), ppn_menu(), profil(), info_pengguna();
+void pph_menu(), pbb_menu(), ppn_menu(), impor_menu(), profil(), info_pengguna();
 
 void opsi_pajak()
 {
@@ -34,7 +34,7 @@ void opsi_pajak()
     break;
   case 4:
     system("cls");
-    pph_menu();
+    impor_menu();
     break;
   case 5:
     system("cls");

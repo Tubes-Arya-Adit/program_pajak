@@ -54,6 +54,7 @@ struct Transaksi trs_pengguna[50];
 #include "src/pph.h"
 #include "src/ppn.h"
 #include "src/pbb.h"
+#include "src/impor.h"
 #include "src/output.h"
 #include "src/info-pengguna.h"
 
