@@ -1,14 +1,9 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <conio.h>
-
-int i, jumlah, lihat_rincian, menu_ppn;
-float total_harga = 0, ppn;
+int i, jumlah, lihat_rincian, menu_ppn, tgl_bayar, bln_bayar, thn_bayar;
+double total_harga = 0, ppn, denda;
 
 void ppn_menu();
 
-void output_ppn(char uraian[jumlah][51], float harga[])
+void output_ppn(char uraian[jumlah][51], double harga[])
 {
     char filename[100];
     sprintf(filename, "%s-bukti-bayar-ppn.txt", pengguna_login.npwp);
@@ -45,7 +40,7 @@ void output_ppn(char uraian[jumlah][51], float harga[])
         fprintf(file, "\n\t+----+----------------------------------------------------+--------------------+");
         fprintf(file, "\n\t Total Harga                             : %.0f", total_harga);
         fprintf(file, "\n\t Dasar Pengenaan Pajak                   : %.0f", total_harga);
-        fprintf(file, "\n\t PPn = 10%% * Dasar Pengenaan Pajak       : %.0f", ppn);
+        fprintf(file, "\n\t PPn = 10%% * Dasar Pengenaan Pajak      : %.0f", ppn);
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n");
         fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
@@ -54,7 +49,6 @@ void output_ppn(char uraian[jumlah][51], float harga[])
         fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
         fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
         fprintf(file, "\n\t Status Pajak    : Lunas");
-        fprintf(file, "\n\t Masa Pajak      :");
         fprintf(file, "\n\t------------------------------------------------------");
     }
     else
@@ -72,7 +66,7 @@ void output_ppn(char uraian[jumlah][51], float harga[])
 
 void ppn_hitung()
 {
-    float harga[100];
+    double harga[100];
     char temp[51]; // temporary string untuk input nama barang
 
     printf("\n\t=========================================================\n");
@@ -87,26 +81,40 @@ void ppn_hitung()
     for (i = 0; i < jumlah; i++)
     {
         printf("\n\tMasukan nama barang ke-%d : ", i + 1);
-        fgets(temp, sizeof(temp), stdin); // input nama barang ke temporary string
-        fflush(stdin);
-
-        if (temp[strlen(temp) - 1] == '\n') // check apakah ada ENTER pada string
-            temp[strlen(temp) - 1] = '\0';  // menghilangkan ENTER pada string
-
+        input_str(temp);         // input nama barang ke-i
         strcpy(uraian[i], temp); // mengcopy temp ke uraian indeks ke-i
+
         printf("\n\tMasukan harga %s : Rp.", uraian[i]);
-        scanf("%f", &harga[i]); // input harga barang ke-i
-        fflush(stdin);
+        harga[i] = input_double(); // input harga barang ke-i
 
         total_harga += harga[i]; // menghitung total harga barang
         // printf("\n\tTotal Harga : Rp. %.0f\n", total_harga);
     }
+
+    printf("\n\tTanggal Transaksi Barang : ");
+    printf("\n\tMasukan Hari  : ");
+    tgl_bayar = input_hari();
+    printf("\n\tMasukan Bulan : ");
+    bln_bayar = input_bulan();
+    printf("\n\tMasukan Tahun : ");
+    thn_bayar = input_int();
+
+    bln_bayar + 1;
+
     ppn = total_harga * 0.10;
 
     printf("\n\t--------------------------------------------------------\n");
-    printf("\n\tJumlah pajak yang harus dibayar\n");
-    printf("\n\tTotal Harga : %.0f", total_harga); // menampilkan total harga
-    printf("\n\tPPN         : %.0f", ppn);
+    printf("\n\tPPN         : Rp.%.0f", ppn);
+    if (waktu_sekarang.hari > 20 && waktu_sekarang.bulan >= bln_bayar)
+    {
+        int selisih_bulan = waktu_sekarang.bulan - bln_bayar;
+        if (selisih_bulan == 0)
+            selisih_bulan = 1;
+        denda = (ppn * 0.02) * selisih_bulan;
+
+        printf("\n\tDenda  : Rp.%.0f", denda);
+    }
+    printf("\n\tJumlah nominal yang harus dibayar  : Rp.%.0f\n", ppn + denda);
     printf("\n\t--------------------------------------------------------\n");
 
     printf("\n\n\tLihat rincian pembayaran?");

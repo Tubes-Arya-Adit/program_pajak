@@ -7,8 +7,9 @@ double penghasilan_pokok, // perbulan
     ptkp = 54000000, // set default
     pkp,
     pph,
+    denda = 0,
     temp1, temp2, temp3, temp4;
-int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian;
+int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian, tgl_bayar, bln_bayar, thn_bayar;
 char nama_jabatan[100];
 
 void pph_menu();
@@ -102,34 +103,45 @@ void pph_hitung()
   input_str(nama_jabatan);
 
   printf("\n\tMasukan penghasilan pokok    : Rp.");
-  penghasilan_pokok = input_double(penghasilan_pokok);
+  penghasilan_pokok = input_double();
 
   printf("\n\tMasukan penghasilan tambahan : Rp.");
-  penghasilan_tambahan = input_double(penghasilan_tambahan);
+  penghasilan_tambahan = input_double();
 
   printf("\n\tApakah Sudah Menikah? [1] Ya [2] Tidak : ");
   printf("\n\tMasukan Pilihan Anda : ");
-  menikah = input_int(menikah);
+  menikah = input_int();
 
   while (menikah != 1 && menikah != 2)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
     printf("\n\tMasukan Pilihan Anda : ");
-    menikah = input_int(menikah);
+    menikah = input_int();
   }
 
   if (menikah == 1)
   {
     printf("\n\tMasukan Jumlah Anak : ");
-    jml_anak = input_int(jml_anak);
+    jml_anak = input_int();
     while (jml_anak < 1)
     {
       printf("\n\tJumlah Anak Tidak Boleh 0!");
       printf("\n\tSilahkan Masukkan Jumlah Anak Kembali!");
       printf("\n\tMasukan Jumlah Anak : ");
-      jml_anak = input_int(jml_anak);
+      jml_anak = input_int();
     }
+
+    struct Tanggal waktu_gajian;
+    printf("\n\tTanggal Pegawai Menerima Gaji : ");
+    printf("\n\tMasukan Hari  : ");
+    tgl_bayar = input_hari();
+    printf("\n\tMasukan Bulan : ");
+    bln_bayar = input_bulan();
+    printf("\n\tMasukan Tahun : ");
+    thn_bayar = input_int();
+
+    bln_bayar + 1;
 
     // penghasilan tidak kena pajak
     ptkp += 4500000;
@@ -194,13 +206,23 @@ void pph_hitung()
   pph = temp1 + temp2 + temp3 + temp4;
 
   printf("\n\t--------------------------------------------------------\n");
-  printf("\n\tJumlah pajak yang harus dibayar\n");
-  printf("\n\tPPh Setahun : %.0f", pph);
-  printf("\n\tPPh Sebulan : %.0f", pph / 12);
+  printf("\n\tPPh Setahun   : Rp.%.0f", pph);
+
+  if (waktu_sekarang.hari > 10 && waktu_sekarang.bulan >= bln_bayar)
+  {
+    int selisih_bulan = waktu_sekarang.bulan - bln_bayar;
+    if (selisih_bulan == 0)
+      selisih_bulan = 1;
+    denda = (pph * 0.02) * selisih_bulan;
+
+    printf("\n\tDenda  : Rp.%.0f", denda);
+  }
+
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f", pph + denda);
   printf("\n\t--------------------------------------------------------\n");
 
-  printf("\n\n\tLihat rincian pembayaran?");
-  printf("\n\t[1] Ya    [2] Tidak ");
+  printf("\n\n\tLihat rincian pembayaran?\n");
+  printf("\n\t[1] Ya    [2] Tidak \n");
   printf("\n\tMasukan Pilihan Anda : ");
   lihat_rincian = input_int(lihat_rincian);
   while (lihat_rincian != 1 && lihat_rincian != 2)

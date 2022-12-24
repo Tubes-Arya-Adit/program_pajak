@@ -99,3 +99,36 @@ void pindahData(char *username)
   int index = cariIndeksPengguna(username);
   pengguna_login = pengguna[index];
 }
+
+void sinkronDataTransaksi()
+{
+  FILE *file = fopen("./data/history.txt", "r");
+  i_trs = 0;
+  memset(trs_pengguna, 0, sizeof(trs_pengguna));
+  if (file)
+  {
+    while (!feof(file))
+    {
+      fscanf(file, "%[^#]#%[^#]#%f#%f#%f#%[^#]#%[^\n]\n", trs_pengguna[i_trs].identifier, &trs_pengguna[i_trs].total_pajak, &trs_pengguna[i_trs].denda, &trs_pengguna[i_trs].jumlah_nominal, trs_pengguna[i_trs].tanggal, trs_pengguna[i_trs].status);
+      i_trs++;
+    }
+  }
+  else
+    printf("Unable to load file!");
+  fclose(file);
+}
+
+void tambahDataTransaksi()
+{
+  FILE *file = fopen("./data/history.txt", "a");
+  if (file)
+  {
+    fprintf(file, "%s#%0.f#%0.f#%0.f#%s#%s\n", trs_input.identifier, trs_input.total_pajak, trs_input.denda, trs_input.jumlah_nominal, trs_input.tanggal, trs_input.status);
+
+    trs_pengguna[i_trs] = trs_input;
+    i_trs++;
+  }
+  else
+    printf("Unable to load file!");
+  fclose(file);
+}

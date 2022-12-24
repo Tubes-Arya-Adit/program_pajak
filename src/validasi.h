@@ -206,3 +206,83 @@ char *input_password(char *input)
   else
     return input;
 }
+
+int input_hari()
+{
+  char input[5];
+  int i = 0, output, error = 0;
+
+  fflush(stdin);
+  scanf("%s", input);
+
+  if (input[i] == '\0')
+    error = 1;
+
+  while (input[i] != '\0')
+  {
+    if (isdigit(input[i]))
+      i++;
+    else
+    {
+      error = 1;
+      input[i] = '\0';
+    }
+  }
+
+  output = atoi(input);
+
+  if (error == 1)
+  {
+    printf("\n\tYang anda masukan bukan angka! ");
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return input_hari();
+  }
+  else if (output < 1 || output > 31)
+  {
+    printf("\n\tMasukan angka antara 1 - 31! ");
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return input_hari();
+  }
+  else
+    return output;
+}
+
+int input_bulan()
+{
+  char input[5];
+  int i = 0, output, error = 0;
+
+  fflush(stdin);
+  scanf("%s", input);
+
+  if (input[i] == '\0')
+    error = 1;
+
+  while (input[i] != '\0')
+  {
+    if (isdigit(input[i]))
+      i++;
+    else
+    {
+      error = 1;
+      input[i] = '\0';
+    }
+  }
+
+  output = atoi(input);
+
+  if (error == 1)
+  {
+    printf("\n\tYang anda masukan bukan angka! ");
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return input_bulan();
+  }
+  else if (output < 1 || output > 12)
+  {
+    printf("\n\tMasukan angka antara 1 - 12! ");
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return input_bulan();
+  }
+  else
+    return output;
+}

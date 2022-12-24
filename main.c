@@ -28,22 +28,23 @@ struct Tanggal
 
 struct Transaksi
 {
-    char id;
+    char identifier[17];
+    char jenis_pajak[50];
+    double total_pajak;
     double denda;
-    double jumlah_tagihan;
-    double jumlah_tunai;
-    char tanggal_pembayaran[11];
-    char masa_pajak[25];
-    char status_bayar[20];
+    double jumlah_nominal;
+    char tanggal[11];
+    char status[20];
 };
 
-int menu_awal, menu_opsi_pajak, i_pga;
+int menu_awal, menu_opsi_pajak, i_pga, i_trs;
 
 struct Pengguna pengguna[50];
 struct Pengguna input;
 struct Pengguna pengguna_login;
 struct Tanggal waktu_sekarang;
 struct Transaksi trs_pengguna[50];
+struct Transaksi trs_input;
 
 #include "src/validasi.h"
 #include "src/data.h"
@@ -55,8 +56,8 @@ struct Transaksi trs_pengguna[50];
 #include "src/ppn.h"
 #include "src/pbb.h"
 #include "src/impor.h"
-#include "src/output.h"
 #include "src/info-pengguna.h"
+#include "src/history.h"
 
 int main()
 {
@@ -88,7 +89,7 @@ int main()
         printf("\n\tPilihan Anda Salah!");
         printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
         printf("\n\tPilihan Anda : ");
-        menu_awal = input_int(menu_awal);
+        menu_awal = input_int();
         system("cls");
     }
 

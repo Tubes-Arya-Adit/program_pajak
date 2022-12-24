@@ -7,6 +7,7 @@ double njop,
     nilai_tanah,
     nilai_bangunan,
     pbb,
+    denda,
     njoptkp = 0;
 int menu_pbb, sektor, lihat_rincian;
 char lokasi[100], provinsi[100], kota_kabupaten[100], kecamatan[100], kelurahan_desa[100];
@@ -63,24 +64,24 @@ void output_pbb()
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t BUMI                                                        ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
-    fprintf(file, "\n\t Luas (M2)                             | %*.0lf M2", 16, luas_tanah);
+    fprintf(file, "\n\t Luas (M2)                             | %*.0f M2", 16, luas_tanah);
     fprintf(file, "\n\t Kelas                                 | ");
-    fprintf(file, "\n\t NJOP per M2                           | Rp.%*.0lf", 16, nilai_tanah_meter);
-    fprintf(file, "\n\t Total NJOP Bumi                       | Rp.%*.0lf", 16, nilai_tanah);
+    fprintf(file, "\n\t NJOP per M2                           | Rp.%*.0f", 16, nilai_tanah_meter);
+    fprintf(file, "\n\t Total NJOP Bumi                       | Rp.%*.0f", 16, nilai_tanah);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t BANGUNAN                                                    ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
-    fprintf(file, "\n\t Luas (M2)                             | %*.0lf M2", 16, luas_bangunan);
+    fprintf(file, "\n\t Luas (M2)                             | %*.0f M2", 16, luas_bangunan);
     fprintf(file, "\n\t Kelas                                 | ");
-    fprintf(file, "\n\t NJOP per M2                           | Rp.%*.0lf", 16, nilai_bangunan_meter);
-    fprintf(file, "\n\t Total NJOP Bangunan                   | Rp.%*.0lf", 16, nilai_bangunan);
+    fprintf(file, "\n\t NJOP per M2                           | Rp.%*.0f", 16, nilai_bangunan_meter);
+    fprintf(file, "\n\t Total NJOP Bangunan                   | Rp.%*.0f", 16, nilai_bangunan);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t PERHITUNGAN PBB                                             ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
-    fprintf(file, "\n\t NJOP sebagai dasar pengenaan PBB      | Rp.%*.0lf", 16, njop);
-    fprintf(file, "\n\t NJOPTKP (NJOP Tidak Kena Pajak)       | Rp.%*.0lf", 16, njoptkp);
-    fprintf(file, "\n\t NJOP untuk penghitungan PBB           | Rp.%*.0lf", 16, njop - njoptkp);
-    fprintf(file, "\n\t Total Pajak Bumi Bangunan             | Rp.%*.0lf", 16, pbb);
+    fprintf(file, "\n\t NJOP sebagai dasar pengenaan PBB      | Rp.%*.0f", 16, njop);
+    fprintf(file, "\n\t NJOPTKP (NJOP Tidak Kena Pajak)       | Rp.%*.0f", 16, njoptkp);
+    fprintf(file, "\n\t NJOP untuk penghitungan PBB           | Rp.%*.0f", 16, njop - njoptkp);
+    fprintf(file, "\n\t Total Pajak Bumi Bangunan             | Rp.%*.0f", 16, pbb);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
@@ -153,11 +154,20 @@ void pbb_hitung()
     njkp = 0.4 * njop;
 
   njkp = njop > 1000000000 ? 0.4 * njop : 0.2 * njop;
-
-  printf("\n\t-----------------------------------------------------------");
-  printf("\n\tNKJP : Rp.%.0f\n", njkp);
   pbb = 0.005 * njkp;
-  printf("\n\tJumlah pajak PBB yang harus dibayar : Rp.%.0f", pbb);
+
+  printf("\n\t-----------------------------------------------------------\n");
+  printf("\n\tPBB      : Rp.%.0f", pbb);
+  if (waktu_sekarang.hari > 20 && waktu_sekarang.bulan >= 9)
+  {
+    int selisih_bulan = waktu_sekarang.bulan - 9;
+    if (selisih_bulan == 0)
+      selisih_bulan = 1;
+    denda = (pbb * 0.02) * selisih_bulan;
+
+    printf("\n\tDenda  : Rp.%.0f", denda);
+  }
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", pbb);
   printf("\n\t-----------------------------------------------------------");
 
   printf("\n\n\tLihat rincian pembayaran?");

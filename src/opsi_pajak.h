@@ -17,7 +17,7 @@ void opsi_pajak()
   printf("\n\t [8] Keluar                               \n");
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\tPilihan Anda : ");
-  menu_opsi_pajak = input_int(menu_opsi_pajak);
+  menu_opsi_pajak = input_int();
   switch (menu_opsi_pajak)
   {
   case 1:
@@ -55,7 +55,7 @@ void opsi_pajak()
     printf("\n\tNilai yang Anda masukkan salah!");
     printf("\n\tSilahkan masukkan nilai yang benar!");
     printf("\n\tPilihan Anda : ");
-    menu_opsi_pajak = input_int(menu_opsi_pajak);
+    menu_opsi_pajak = input_int();
     system("cls");
     break;
   }
