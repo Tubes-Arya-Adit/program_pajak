@@ -35,7 +35,7 @@ void login_menu()
     {
       printf("\n\n\t----------------------------------------------------------\n");
       printf("\n\tLogin gagal, masukan username & password dengan benar!");
-      printf("\tTekan enter untuk mengulang \n");
+      printf("\n\tTekan enter untuk mengulang \n");
       printf("\n\t----------------------------------------------------------\n");
       getch();
       system("cls");
