@@ -123,14 +123,9 @@ void impor_hitung()
 
   if (isApi == 1)
   {
-    pph22_persen = 0.025;
     printf("\n\tMasukan Angka Pengenal Impor : ");
     input_str(api);
     fflush(stdin);
-  }
-  else
-  {
-    pph22_persen = 0.075;
   }
 
   printf("\n\tList Barang :");
@@ -179,31 +174,36 @@ void impor_hitung()
   {
     bea_masuk_persen = 0;
     ppn_persen = 0.1;
+    pph22_persen = 0;
   }
   else
   {
     bea_masuk_persen = 0.075;
     ppn_persen = 0.1;
+    if(isApi == 1) //jika memiliki API
+      pph22_persen = 0.025;
+    else
+      pph22_persen = 0.075;
+  }
 
-    if (jenis_barang == 1)
-      bea_masuk_persen = 0.25;
-    else if (jenis_barang == 2)
-      bea_masuk_persen = 0.2;
-    else if (jenis_barang == 3)
-      bea_masuk_persen = 0.3;
-    else if (jenis_barang == 4)
-    {
-      bea_masuk_persen = 0;
-      ppn_persen = 0;
-      pph22_persen = 0;
-    }
+  if(jenis_barang == 1) //tekstil
+    bea_masuk_persen = 0.25;
+  else if(jenis_barang == 2) //tas
+    bea_masuk_persen = 0.2;
+  else if(jenis_barang == 3) //sepatu
+    bea_masuk_persen = 0.3;
+  else if(jenis_barang == 4) //buku ilmu pengetahuan
+  {
+    bea_masuk_persen = 0;
+    ppn_persen = 0;
+    pph22_persen = 0;
   }
 
   printf("\n\tSelisih Hari : %d", selisih_hari);
   pabean = (cost + insurance + freight) * kurs_dollar;
   bea_masuk = bea_masuk_persen * pabean;
-  ppn_pajak = ppn_persen * (cost * kurs_dollar);
-  pph22 = pph22_persen * (cost * kurs_dollar);
+  ppn_pajak = ppn_persen * bea_masuk;
+  pph22 = pph22_persen * bea_masuk;
   total_pajak = bea_masuk + ppn_pajak + pph22;
 
   printf("\n\n\t--------------------------------------------------------\n");
