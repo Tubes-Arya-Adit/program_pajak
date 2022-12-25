@@ -14,27 +14,27 @@ void output_impor()
   FILE *file = fopen(filename, "a");
   if (file)
   {
-    fprintf(file, "\n\t--------------------+---------------------------------");
-    fprintf(file, "\n\t       *******      |                                 ");
-    fprintf(file, "\n\t     ***********    |         BUKTI PEMBAYARAN        ");
-    fprintf(file, "\n\t     *@@     ***    |            LUNAS PAJAK          ");
-    fprintf(file, "\n\t     &&&     **@    |              IMPOR              ");
-    fprintf(file, "\n\t     &&&&&&&&&&&    |         NEGARA INDONESIA        ");
-    fprintf(file, "\n\t       &&&&&&&      |                                 ");
-    fprintf(file, "\n\t--------------------+---------------------------------");
+    fprintf(file, "\n\t--------------------+--------------------------------------");
+    fprintf(file, "\n\t       *******      |                                      ");
+    fprintf(file, "\n\t     ***********    |                                      ");
+    fprintf(file, "\n\t     *@@     ***    |        BUKTI PEMBAYARAN LUNAS        ");
+    fprintf(file, "\n\t     &&&     **@    |        PAJAK IMPOR INDONESIA         ");
+    fprintf(file, "\n\t     &&&&&&&&&&&    |                                      ");
+    fprintf(file, "\n\t       &&&&&&&      |                                      ");
+    fprintf(file, "\n\t--------------------+--------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tA. IDENTITAS WAJIB PAJAK");
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-----------------------------------------------------------");
     fprintf(file, "\n\t NPWP                 : %s", pengguna_login.npwp);
     fprintf(file, "\n\t Angka Pengenal Impor : %s", api);
     fprintf(file, "\n\t NIK                  : %s", pengguna_login.nik);
     fprintf(file, "\n\t Nama                 : %s", pengguna_login.nama);
     fprintf(file, "\n\t Alamat               : %s", pengguna_login.alamat);
     fprintf(file, "\n\t No. Telp             : %s", pengguna_login.no_telp);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-----------------------------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tB. BARANG KENA PAJAK");
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-----------------------------------------------------------");
     fprintf(file, "\n\t HC Code        : %s", hs_code);
     fprintf(file, "\n\t Jenis Barang   : ");
     if (jenis_barang == 1)
@@ -44,10 +44,12 @@ void output_impor()
     else if (jenis_barang == 3)
       fprintf(file, "Sepatu");
     else if (jenis_barang == 4)
+      fprintf(file, "Buku Ilmu Pengetahuan");
+    else if (jenis_barang == 5)
       fprintf(file, "Lainnya");
     fprintf(file, "\n\t Nama Barang    : %s", nama_barang);
     fprintf(file, "\n\t Negara Asal    : %s", negara);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-----------------------------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tC. RINCIAN BARANG DAN PERHITUNGAN PAJAK IMPOR");
     fprintf(file, "\n\t-------------------------------------+---------------------");
@@ -63,16 +65,17 @@ void output_impor()
     fprintf(file, "\n\t PERHITUNGAN PAJAK IMPOR                                   ");
     fprintf(file, "\n\t-------------------------------------+---------------------");
     fprintf(file, "\n\t Kurs Dollar                         | Rp.%*.d", 16, kurs_dollar);
-    fprintf(file, "\n\t Nilai Pabean                        | Rp.%*.0f", 16, pabean);
+    fprintf(file, "\n\t Pabean                              | Rp.%*.0f", 16, pabean);
     fprintf(file, "\n\t Bea Masuk                           | Rp.%*.0f", 16, bea_masuk);
     fprintf(file, "\n\t PPN                                 | Rp.%*.0f", 16, ppn_pajak);
     fprintf(file, "\n\t PPh22                               | Rp.%*.0f", 16, pph22);
-    fprintf(file, "\n\t Total Pajak                         | Rp.%*.0f", 16, total_pajak);
+    fprintf(file, "\n\t Pajak Impor                         | Rp.%*.0f", 16, total_pajak);
+    fprintf(file, "\n\t Denda                               | Rp.%*.0f", 16, denda);
+    fprintf(file, "\n\t Total Pajak Impor                   | Rp.%*.0f", 16, total_pajak + denda);
     fprintf(file, "\n\t-------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t------------------------------------------------------");
-    fprintf(file, "\n\t Nomor           :");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
@@ -97,7 +100,7 @@ void impor_hitung()
   printf("\n\t                  Pembayaran Pajak Impor                 \n");
   printf("\n\t=========================================================\n");
 
-  printf("\n\tApakah Anda Memiliki Angka Pengenal Impor? : [1] Ya [2] Tidak : ");
+  printf("\n\tApakah Anda Memiliki Angka Pengenal Impor?\n\t[1] Ya [2] Tidak\n\tMasukan Pilihan : ");
   isApi = input_int();
   fflush(stdin);
   while (isApi < 1 || isApi > 2)
@@ -110,14 +113,9 @@ void impor_hitung()
 
   if (isApi == 1)
   {
-    pph22_persen = 0.025;
     printf("\n\tMasukan Angka Pengenal Impor : ");
     input_str(api);
     fflush(stdin);
-  }
-  else
-  {
-    pph22_persen = 0.075;
   }
 
   printf("\n\tList Barang :");
@@ -174,30 +172,35 @@ void impor_hitung()
   {
     bea_masuk_persen = 0;
     ppn_persen = 0.1;
+    pph22_persen = 0;
   }
   else
   {
     bea_masuk_persen = 0.075;
     ppn_persen = 0.1;
+    if (isApi == 1) // jika memiliki API
+      pph22_persen = 0.025;
+    else
+      pph22_persen = 0.075;
+  }
 
-    if (jenis_barang == 1)
-      bea_masuk_persen = 0.25;
-    else if (jenis_barang == 2)
-      bea_masuk_persen = 0.2;
-    else if (jenis_barang == 3)
-      bea_masuk_persen = 0.3;
-    else if (jenis_barang == 4)
-    {
-      bea_masuk_persen = 0;
-      ppn_persen = 0;
-      pph22_persen = 0;
-    }
+  if (jenis_barang == 1) // tekstil
+    bea_masuk_persen = 0.25;
+  else if (jenis_barang == 2) // tas
+    bea_masuk_persen = 0.2;
+  else if (jenis_barang == 3) // sepatu
+    bea_masuk_persen = 0.3;
+  else if (jenis_barang == 4) // buku ilmu pengetahuan
+  {
+    bea_masuk_persen = 0;
+    ppn_persen = 0;
+    pph22_persen = 0;
   }
 
   pabean = (cost + insurance + freight) * kurs_dollar;
   bea_masuk = bea_masuk_persen * pabean;
-  ppn_pajak = ppn_persen * (cost * kurs_dollar);
-  pph22 = pph22_persen * (cost * kurs_dollar);
+  ppn_pajak = ppn_persen * bea_masuk;
+  pph22 = pph22_persen * bea_masuk;
   total_pajak = bea_masuk + ppn_pajak + pph22;
 
   struct tm due_date = {.tm_sec = 0,
@@ -223,9 +226,9 @@ void impor_hitung()
     else
       denda = total_pajak * 0.1;
 
-    printf("\n\tDenda      : Rp.%.0f", denda);
+    printf("\n\tDenda                             : Rp.%.0f", denda);
   }
-  printf("\n\tJumlah nominal yang harus dibayar    : Rp.%.0f\n", total_pajak + denda);
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", total_pajak + denda);
   printf("\n\t--------------------------------------------------------\n");
 
   if (denda == 0)

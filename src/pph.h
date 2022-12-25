@@ -22,17 +22,17 @@ void output_pph()
   FILE *file = fopen(filename, "a");
   if (file)
   {
-    fprintf(file, "\n\t--------------------+---------------------------------");
-    fprintf(file, "\n\t       *******      |                                 ");
-    fprintf(file, "\n\t     ***********    |     BUKTI PEMBAYARAN PAJAK      ");
-    fprintf(file, "\n\t     *@@     ***    |      PENGHASILAN PASAL 21       ");
-    fprintf(file, "\n\t     &&&     **@    |     BAGI PEGAWAI TETAP ATAU     ");
-    fprintf(file, "\n\t     &&&&&&&&&&&    |    PENERIMA PENSIUN BERKALA.    ");
-    fprintf(file, "\n\t       &&&&&&&      |                                 ");
-    fprintf(file, "\n\t--------------------+---------------------------------");
+    fprintf(file, "\n\t--------------------+----------------------------------------");
+    fprintf(file, "\n\t       *******      |                                        ");
+    fprintf(file, "\n\t     ***********    |        BUKTI PEMBAYARAN PAJAK          ");
+    fprintf(file, "\n\t     *@@     ***    |         PENGHASILAN PASAL 21           ");
+    fprintf(file, "\n\t     &&&     **@    |        BAGI PEGAWAI TETAP ATAU         ");
+    fprintf(file, "\n\t     &&&&&&&&&&&    |       PENERIMA PENSIUN BERKALA         ");
+    fprintf(file, "\n\t       &&&&&&&      |                                        ");
+    fprintf(file, "\n\t--------------------+----------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tA. IDENTITAS WAJIB PAJAK");
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t NPWP              : %s", pengguna_login.npwp);
     fprintf(file, "\n\t NIK               : %s", pengguna_login.nik);
     fprintf(file, "\n\t Nama              : %s", pengguna_login.nama);
@@ -45,7 +45,7 @@ void output_pph()
       fprintf(file, "Lajang");
     fprintf(file, "\n\t Jumlah Tanggungan : %d", jml_anak);
     fprintf(file, "\n\t Nama Jabatan      : %s", nama_jabatan);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tB. RINCIAN PENGHASILAN DAN PERHITUNGAN PPh PASAL 21");
     fprintf(file, "\n\t---------------------------------------+---------------------");
@@ -68,13 +68,14 @@ void output_pph()
     fprintf(file, "\n\t Jumlah Penghasilan Netto              | Rp.%*.0f", 16, netto);
     fprintf(file, "\n\t Penghasilan Tidak Kena Pajak (PTKP)   | Rp.%*.0f", 16, ptkp);
     fprintf(file, "\n\t Penghasilan Kena Pajak (PKP)          | Rp.%*.0f", 16, pkp);
-    fprintf(file, "\n\t Besar Tarif Progresif (%%)            | %*d%%", 18, tarif_persen);
-    fprintf(file, "\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph);
+    fprintf(file, "\n\t Besar Tarif Progresif (%%)             | %*d%%", 18, tarif_persen);
+    fprintf(file, "\n\t PPh 21 Setahun                        | Rp.%*.0f", 16, pph);
+    fprintf(file, "\n\t Denda                                 | Rp.%*.0f", 16, denda);
+    fprintf(file, "\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph + denda);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tC. RINCIAN TRANSAKSI");
-    fprintf(file, "\n\t------------------------------------------------------");
-    fprintf(file, "\n\t Nomor           : ");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
@@ -107,7 +108,7 @@ void pph_hitung()
   printf("\n\tMasukan penghasilan tambahan : Rp.");
   penghasilan_tambahan = input_double();
 
-  printf("\n\tApakah Sudah Menikah? [1] Ya [2] Tidak : ");
+  printf("\n\tApakah Sudah Menikah? \n\t[1] Ya [2] Tidak");
   printf("\n\tMasukan Pilihan Anda : ");
   menikah = input_int();
 
@@ -121,6 +122,8 @@ void pph_hitung()
 
   if (menikah == 1)
   {
+    ptkp += 4500000; // ptkp ditambah 4.5jt jika sudah menikah
+
     printf("\n\tMasukan Jumlah Anak : ");
     jml_anak = input_int();
     while (jml_anak < 1)
@@ -222,7 +225,7 @@ void pph_hitung()
   denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
-  printf("\n\tPPh Setahun   : Rp.%.0f", pph);
+  printf("\n\tPPh Setahun                       : Rp.%.0f", pph);
 
   if (current > jatuh_tempo)
   {
@@ -231,7 +234,7 @@ void pph_hitung()
       selisih_bulan = 1;
     denda = (pph * 0.02) * selisih_bulan;
 
-    printf("\n\tDenda        : Rp.%.0f", denda);
+    printf("\n\tDenda                             : Rp.%.0f", denda);
   }
 
   printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", pph + denda);

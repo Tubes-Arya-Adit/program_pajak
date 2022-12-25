@@ -22,26 +22,26 @@ void output_pbb()
   FILE *file = fopen(filename, "a");
   if (file)
   {
-    fprintf(file, "\n\t--------------------+---------------------------------");
-    fprintf(file, "\n\t       *******      |                                 ");
-    fprintf(file, "\n\t     ***********    |         BUKTI PEMBAYARAN        ");
-    fprintf(file, "\n\t     *@@     ***    |         LUNAS PAJAK BUMI        ");
-    fprintf(file, "\n\t     &&&     **@    |           DAN BANGUNAN          ");
-    fprintf(file, "\n\t     &&&&&&&&&&&    |         NEGARA INDONESIA        ");
-    fprintf(file, "\n\t       &&&&&&&      |                                 ");
-    fprintf(file, "\n\t--------------------+---------------------------------");
+    fprintf(file, "\n\t--------------------+----------------------------------------");
+    fprintf(file, "\n\t       *******      |                                        ");
+    fprintf(file, "\n\t     ***********    |             BUKTI PEMBAYARAN           ");
+    fprintf(file, "\n\t     *@@     ***    |             LUNAS PAJAK BUMI           ");
+    fprintf(file, "\n\t     &&&     **@    |               DAN BANGUNAN             ");
+    fprintf(file, "\n\t     &&&&&&&&&&&    |             NEGARA INDONESIA           ");
+    fprintf(file, "\n\t       &&&&&&&      |                                        ");
+    fprintf(file, "\n\t--------------------+----------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tA. IDENTITAS WAJIB PAJAK");
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t NPWP              : %s", pengguna_login.npwp);
     fprintf(file, "\n\t NIK               : %s", pengguna_login.nik);
     fprintf(file, "\n\t Nama              : %s", pengguna_login.nama);
     fprintf(file, "\n\t Alamat            : %s", pengguna_login.alamat);
     fprintf(file, "\n\t No. Telp          : %s", pengguna_login.no_telp);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tB. LETAK OBJEK PAJAK");
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t Sektor         : ");
     if (sektor == 1)
       fprintf(file, "Perkebunan");
@@ -56,7 +56,7 @@ void output_pbb()
     fprintf(file, "\n\t Kota/Kabupaten : %s", kota_kabupaten);
     fprintf(file, "\n\t Kecamatan      : %s", kecamatan);
     fprintf(file, "\n\t Kelurahan/Desa : %s", kelurahan_desa);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tC. RINCIAN OBJEK PAJAK DAN PERHITUNGAN PBB");
     fprintf(file, "\n\t---------------------------------------+---------------------");
@@ -81,12 +81,13 @@ void output_pbb()
     fprintf(file, "\n\t NJOP sebagai dasar pengenaan PBB      | Rp.%*.0f", 16, njop);
     fprintf(file, "\n\t NJOPTKP (NJOP Tidak Kena Pajak)       | Rp.%*.0f", 16, njoptkp);
     fprintf(file, "\n\t NJOP untuk penghitungan PBB           | Rp.%*.0f", 16, njop - njoptkp);
-    fprintf(file, "\n\t Total Pajak Bumi Bangunan             | Rp.%*.0f", 16, pbb);
+    fprintf(file, "\n\t PBB                                   | Rp.%*.0f", 16, pbb);
+    fprintf(file, "\n\t Denda                                 | Rp.%*.0f", 16, denda);
+    fprintf(file, "\n\t Total Pajak Bumi Bangunan             | Rp.%*.0f", 16, pbb + denda);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
-    fprintf(file, "\n\t------------------------------------------------------");
-    fprintf(file, "\n\t Nomor           :");
+    fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
@@ -178,9 +179,9 @@ void pbb_hitung()
       selisih_bulan = 1;
     denda = (pbb * 0.02) * selisih_bulan;
 
-    printf("\n\tDenda  : Rp.%.0f", denda);
+    printf("\n\tDenda                             : Rp.%.0f", denda);
   }
-  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", pbb);
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", pbb + denda);
   printf("\n\t-----------------------------------------------------------");
 
   if (denda == 0)
