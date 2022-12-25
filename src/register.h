@@ -11,6 +11,7 @@ void register_menu()
   printf("\n\t=========================================================\n");
   printf("\n\tMasukkan NPWP          : ");
   input_str(input.npwp);
+  fflush(stdin);
   while (npwp_format_check() == 0)
   {
     printf("\n\tFormat NPWP salah, NPWP terdiri dari 16 karakter numerik!");
