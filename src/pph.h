@@ -10,14 +10,14 @@ double penghasilan_pokok, // perbulan
     denda = 0,
     temp1, temp2, temp3, temp4;
 int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian, tgl_bayar, bln_bayar, thn_bayar;
-char nama_jabatan[100];
+char nama_jabatan[100], status[100];
 
 void pph_menu();
 
 void output_pph()
 {
   char filename[100];
-  sprintf(filename, "%s-bukti-bayar-pph.txt", pengguna_login.npwp);
+  sprintf(filename, "%s-bukti-bayar-pph-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
   FILE *file = fopen(filename, "a");
   if (file)
@@ -68,17 +68,16 @@ void output_pph()
     fprintf(file, "\n\t Jumlah Penghasilan Netto              | Rp.%*.0f", 16, netto);
     fprintf(file, "\n\t Penghasilan Tidak Kena Pajak (PTKP)   | Rp.%*.0f", 16, ptkp);
     fprintf(file, "\n\t Penghasilan Kena Pajak (PKP)          | Rp.%*.0f", 16, pkp);
-    fprintf(file, "\n\t Besar Tarif Progresif (%%)             | %*d%%", 18, tarif_persen);
+    fprintf(file, "\n\t Besar Tarif Progresif (%%)            | %*d%%", 18, tarif_persen);
     fprintf(file, "\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tC. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t------------------------------------------------------");
-    fprintf(file, "\n\t Nomor           :");
-    fprintf(file, "\n\t Tahun Pajak     :%02d", waktu_sekarang.tahun);
+    fprintf(file, "\n\t Nomor           : ");
+    fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
-    fprintf(file, "\n\t Status Pajak    : Lunas");
-    fprintf(file, "\n\t Masa Pajak      :");
+    fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t------------------------------------------------------");
   }
   else
@@ -132,17 +131,6 @@ void pph_hitung()
       jml_anak = input_int();
     }
 
-    struct Tanggal waktu_gajian;
-    printf("\n\tTanggal Pegawai Menerima Gaji : ");
-    printf("\n\tMasukan Hari  : ");
-    tgl_bayar = input_hari();
-    printf("\n\tMasukan Bulan : ");
-    bln_bayar = input_bulan();
-    printf("\n\tMasukan Tahun : ");
-    thn_bayar = input_int();
-
-    bln_bayar + 1;
-
     // penghasilan tidak kena pajak
     ptkp += 4500000;
 
@@ -151,6 +139,22 @@ void pph_hitung()
       jml_anak = 3;
       ptkp += (4500000 * jml_anak);
     }
+  }
+
+  printf("\n\tTanggal Pegawai Menerima Gaji ");
+  printf("\n\tMasukan Hari  : ");
+  tgl_bayar = input_hari();
+  printf("\n\tMasukan Bulan : ");
+  bln_bayar = input_bulan();
+  printf("\n\tMasukan Tahun : ");
+  thn_bayar = input_int();
+
+  bln_bayar + 1;
+
+  if (bln_bayar == 12)
+  {
+    bln_bayar = 1;
+    thn_bayar += 1;
   }
 
   bruto = penghasilan_pokok + penghasilan_tambahan;
@@ -203,34 +207,62 @@ void pph_hitung()
     temp4 = (pkp - 500000000) * 0.30;
   }
 
-  pph = temp1 + temp2 + temp3 + temp4;
+  pph = (temp1 + temp2 + temp3 + temp4) / 12;
+
+  struct tm due_date = {.tm_sec = 0,
+                        .tm_min = 0,
+                        .tm_hour = 0,
+                        .tm_mday = 10,
+                        .tm_mon = bln_bayar - 1,
+                        .tm_year = thn_bayar - 1900,
+                        .tm_isdst = 0};
+
+  time_t jatuh_tempo = mktime(&due_date);
+
+  denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
   printf("\n\tPPh Setahun   : Rp.%.0f", pph);
 
-  if (waktu_sekarang.hari > 10 && waktu_sekarang.bulan >= bln_bayar)
+  if (current > jatuh_tempo)
   {
     int selisih_bulan = waktu_sekarang.bulan - bln_bayar;
-    if (selisih_bulan == 0)
+    if (selisih_bulan <= 0)
       selisih_bulan = 1;
     denda = (pph * 0.02) * selisih_bulan;
 
-    printf("\n\tDenda  : Rp.%.0f", denda);
+    printf("\n\tDenda        : Rp.%.0f", denda);
   }
 
-  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f", pph + denda);
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", pph + denda);
   printf("\n\t--------------------------------------------------------\n");
+
+  if (denda == 0)
+    strcpy(status, "Tepat Waktu");
+  else
+    strcpy(status, "Terlambat");
+
+  strcpy(trs_input.id, pengguna_login.npwp);
+  strcpy(trs_input.jenis_pajak, "PPh");
+  trs_input.total_pajak = pph;
+  trs_input.denda = denda;
+  trs_input.jumlah_nominal = pph + denda;
+  sprintf(trs_input.tanggal, "%d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
+  strcpy(trs_input.status, status);
+
+  tambahDataTransaksi();
+  sinkronDataTransaksi();
 
   printf("\n\n\tLihat rincian pembayaran?\n");
   printf("\n\t[1] Ya    [2] Tidak \n");
   printf("\n\tMasukan Pilihan Anda : ");
-  lihat_rincian = input_int(lihat_rincian);
+  lihat_rincian = input_int();
   while (lihat_rincian != 1 && lihat_rincian != 2)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
     printf("\n\tMasukan Pilihan Anda : ");
-    lihat_rincian = input_int(lihat_rincian);
+    lihat_rincian = input_int();
   }
 
   if (lihat_rincian == 1)
@@ -255,7 +287,7 @@ void pph_menu()
   printf("\n\t---------------------------------------------------------\n");
 
   printf("\n\tPilihan Anda : ");
-  menu_pph = input_int(menu_pph);
+  menu_pph = input_int();
 
   switch (menu_pph)
   {

@@ -10,14 +10,14 @@ double njop,
     denda,
     njoptkp = 0;
 int menu_pbb, sektor, lihat_rincian;
-char lokasi[100], provinsi[100], kota_kabupaten[100], kecamatan[100], kelurahan_desa[100];
+char lokasi[100], provinsi[100], kota_kabupaten[100], kecamatan[100], kelurahan_desa[100], status[100];
 
 void pbb_menu();
 
 void output_pbb()
 {
   char filename[100];
-  sprintf(filename, "%s-bukti-bayar-pbb.txt", pengguna_login.npwp);
+  sprintf(filename, "%s-bukti-bayar-pbb-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
   FILE *file = fopen(filename, "a");
   if (file)
@@ -86,10 +86,10 @@ void output_pbb()
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t Nomor           :");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
-    fprintf(file, "\n\t Status Pajak    : Lunas");
-    // fprintf(file, "\n\t Masa Pajak      :");
+    fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t------------------------------------------------------");
   }
   else
@@ -154,14 +154,27 @@ void pbb_hitung()
     njkp = 0.4 * njop;
 
   njkp = njop > 1000000000 ? 0.4 * njop : 0.2 * njop;
+
   pbb = 0.005 * njkp;
+
+  struct tm due_date = {.tm_sec = 0,
+                        .tm_min = 0,
+                        .tm_hour = 0,
+                        .tm_mday = 20,
+                        .tm_mon = 9 - 1,
+                        .tm_year = waktu_sekarang.tahun - 1900,
+                        .tm_isdst = 0};
+
+  time_t jatuh_tempo = mktime(&due_date);
+
+  denda = 0;
 
   printf("\n\t-----------------------------------------------------------\n");
   printf("\n\tPBB      : Rp.%.0f", pbb);
-  if (waktu_sekarang.hari > 20 && waktu_sekarang.bulan >= 9)
+  if (current > jatuh_tempo)
   {
     int selisih_bulan = waktu_sekarang.bulan - 9;
-    if (selisih_bulan == 0)
+    if (selisih_bulan <= 0)
       selisih_bulan = 1;
     denda = (pbb * 0.02) * selisih_bulan;
 
@@ -169,6 +182,22 @@ void pbb_hitung()
   }
   printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", pbb);
   printf("\n\t-----------------------------------------------------------");
+
+  if (denda == 0)
+    strcpy(status, "Tepat Waktu");
+  else
+    strcpy(status, "Terlambat");
+
+  strcpy(trs_input.id, pengguna_login.npwp);
+  strcpy(trs_input.jenis_pajak, "PBB");
+  trs_input.total_pajak = pbb;
+  trs_input.denda = denda;
+  trs_input.jumlah_nominal = pbb + denda;
+  sprintf(trs_input.tanggal, "%d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
+  strcpy(trs_input.status, status);
+
+  tambahDataTransaksi();
+  sinkronDataTransaksi();
 
   printf("\n\n\tLihat rincian pembayaran?");
   printf("\n\t[1] Ya    [2] Tidak ");

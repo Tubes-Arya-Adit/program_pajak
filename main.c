@@ -28,23 +28,27 @@ struct Tanggal
 
 struct Transaksi
 {
-    char identifier[17];
+    char id[17];
     char jenis_pajak[50];
     double total_pajak;
     double denda;
     double jumlah_nominal;
-    char tanggal[11];
+    char tanggal[20];
     char status[20];
 };
 
-int menu_awal, menu_opsi_pajak, i_pga, i_trs;
+int menu_awal, menu_opsi_pajak, i_pga, i_trs, i_trs_filtered;
+time_t current;
 
 struct Pengguna pengguna[50];
 struct Pengguna input;
 struct Pengguna pengguna_login;
+
 struct Tanggal waktu_sekarang;
+
 struct Transaksi trs_pengguna[50];
 struct Transaksi trs_input;
+struct Transaksi trs_filtered[50];
 
 #include "src/validasi.h"
 #include "src/data.h"
@@ -63,9 +67,10 @@ int main()
 {
     opening();
     sinkronDataPengguna();
+    sinkronDataTransaksi();
 
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
+    current = time(NULL);
+    struct tm tm = *localtime(&current);
 
     waktu_sekarang.hari = tm.tm_mday;
     waktu_sekarang.bulan = tm.tm_mon + 1;

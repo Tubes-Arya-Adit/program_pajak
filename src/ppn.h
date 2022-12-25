@@ -1,12 +1,13 @@
 int i, jumlah, lihat_rincian, menu_ppn, tgl_bayar, bln_bayar, thn_bayar;
 double total_harga = 0, ppn, denda;
+char status[100];
 
 void ppn_menu();
 
 void output_ppn(char uraian[jumlah][51], double harga[])
 {
     char filename[100];
-    sprintf(filename, "%s-bukti-bayar-ppn.txt", pengguna_login.npwp);
+    sprintf(filename, "%s-bukti-bayar-ppn-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
     FILE *file = fopen(filename, "a");
     if (file)
@@ -48,7 +49,7 @@ void output_ppn(char uraian[jumlah][51], double harga[])
         fprintf(file, "\n\t Nomor           :");
         fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
         fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
-        fprintf(file, "\n\t Status Pajak    : Lunas");
+        fprintf(file, "\n\t Status          : %s", status);
         fprintf(file, "\n\t------------------------------------------------------");
     }
     else
@@ -88,7 +89,6 @@ void ppn_hitung()
         harga[i] = input_double(); // input harga barang ke-i
 
         total_harga += harga[i]; // menghitung total harga barang
-        // printf("\n\tTotal Harga : Rp. %.0f\n", total_harga);
     }
 
     printf("\n\tTanggal Transaksi Barang : ");
@@ -101,32 +101,66 @@ void ppn_hitung()
 
     bln_bayar + 1;
 
+    if (bln_bayar == 12)
+    {
+        bln_bayar = 1;
+        thn_bayar += 1;
+    }
+
     ppn = total_harga * 0.10;
+
+    struct tm due_date = {.tm_sec = 0,
+                          .tm_min = 0,
+                          .tm_hour = 0,
+                          .tm_mday = 20,
+                          .tm_mon = bln_bayar - 1,
+                          .tm_year = thn_bayar - 1900,
+                          .tm_isdst = 0};
+
+    time_t jatuh_tempo = mktime(&due_date);
+
+    denda = 0;
 
     printf("\n\t--------------------------------------------------------\n");
     printf("\n\tPPN         : Rp.%.0f", ppn);
-    if (waktu_sekarang.hari > 20 && waktu_sekarang.bulan >= bln_bayar)
+    if (current > jatuh_tempo)
     {
         int selisih_bulan = waktu_sekarang.bulan - bln_bayar;
-        if (selisih_bulan == 0)
+        if (selisih_bulan <= 0)
             selisih_bulan = 1;
         denda = (ppn * 0.02) * selisih_bulan;
 
-        printf("\n\tDenda  : Rp.%.0f", denda);
+        printf("\n\tDenda   : Rp.%.0f", denda);
     }
     printf("\n\tJumlah nominal yang harus dibayar  : Rp.%.0f\n", ppn + denda);
     printf("\n\t--------------------------------------------------------\n");
 
+    if (denda == 0)
+        strcpy(status, "Tepat Waktu");
+    else
+        strcpy(status, "Terlambat");
+
+    strcpy(trs_input.id, pengguna_login.npwp);
+    strcpy(trs_input.jenis_pajak, "PPn");
+    trs_input.total_pajak = ppn;
+    trs_input.denda = denda;
+    trs_input.jumlah_nominal = ppn + denda;
+    sprintf(trs_input.tanggal, "%d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
+    strcpy(trs_input.status, status);
+
+    tambahDataTransaksi();
+    sinkronDataTransaksi();
+
     printf("\n\n\tLihat rincian pembayaran?");
     printf("\n\t[1] Ya    [2] Tidak ");
     printf("\n\tMasukan Pilihan Anda : ");
-    lihat_rincian = input_int(lihat_rincian);
+    lihat_rincian = input_int();
     while (lihat_rincian != 1 && lihat_rincian != 2)
     {
         printf("\n\tPilihan Anda Salah!");
         printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
         printf("\n\tMasukan Pilihan Anda : ");
-        lihat_rincian = input_int(lihat_rincian);
+        lihat_rincian = input_int();
     }
 
     if (lihat_rincian == 1)
@@ -151,7 +185,7 @@ void ppn_menu()
     printf("\n\t---------------------------------------------------------\n");
 
     printf("\n\tPilihan Anda : ");
-    menu_ppn = input_int(menu_ppn);
+    menu_ppn = input_int();
 
     switch (menu_ppn)
     {

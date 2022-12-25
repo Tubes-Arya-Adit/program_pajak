@@ -1,15 +1,15 @@
 #define kurs_dollar 15600
 
-int lihat_rincian, menu_impor, isApi, jenis_barang, selisih_hari = 0;
+int lihat_rincian, menu_impor, isApi, jenis_barang, selisih_hari = 0, tgl_tiba, bln_tiba, thn_tiba;
 double bea_masuk, bea_masuk_persen, ppn_pajak, ppn_persen, pph22, pph22_persen, pabean, cost, freight, insurance, total_pajak;
-char negara[50], api[11] = "-", nama_barang[100], hs_code[9];
+char negara[50], api[11] = "-", nama_barang[100], hs_code[9], status[100];
 
 void impor_menu();
 
 void output_impor()
 {
   char filename[100];
-  sprintf(filename, "%s-bukti-bayar-impor.txt", pengguna_login.npwp);
+  sprintf(filename, "%s-bukti-bayar-impor-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
   FILE *file = fopen(filename, "a");
   if (file)
@@ -72,10 +72,10 @@ void output_impor()
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t Nomor           :");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
-    fprintf(file, "\n\t Status Pajak    : Lunas");
-    // fprintf(file, "\n\t Masa Pajak      :");
+    fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t------------------------------------------------------");
   }
   else
@@ -93,10 +93,6 @@ void output_impor()
 
 void impor_hitung()
 {
-  struct tm waktu_tiba;
-  time_t t = time(NULL);
-  struct tm tm = *localtime(&t);
-
   printf("\n\t=========================================================\n");
   printf("\n\t                  Pembayaran Pajak Impor                 \n");
   printf("\n\t=========================================================\n");
@@ -131,12 +127,12 @@ void impor_hitung()
   printf("\n\t [4] Buku Ilmu Pengetahuan");
   printf("\n\t [5] Lainnya");
   printf("\n\tMasukan Jenis Barang Yang Di Impor : ");
-  jenis_barang = input_int(jenis_barang);
+  jenis_barang = input_int();
   while (jenis_barang < 1 || jenis_barang > 5)
   {
     printf("\n\tPilihan tidak tersedia!");
     printf("\n\tSilahkan masukan kembali : ");
-    jenis_barang = input_int(jenis_barang);
+    jenis_barang = input_int();
   }
   fflush(stdin);
 
@@ -160,11 +156,19 @@ void impor_hitung()
 
   printf("\n\tTanggal Barang Sampai di Pelabuhan\n");
   printf("\n\tMasukan Hari  : ");
-  waktu_tiba.tm_mday = input_hari();
+  tgl_tiba = input_hari();
   printf("\n\tMasukan Bulan : ");
-  waktu_tiba.tm_mon = input_bulan();
+  bln_tiba = input_bulan();
   printf("\n\tMasukan Tahun : ");
-  waktu_tiba.tm_year = input_int();
+  thn_tiba = input_int();
+
+  bln_bayar + 1;
+
+  if (bln_bayar == 12)
+  {
+    bln_bayar = 1;
+    thn_bayar += 1;
+  }
 
   if (cost < 3)
   {
@@ -190,12 +194,25 @@ void impor_hitung()
     }
   }
 
-  printf("\n\tSelisih Hari : %d", selisih_hari);
   pabean = (cost + insurance + freight) * kurs_dollar;
   bea_masuk = bea_masuk_persen * pabean;
   ppn_pajak = ppn_persen * (cost * kurs_dollar);
   pph22 = pph22_persen * (cost * kurs_dollar);
   total_pajak = bea_masuk + ppn_pajak + pph22;
+
+  struct tm due_date = {.tm_sec = 0,
+                        .tm_min = 0,
+                        .tm_hour = 0,
+                        .tm_mday = tgl_tiba,
+                        .tm_mon = bln_tiba - 1,
+                        .tm_year = thn_tiba - 1900,
+                        .tm_isdst = 0};
+
+  time_t waktu_tiba = mktime(&due_date);
+
+  int selisih_hari = (current - waktu_tiba) / 86400;
+
+  denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
   printf("\n\tPajak Impor  : Rp.%.0f", total_pajak);
@@ -211,10 +228,26 @@ void impor_hitung()
   printf("\n\tJumlah nominal yang harus dibayar    : Rp.%.0f\n", total_pajak + denda);
   printf("\n\t--------------------------------------------------------\n");
 
+  if (denda == 0)
+    strcpy(status, "Tepat Waktu");
+  else
+    strcpy(status, "Terlambat");
+
+  strcpy(trs_input.id, pengguna_login.npwp);
+  strcpy(trs_input.jenis_pajak, "Pajak Impor");
+  trs_input.total_pajak = total_pajak;
+  trs_input.denda = denda;
+  trs_input.jumlah_nominal = total_pajak + denda;
+  sprintf(trs_input.tanggal, "%d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
+  strcpy(trs_input.status, status);
+
+  tambahDataTransaksi();
+  sinkronDataTransaksi();
+
   printf("\n\n\tLihat rincian pembayaran?");
   printf("\n\t[1] Ya    [2] Tidak ");
   printf("\n\tMasukan Pilihan Anda : ");
-  lihat_rincian = input_int(lihat_rincian);
+  lihat_rincian = input_int();
   while (lihat_rincian != 1 && lihat_rincian != 2)
   {
     printf("\n\tPilihan Anda Salah!");

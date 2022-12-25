@@ -98,9 +98,9 @@ void register_menu()
 int npwp_format_check()
 {
   int len = strlen(input.npwp);
-  for(int i = 0; i < sizeof(input.npwp); i++)
+  for (int i = 0; i < sizeof(input.npwp); i++)
   {
-    if(isdigit(input.npwp[i]) == 0 && len != 16) //jika bukan 16 karakter numerik
+    if (isdigit(input.npwp[i]) == 0 && len != 16) // jika bukan 16 karakter numerik
       return 0;
   }
   return 1;
@@ -109,9 +109,9 @@ int npwp_format_check()
 int nik_format_check()
 {
   int len = strlen(input.nik);
-  for(int i = 0; i < sizeof(input.nik); i++)
+  for (int i = 0; i < sizeof(input.nik); i++)
   {
-    if(isdigit(input.nik[i]) == 0 && len != 16) //jika bukan 16 karakter numerik
+    if (isdigit(input.nik[i]) == 0 && len != 16) // jika bukan 16 karakter numerik
       return 0;
   }
   return 1;
@@ -119,9 +119,9 @@ int nik_format_check()
 
 int nama_format_check()
 {
-  for(int i = 0; i < sizeof(input.nama); i++)
+  for (int i = 0; i < sizeof(input.nama); i++)
   {
-    if(isdigit(input.nama[i]) == 1) //jika mengandung angka
+    if (isdigit(input.nama[i]) == 1) // jika mengandung angka
       return 0;
   }
   return 1;
@@ -130,9 +130,9 @@ int nama_format_check()
 int no_telp_format_check()
 {
   int len = strlen(input.no_telp);
-  for(int i = 0; i < sizeof(input.no_telp); i++)
+  for (int i = 0; i < sizeof(input.no_telp); i++)
   {
-    if(strlen(input.no_telp) != 12 && isdigit(input.no_telp[i]) == 0) //jika bukan 12 digit karakter numerik
+    if (strlen(input.no_telp) != 12 && isdigit(input.no_telp[i]) == 0) // jika bukan 12 digit karakter numerik
       return 0;
   }
   return 1;
