@@ -65,7 +65,7 @@ void output_impor()
     fprintf(file, "\n\t PERHITUNGAN PAJAK IMPOR                                   ");
     fprintf(file, "\n\t-------------------------------------+---------------------");
     fprintf(file, "\n\t Kurs Dollar                         | Rp.%*.d", 16, kurs_dollar);
-    fprintf(file, "\n\t Nilai Pabean                        | Rp.%*.0f", 16, pabean);
+    fprintf(file, "\n\t Pabean                              | Rp.%*.0f", 16, pabean);
     fprintf(file, "\n\t Bea Masuk                           | Rp.%*.0f", 16, bea_masuk);
     fprintf(file, "\n\t PPN                                 | Rp.%*.0f", 16, ppn_pajak);
     fprintf(file, "\n\t PPh22                               | Rp.%*.0f", 16, pph22);
