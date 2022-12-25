@@ -188,6 +188,14 @@ void ppn_menu()
     printf("\n\tPilihan Anda : ");
     menu_ppn = input_int();
 
+    while (menu_ppn != 1 && menu_ppn != 2)
+    {
+        printf("\n\tPilihan Anda Salah!");
+        printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
+        printf("\n\tMasukan Pilihan Anda : ");
+        menu_ppn = input_int();
+    }
+
     switch (menu_ppn)
     {
     case 1:
@@ -198,6 +206,7 @@ void ppn_menu()
         system("cls");
         opsi_pajak();
     default:
+        printf("\n\tPilihan Anda Salah!");
         break;
     }
 }

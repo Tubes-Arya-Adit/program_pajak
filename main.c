@@ -79,23 +79,23 @@ int main()
     waktu_sekarang.menit = tm.tm_min;
     waktu_sekarang.detik = tm.tm_sec;
 
-    if (menu_awal == 1)
-    {
-        system("cls");
-        login_menu();
-    }
-    else if (menu_awal == 2)
-    {
-        system("cls");
-        register_menu();
-    }
-    else
+    while (menu_awal < 1 || menu_awal > 2)
     {
         printf("\n\tPilihan Anda Salah!");
         printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
         printf("\n\tPilihan Anda : ");
         menu_awal = input_int();
+    }
+
+    if (menu_awal == 1)
+    {
         system("cls");
+        login_menu();
+    }
+    else
+    {
+        system("cls");
+        register_menu();
     }
 
     opsi_pajak();

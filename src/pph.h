@@ -68,7 +68,7 @@ void output_pph()
     fprintf(file, "\n\t Jumlah Penghasilan Netto              | Rp.%*.0f", 16, netto);
     fprintf(file, "\n\t Penghasilan Tidak Kena Pajak (PTKP)   | Rp.%*.0f", 16, ptkp);
     fprintf(file, "\n\t Penghasilan Kena Pajak (PKP)          | Rp.%*.0f", 16, pkp);
-    fprintf(file, "\n\t Besar Tarif Progresif (%%)             | %*d%%", 18, tarif_persen);
+    fprintf(file, "\n\t Besar Tarif Progresif (%%)            | %*d%%", 18, tarif_persen);
     fprintf(file, "\n\t PPh 21 Setahun                        | Rp.%*.0f", 16, pph);
     fprintf(file, "\n\t Denda                                 | Rp.%*.0f", 16, denda);
     fprintf(file, "\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph + denda);
@@ -292,6 +292,14 @@ void pph_menu()
   printf("\n\tPilihan Anda : ");
   menu_pph = input_int();
 
+  while (menu_pph != 1 && menu_pph != 2)
+  {
+    printf("\n\tPilihan Anda Salah!");
+    printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
+    printf("\n\tPilihan Anda : ");
+    menu_pph = input_int();
+  }
+
   switch (menu_pph)
   {
   case 1:
@@ -302,6 +310,7 @@ void pph_menu()
     system("cls");
     opsi_pajak();
   default:
+    printf("\n\tPilihan Anda Salah!");
     break;
   }
 }

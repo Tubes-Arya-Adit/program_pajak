@@ -226,9 +226,9 @@ void impor_hitung()
     else
       denda = total_pajak * 0.1;
 
-    printf("\n\tDenda                             : Rp.%.0f", denda);
+    printf("\n\tDenda                             : Rp.%'.0f", denda);
   }
-  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", total_pajak + denda);
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%'.0f\n", total_pajak + denda);
   printf("\n\t--------------------------------------------------------\n");
 
   if (denda == 0)
@@ -282,6 +282,14 @@ void impor_menu()
   printf("\n\tPilihan Anda : ");
   menu_impor = input_int();
 
+  while (menu_impor != 1 && menu_impor != 2)
+  {
+    printf("\n\tPilihan Anda Salah!");
+    printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
+    printf("\n\tMasukan Pilihan Anda : ");
+    menu_impor = input_int();
+  }
+
   switch (menu_impor)
   {
   case 1:
@@ -292,6 +300,7 @@ void impor_menu()
     system("cls");
     opsi_pajak();
   default:
+    printf("\n\tPilihan Anda Salah!");
     break;
   }
 }

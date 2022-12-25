@@ -117,7 +117,7 @@ void pbb_hitung()
   printf("\n\t[3] Pertambangan");
   printf("\n\t[4] Pedesaan dan Perkotaan");
   printf("\n\tPilih Sektor Objek Pajak : ");
-  sektor = input_int(sektor);
+  sektor = input_int();
 
   printf("\n\tMasukan alamat objek pajak : ");
   input_str(lokasi);
@@ -135,16 +135,16 @@ void pbb_hitung()
   input_str(kelurahan_desa);
 
   printf("\n\tMasukan luas tanah (M2) : ");
-  luas_tanah = input_double(luas_tanah);
+  luas_tanah = input_double();
 
   printf("\n\tMasukan luas bangunan (M2) : ");
-  luas_bangunan = input_double(luas_bangunan);
+  luas_bangunan = input_double();
 
   printf("\n\tMasukan nilai tanah per meter persegi : Rp.");
-  nilai_tanah_meter = input_double(nilai_tanah_meter);
+  nilai_tanah_meter = input_double();
 
   printf("\n\tMasukan nilai bangunan per meter persegi : Rp.");
-  nilai_bangunan_meter = input_double(nilai_bangunan_meter);
+  nilai_bangunan_meter = input_double();
 
   nilai_tanah = luas_tanah * nilai_tanah_meter;
   nilai_bangunan = luas_bangunan * nilai_bangunan_meter;
@@ -171,6 +171,7 @@ void pbb_hitung()
   denda = 0;
 
   printf("\n\t-----------------------------------------------------------\n");
+  printf("\n\tNJOP     : Rp.%.0f", njop);
   printf("\n\tPBB      : Rp.%.0f", pbb);
   if (current > jatuh_tempo)
   {
@@ -203,13 +204,13 @@ void pbb_hitung()
   printf("\n\n\tLihat rincian pembayaran?");
   printf("\n\t[1] Ya    [2] Tidak ");
   printf("\n\tMasukan Pilihan Anda : ");
-  lihat_rincian = input_int(lihat_rincian);
+  lihat_rincian = input_int();
   while (lihat_rincian != 1 && lihat_rincian != 2)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
     printf("\n\tMasukan Pilihan Anda : ");
-    lihat_rincian = input_int(lihat_rincian);
+    lihat_rincian = input_int();
   }
 
   if (lihat_rincian == 1)
@@ -233,7 +234,15 @@ void pbb_menu()
   printf("\n\t2. Kembali");
   printf("\n\t---------------------------------------------------------\n");
   printf("\n\tPilihan Anda : ");
-  menu_pbb = input_int(menu_pbb);
+  menu_pbb = input_int();
+
+  while (menu_pbb != 1 && menu_pbb != 2)
+  {
+    printf("\n\tPilihan Anda Salah!");
+    printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
+    printf("\n\tMasukan Pilihan Anda : ");
+    menu_pbb = input_int();
+  }
 
   switch (menu_pbb)
   {
@@ -245,6 +254,7 @@ void pbb_menu()
     system("cls");
     opsi_pajak();
   default:
+    printf("\n\tPilihan Anda Salah!");
     break;
   }
 }

@@ -99,6 +99,10 @@ void register_menu()
 int npwp_format_check()
 {
   int len = strlen(input.npwp);
+
+  if (len > 16)
+    return 0;
+
   for (int i = 0; i < sizeof(input.npwp); i++)
   {
     if (isdigit(input.npwp[i]) == 0 && len != 16) // jika bukan 16 karakter numerik
@@ -110,6 +114,10 @@ int npwp_format_check()
 int nik_format_check()
 {
   int len = strlen(input.nik);
+
+  if (len > 16)
+    return 0;
+
   for (int i = 0; i < sizeof(input.nik); i++)
   {
     if (isdigit(input.nik[i]) == 0 && len != 16) // jika bukan 16 karakter numerik
@@ -131,9 +139,13 @@ int nama_format_check()
 int no_telp_format_check()
 {
   int len = strlen(input.no_telp);
+
+  if (len > 12)
+    return 0;
+
   for (int i = 0; i < sizeof(input.no_telp); i++)
   {
-    if (strlen(input.no_telp) != 12 && isdigit(input.no_telp[i]) == 0) // jika bukan 12 digit karakter numerik
+    if (isdigit(input.no_telp[i]) == 0) // jika bukan 12 digit karakter numerik
       return 0;
   }
   return 1;
