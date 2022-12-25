@@ -38,9 +38,10 @@ void output_ppn(char uraian[jumlah][51], double harga[])
             fprintf(file, "\n\t| %-2d | %-50s | Rp.%15.0f |", i + 1, uraian[i], harga[i]); // menampilkan nomor, nama barang, dan harga
         }
         fprintf(file, "\n\t+----+----------------------------------------------------+--------------------+");
-        fprintf(file, "\n\t Total Harga                             : %.0f", total_harga);
-        fprintf(file, "\n\t Dasar Pengenaan Pajak                   : %.0f", total_harga);
-        fprintf(file, "\n\t PPn = 10%% * Dasar Pengenaan Pajak      : %.0f", ppn);
+        fprintf(file, "\n\t Total Harga                   : %.0f", total_harga);
+        fprintf(file, "\n\t PPN                           : %.0f", ppn);
+        fprintf(file, "\n\t Denda                         : %.0f", denda);
+        fprintf(file, "\n\t Total Pajak Pertambahan Nilai : %.0f", ppn + denda);
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n");
         fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
@@ -48,8 +49,13 @@ void output_ppn(char uraian[jumlah][51], double harga[])
         fprintf(file, "\n\t Nomor           :");
         fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
         fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
-        fprintf(file, "\n\t Status Pajak    : Lunas");
+        fprintf(file, "\n\t Status Pajak    : ");
+        if(denda == 0)
+            fprintf(file, "Pembayaran Tepat Waktu");
+        else
+            fprintf(file, "Pembayaran Terlambat");
         fprintf(file, "\n\t------------------------------------------------------");
+        fprintf(file, "\n\n\n");
     }
     else
         fprintf(file, "Unable to load file!");
@@ -104,7 +110,7 @@ void ppn_hitung()
     ppn = total_harga * 0.10;
 
     printf("\n\t--------------------------------------------------------\n");
-    printf("\n\tPPN         : Rp.%.0f", ppn);
+    printf("\n\tPPN                               : Rp.%.0f", ppn);
     if (waktu_sekarang.hari > 20 && waktu_sekarang.bulan >= bln_bayar)
     {
         int selisih_bulan = waktu_sekarang.bulan - bln_bayar;
@@ -112,9 +118,9 @@ void ppn_hitung()
             selisih_bulan = 1;
         denda = (ppn * 0.02) * selisih_bulan;
 
-        printf("\n\tDenda  : Rp.%.0f", denda);
+        printf("\n\tDenda                             : Rp.%.0f", denda);
     }
-    printf("\n\tJumlah nominal yang harus dibayar  : Rp.%.0f\n", ppn + denda);
+    printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", ppn + denda);
     printf("\n\t--------------------------------------------------------\n");
 
     printf("\n\n\tLihat rincian pembayaran?");
