@@ -129,6 +129,8 @@ void pph_hitung()
 
   if (menikah == 1)
   {
+    ptkp += 4500000; //ptkp ditambah 4.5jt jika sudah menikah
+
     printf("\n\tMasukan Jumlah Anak : ");
     jml_anak = input_int();
     while (jml_anak < 1)
@@ -138,15 +140,11 @@ void pph_hitung()
       printf("\n\tMasukan Jumlah Anak : ");
       jml_anak = input_int();
     }
-
-    // penghasilan tidak kena pajak
-    ptkp += 4500000;
-
-    if (jml_anak > 3)
-    {
+    
+    if (jml_anak > 3) //jumlah anak maksimal 3, jika lebih dari 3 dihitung 3
       jml_anak = 3;
-      ptkp += (4500000 * jml_anak);
-    }
+
+    ptkp += (4500000 * jml_anak); //ptkp ditambah 4.5 jt per anak
   }
 
   struct Tanggal waktu_gajian;
