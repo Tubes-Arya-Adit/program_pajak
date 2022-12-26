@@ -293,3 +293,26 @@ int input_bulan()
   else
     return output;
 }
+
+int checkTgl(int hari, int bulan, int tahun)
+{
+  if ((hari > 28 && bulan == 2) || (hari > 29 && bulan == 2 && (tahun % 4 == 0 || tahun % 100 != 0 || tahun % 400 == 0)))
+  {
+    printf("\n\tBulan februari hanya memiliki 28 hari! ");
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return 0;
+  }
+  else if ((bulan == 4 || bulan == 6 || bulan == 9 || bulan == 11) && hari > 30)
+  {
+    printf("\n\tBulan %d hanya memiliki 30 hari! ", bulan);
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return 0;
+  }
+  else if (bulan == 1 || bulan == 3 || bulan == 5 || bulan == 7 || bulan == 8 || bulan == 10 || bulan == 12 && hari > 31)
+  {
+    printf("\n\tBulan %d hanya memiliki 31 hari! ", bulan);
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return 0;
+  }
+  return 1;
+}

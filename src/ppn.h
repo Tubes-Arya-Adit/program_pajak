@@ -68,6 +68,18 @@ void output_ppn(char uraian[jumlah][51], double harga[])
     ppn_menu();
 }
 
+void input_tgl_transaksi()
+{
+    tgl_bayar = bln_bayar = thn_bayar = 0; // reset tanggal pembelian barang
+    printf("\n\tTanggal Transaksi Barang : ");
+    printf("\n\tMasukan Hari  : ");
+    tgl_bayar = input_hari();
+    printf("\n\tMasukan Bulan : ");
+    bln_bayar = input_bulan();
+    printf("\n\tMasukan Tahun : ");
+    thn_bayar = input_int();
+}
+
 // fungsi untuk menghitung ppn
 void ppn_hitung()
 {
@@ -96,13 +108,13 @@ void ppn_hitung()
     }
 
     // memasukan tanggal transaksi barang
-    printf("\n\tTanggal Transaksi Barang : ");
-    printf("\n\tMasukan Hari  : ");
-    tgl_bayar = input_hari();
-    printf("\n\tMasukan Bulan : ");
-    bln_bayar = input_bulan();
-    printf("\n\tMasukan Tahun : ");
-    thn_bayar = input_int();
+    input_tgl_transaksi();
+
+    // check apakah tanggal sesuai format
+    while (checkTgl(tgl_bayar, bln_bayar, thn_bayar) == 0)
+    {
+        input_tgl_transaksi();
+    }
 
     // menambah bulan pembayaran menjadi bulan berikutnya dan
     // apakah bulan yang dimasukan adalah desember

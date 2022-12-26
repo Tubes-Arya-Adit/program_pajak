@@ -97,6 +97,19 @@ void output_pph()
   pph_menu();
 }
 
+void input_tanggal_gajian()
+{
+  tgl_bayar = bln_bayar = thn_bayar = 0;
+
+  printf("\n\tTanggal Pegawai Menerima Gaji ");
+  printf("\n\tMasukan Hari  : ");
+  tgl_bayar = input_hari();
+  printf("\n\tMasukan Bulan : ");
+  bln_bayar = input_bulan();
+  printf("\n\tMasukan Tahun : ");
+  thn_bayar = input_int();
+}
+
 // fungsi untuk menghitung pph
 void pph_hitung()
 {
@@ -147,13 +160,13 @@ void pph_hitung()
   }
 
   // memasukan tanggal menerima gaji
-  printf("\n\tTanggal Pegawai Menerima Gaji ");
-  printf("\n\tMasukan Hari  : ");
-  tgl_bayar = input_hari();
-  printf("\n\tMasukan Bulan : ");
-  bln_bayar = input_bulan();
-  printf("\n\tMasukan Tahun : ");
-  thn_bayar = input_int();
+  input_tanggal_gajian();
+
+  // check apakah format data benar
+  while (checkTgl(tgl_bayar, bln_bayar, thn_bayar) == 0)
+  {
+    input_tanggal_gajian();
+  }
 
   // menambah bulan pembayaran menjadi bulan berikutnya dan
   // apakah bulan yang dimasukan adalah desember

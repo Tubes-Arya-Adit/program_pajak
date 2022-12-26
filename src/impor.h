@@ -78,7 +78,7 @@ void output_impor()
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t-----------------------------------------------------------");
     fprintf(file, "\n\t Tahun Pajak                 : %02d", waktu_sekarang.tahun);
-    fprintf(file, "\n\t Tanggal Sampai di Pelabuhan : %d-%d-%d", tgl_bayar, bln_bayar, thn_bayar);
+    fprintf(file, "\n\t Tanggal Sampai di Pelabuhan : %d-%d-%d", tgl_bayar, bln_tiba, thn_tiba);
     fprintf(file, "\n\t Waktu Transaksi             : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status                      : %s", status);
     fprintf(file, "\n\t-----------------------------------------------------------");
@@ -94,6 +94,17 @@ void output_impor()
   getch();
   system("cls");
   impor_menu();
+}
+
+void input_tgl_impor()
+{
+  printf("\n\tTanggal Barang Sampai di Pelabuhan\n");
+  printf("\n\tMasukan Hari  : ");
+  tgl_tiba = input_hari();
+  printf("\n\tMasukan Bulan : ");
+  bln_tiba = input_bulan();
+  printf("\n\tMasukan Tahun : ");
+  thn_tiba = input_int();
 }
 
 // membuat fungsi menghitung pajak
@@ -156,22 +167,11 @@ void impor_hitung()
   freight = input_double();
 
   // memasukan tanggal barang sampai di pelabuhan
-  printf("\n\tTanggal Barang Sampai di Pelabuhan\n");
-  printf("\n\tMasukan Hari  : ");
-  tgl_tiba = input_hari();
-  printf("\n\tMasukan Bulan : ");
-  bln_tiba = input_bulan();
-  printf("\n\tMasukan Tahun : ");
-  thn_tiba = input_int();
+  input_tgl_impor();
 
-  // menambah bulan pembayaran menjadi bulan berikutnya dan
-  // apakah bulan yang dimasukan adalah desember
-  bln_bayar + 1;
-
-  if (bln_bayar == 12)
+  while (checkTgl(tgl_tiba, bln_tiba, thn_tiba) == 0)
   {
-    bln_bayar = 1;
-    thn_bayar += 1;
+    input_tgl_impor();
   }
 
   if (cost < 3)
@@ -222,7 +222,7 @@ void impor_hitung()
 
   // mencari selisih hari dari waktu sekarang dan waktu tiba
   int selisih_hari = (current - waktu_tiba) / 86400;
-
+  printf("\n\tSelisih hari : %d", selisih_hari);
   denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
@@ -235,9 +235,9 @@ void impor_hitung()
     else
       denda = total_pajak * 0.1;
 
-    printf("\n\tDenda                             : Rp.%'.0f", denda);
+    printf("\n\tDenda                             : Rp.%.0f", denda);
   }
-  printf("\n\tJumlah nominal yang harus dibayar : Rp.%'.0f\n", total_pajak + denda);
+  printf("\n\tJumlah nominal yang harus dibayar : Rp.%.0f\n", total_pajak + denda);
   printf("\n\t--------------------------------------------------------\n");
 
   if (denda == 0)
