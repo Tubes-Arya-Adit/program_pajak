@@ -87,6 +87,7 @@ void output_pbb()
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
+    fprintf(file, "\n\t Tenggat         : 30 September");
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t-------------------------------------------------------------");
@@ -159,7 +160,7 @@ void pbb_hitung()
   struct tm due_date = {.tm_sec = 0,
                         .tm_min = 0,
                         .tm_hour = 0,
-                        .tm_mday = 20,
+                        .tm_mday = 30,
                         .tm_mon = 9 - 1,
                         .tm_year = waktu_sekarang.tahun - 1900,
                         .tm_isdst = 0};
