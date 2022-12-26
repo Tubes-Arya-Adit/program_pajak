@@ -75,11 +75,11 @@ void output_impor()
     fprintf(file, "\n\t-------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-----------------------------------------------------------");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-----------------------------------------------------------");
   }
   else
     printf("Unable to load file!");
@@ -218,7 +218,7 @@ void impor_hitung()
   denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
-  printf("\n\tPajak Impor  : Rp.%.0f", total_pajak);
+  printf("\n\tPajak Impor                       : Rp.%.0f", total_pajak);
   if (selisih_hari > 7)
   {
     if (selisih_hari > 14)

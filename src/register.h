@@ -145,7 +145,7 @@ int no_telp_format_check()
 
   for (int i = 0; i < sizeof(input.no_telp); i++)
   {
-    if (isdigit(input.no_telp[i]) == 0) // jika bukan 12 digit karakter numerik
+    if (isdigit(input.no_telp[i]) == 1 && len != 12) // jika bukan 12 digit karakter numerik
       return 0;
   }
   return 1;

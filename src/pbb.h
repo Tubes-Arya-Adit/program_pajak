@@ -33,11 +33,11 @@ void output_pbb()
     fprintf(file, "\n");
     fprintf(file, "\n\tA. IDENTITAS WAJIB PAJAK");
     fprintf(file, "\n\t-------------------------------------------------------------");
-    fprintf(file, "\n\t NPWP              : %s", pengguna_login.npwp);
-    fprintf(file, "\n\t NIK               : %s", pengguna_login.nik);
-    fprintf(file, "\n\t Nama              : %s", pengguna_login.nama);
-    fprintf(file, "\n\t Alamat            : %s", pengguna_login.alamat);
-    fprintf(file, "\n\t No. Telp          : %s", pengguna_login.no_telp);
+    fprintf(file, "\n\t NPWP           : %s", pengguna_login.npwp);
+    fprintf(file, "\n\t NIK            : %s", pengguna_login.nik);
+    fprintf(file, "\n\t Nama           : %s", pengguna_login.nama);
+    fprintf(file, "\n\t Alamat         : %s", pengguna_login.alamat);
+    fprintf(file, "\n\t No. Telp       : %s", pengguna_login.no_telp);
     fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tB. LETAK OBJEK PAJAK");
@@ -65,14 +65,12 @@ void output_pbb()
     fprintf(file, "\n\t BUMI                                                        ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t Luas (M2)                             | %*.0f M2", 16, luas_tanah);
-    fprintf(file, "\n\t Kelas                                 | ");
     fprintf(file, "\n\t NJOP per M2                           | Rp.%*.0f", 16, nilai_tanah_meter);
     fprintf(file, "\n\t Total NJOP Bumi                       | Rp.%*.0f", 16, nilai_tanah);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t BANGUNAN                                                    ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t Luas (M2)                             | %*.0f M2", 16, luas_bangunan);
-    fprintf(file, "\n\t Kelas                                 | ");
     fprintf(file, "\n\t NJOP per M2                           | Rp.%*.0f", 16, nilai_bangunan_meter);
     fprintf(file, "\n\t Total NJOP Bangunan                   | Rp.%*.0f", 16, nilai_bangunan);
     fprintf(file, "\n\t---------------------------------------+---------------------");
@@ -91,7 +89,7 @@ void output_pbb()
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
   }
   else
     printf("Unable to load file!");
@@ -171,8 +169,8 @@ void pbb_hitung()
   denda = 0;
 
   printf("\n\t-----------------------------------------------------------\n");
-  printf("\n\tNJOP     : Rp.%.0f", njop);
-  printf("\n\tPBB      : Rp.%.0f", pbb);
+  printf("\n\tNJOP                              : Rp.%.0f", njop);
+  printf("\n\tPBB                               : Rp.%.0f", pbb);
   if (current > jatuh_tempo)
   {
     int selisih_bulan = waktu_sekarang.bulan - 9;

@@ -23,11 +23,11 @@ void output_ppn(char uraian[jumlah][51], double harga[])
         fprintf(file, "\n");
         fprintf(file, "\n\tA. IDENTITAS PEMBELI BARANG KENA PAJAK");
         fprintf(file, "\n\t------------------------------------------------------");
-        fprintf(file, "\n\t NPWP              : %s", pengguna_login.npwp);
-        fprintf(file, "\n\t NIK               : %s", pengguna_login.nik);
-        fprintf(file, "\n\t Nama              : %s", pengguna_login.nama);
-        fprintf(file, "\n\t Alamat            : %s", pengguna_login.alamat);
-        fprintf(file, "\n\t No. Telp          : %s", pengguna_login.no_telp);
+        fprintf(file, "\n\t NPWP            : %s", pengguna_login.npwp);
+        fprintf(file, "\n\t NIK             : %s", pengguna_login.nik);
+        fprintf(file, "\n\t Nama            : %s", pengguna_login.nama);
+        fprintf(file, "\n\t Alamat          : %s", pengguna_login.alamat);
+        fprintf(file, "\n\t No. Telp        : %s", pengguna_login.no_telp);
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n");
         fprintf(file, "\n\tB. RINCIAN BARANG/JASA KENA PAJAK DAN PERHITUNGAN PPN");
@@ -45,7 +45,7 @@ void output_ppn(char uraian[jumlah][51], double harga[])
         fprintf(file, "\n\t Total Pajak Pertambahan Nilai : %.0f", ppn + denda);
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n");
-        fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
+        fprintf(file, "\n\tC. RINCIAN TRANSAKSI");
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
         fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
@@ -123,7 +123,8 @@ void ppn_hitung()
     denda = 0;
 
     printf("\n\t--------------------------------------------------------\n");
-    printf("\n\tPPN         : Rp.%.0f", ppn);
+    printf("\n\tTotal Harga Barang                : Rp.%.0f", total_harga);
+    printf("\n\tPPN                               : Rp.%.0f", ppn);
     if (current > jatuh_tempo)
     {
         int selisih_bulan = waktu_sekarang.bulan - bln_bayar;

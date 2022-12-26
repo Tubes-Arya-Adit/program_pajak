@@ -65,13 +65,14 @@ void output_pph()
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t PERHITUNGAN PPh PASAL 21                                    ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
-    fprintf(file, "\n\t Jumlah Penghasilan Netto              | Rp.%*.0f", 16, netto);
+    fprintf(file, "\n\t Penghasilan Netto Setahun             | Rp.%*.0f", 16, netto);
     fprintf(file, "\n\t Penghasilan Tidak Kena Pajak (PTKP)   | Rp.%*.0f", 16, ptkp);
     fprintf(file, "\n\t Penghasilan Kena Pajak (PKP)          | Rp.%*.0f", 16, pkp);
-    fprintf(file, "\n\t Besar Tarif Progresif (%%)            | %*d%%", 18, tarif_persen);
-    fprintf(file, "\n\t PPh 21 Setahun                        | Rp.%*.0f", 16, pph);
+    fprintf(file, "\n\t Besar Tarif Progresif (%%)             | %*d%%", 18, tarif_persen);
+    fprintf(file, "\n\t PPh 21 Setahun                        | Rp.%*.0f", 16, pph * 12);
+    fprintf(file, "\n\t PPh 21 Sebulan                        | Rp.%*.0f", 16, pph);
     fprintf(file, "\n\t Denda                                 | Rp.%*.0f", 16, denda);
-    fprintf(file, "\n\t Total Pajak Penghasilan Setahun       | Rp.%*.0f", 16, pph + denda);
+    fprintf(file, "\n\t Total PPh 21 Yang Perlu Di Bayar      | Rp.%*.0f", 16, pph + denda);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tC. RINCIAN TRANSAKSI");
@@ -79,7 +80,7 @@ void output_pph()
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
-    fprintf(file, "\n\t------------------------------------------------------");
+    fprintf(file, "\n\t-------------------------------------------------------------");
   }
   else
     printf("Unable to load file!");
@@ -133,9 +134,6 @@ void pph_hitung()
       printf("\n\tMasukan Jumlah Anak : ");
       jml_anak = input_int();
     }
-
-    // penghasilan tidak kena pajak
-    ptkp += 4500000;
 
     if (jml_anak > 3)
     {
@@ -225,7 +223,7 @@ void pph_hitung()
   denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
-  printf("\n\tPPh Setahun                       : Rp.%.0f", pph);
+  printf("\n\tPPh Sebulan                       : Rp.%.0f", pph);
 
   if (current > jatuh_tempo)
   {
