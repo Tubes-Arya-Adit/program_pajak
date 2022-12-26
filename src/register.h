@@ -105,7 +105,7 @@ int npwp_format_check()
 
   for (int i = 0; i < sizeof(input.npwp); i++)
   {
-    if (isdigit(input.npwp[i]) == 0 && len != 16) // jika bukan 16 karakter numerik
+    if (isdigit(input.npwp[i]) == 0 && len < 15) // jika bukan 16 karakter numerik
       return 0;
   }
   return 1;
