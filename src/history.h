@@ -11,6 +11,7 @@ void history()
   printf("\n\tJenis Pajak  |     Nominal     |     Denda      |    Total Bayar    |       Tanggal        |     Status    ");
   printf("\n\t------------------------------------------------------------------------------------------------------------");
 
+  // Memnampilkan data riwayat transaksi berdasarkan NPWP pengguna
   for (int index = 0; index <= i_trs; index++)
   {
     if (strcmp(trs_pengguna[index].id, pengguna_login.npwp) == 0)

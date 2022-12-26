@@ -1,3 +1,5 @@
+
+// fungsi pembuka program
 void opening()
 {
   printf("\n\t=========================================================\n");
@@ -12,6 +14,7 @@ void opening()
   menu_awal = input_int();
 }
 
+// fungsi tampilan keluar pada program pembayaran pajak
 void closing()
 {
   system("cls");

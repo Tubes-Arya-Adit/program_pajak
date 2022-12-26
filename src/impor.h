@@ -6,6 +6,7 @@ char negara[50], api[11] = "-", nama_barang[100], hs_code[9], status[100];
 
 void impor_menu();
 
+// Mmebuat fungsi untuk mencetak bukti bayar pajak impor
 void output_impor()
 {
   char filename[100];
@@ -95,6 +96,7 @@ void output_impor()
   impor_menu();
 }
 
+// membuat fungsi menghitung pajak
 void impor_hitung()
 {
   printf("\n\t=========================================================\n");
@@ -153,6 +155,7 @@ void impor_hitung()
   printf("\n\tMasukan Freight atau Biaya Kirim : $");
   freight = input_double();
 
+  // memasukan tanggal barang sampai di pelabuhan
   printf("\n\tTanggal Barang Sampai di Pelabuhan\n");
   printf("\n\tMasukan Hari  : ");
   tgl_tiba = input_hari();
@@ -161,6 +164,8 @@ void impor_hitung()
   printf("\n\tMasukan Tahun : ");
   thn_tiba = input_int();
 
+  // menambah bulan pembayaran menjadi bulan berikutnya dan
+  // apakah bulan yang dimasukan adalah desember
   bln_bayar + 1;
 
   if (bln_bayar == 12)
@@ -212,14 +217,17 @@ void impor_hitung()
                         .tm_year = thn_tiba - 1900,
                         .tm_isdst = 0};
 
+  // mengubah format waktu menjadi UNIX timestamp
   time_t waktu_tiba = mktime(&due_date);
 
+  // mencari selisih hari dari waktu sekarang dan waktu tiba
   int selisih_hari = (current - waktu_tiba) / 86400;
 
   denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");
   printf("\n\tPajak Impor                       : Rp.%.0f", total_pajak);
+  // menghitung denda jika selisih hari lebih dari 7
   if (selisih_hari > 7)
   {
     if (selisih_hari > 14)
@@ -237,6 +245,7 @@ void impor_hitung()
   else
     strcpy(status, "Terlambat");
 
+  // memasukan data transaksi ke dalam struct
   strcpy(trs_input.id, pengguna_login.npwp);
   strcpy(trs_input.jenis_pajak, "Pajak Impor");
   trs_input.total_pajak = total_pajak;
@@ -272,6 +281,7 @@ void impor_hitung()
   }
 }
 
+// Fungsi untuk Konfirmasi Pembayaran Pajak Impor
 void impor_menu()
 {
   printf("\n\t=========================================================\n");

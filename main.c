@@ -65,12 +65,19 @@ struct Transaksi trs_filtered[50];
 
 int main()
 {
+    // Memanggil Fungsi Opening sebagai pembuka program
+    // Sekaligus memanggil fungsi sinkronDataPengguna dan sinkronDataTransaksi
+    // untuk memuat data dari file ke dalam array dari struct
     opening();
     sinkronDataPengguna();
     sinkronDataTransaksi();
 
+    // membuat variabel untuk memuat data waktu sekarang
+    // dengan menggunakan fungsi time() dan localtime()
     current = time(NULL);
     struct tm tm = *localtime(&current);
+
+    // memasukkan data waktu sekarang ke dalam struct Tanggal
 
     waktu_sekarang.hari = tm.tm_mday;
     waktu_sekarang.bulan = tm.tm_mon + 1;
@@ -79,6 +86,7 @@ int main()
     waktu_sekarang.menit = tm.tm_min;
     waktu_sekarang.detik = tm.tm_sec;
 
+    // check apakah opsi pada opening yang dipilih adalah login atau register
     while (menu_awal < 1 || menu_awal > 2)
     {
         printf("\n\tPilihan Anda Salah!");
@@ -98,8 +106,10 @@ int main()
         register_menu();
     }
 
+    // Memanggil fungsi opsi_pajak() sebagai menu utamas
     opsi_pajak();
 
+    // Mencegah program auto close
     system("PAUSE");
     return 0;
 }

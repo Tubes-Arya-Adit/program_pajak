@@ -1,5 +1,6 @@
 void pph_menu(), pbb_menu(), ppn_menu(), impor_menu(), profil(), info_pengguna(), history();
 
+// Fungsi menu utama program pembayaran pajak
 void opsi_pajak()
 {
   system("cls");
@@ -66,6 +67,7 @@ void opsi_pajak()
   }
 }
 
+// fungsi untuk menampilkan profil dirjen pajak dengan membuka halaman website
 void profil()
 {
   int menu_profil;

@@ -14,6 +14,7 @@ char nama_jabatan[100], status[100];
 
 void pph_menu();
 
+// fungsi untuk mencetak pembayaran pph
 void output_pph()
 {
   char filename[100];
@@ -96,6 +97,7 @@ void output_pph()
   pph_menu();
 }
 
+// fungsi untuk menghitung pph
 void pph_hitung()
 {
   printf("\n\t=========================================================\n");
@@ -143,6 +145,7 @@ void pph_hitung()
     }
   }
 
+  // memasukan tanggal menerima gaji
   printf("\n\tTanggal Pegawai Menerima Gaji ");
   printf("\n\tMasukan Hari  : ");
   tgl_bayar = input_hari();
@@ -151,6 +154,8 @@ void pph_hitung()
   printf("\n\tMasukan Tahun : ");
   thn_bayar = input_int();
 
+  // menambah bulan pembayaran menjadi bulan berikutnya dan
+  // apakah bulan yang dimasukan adalah desember
   bln_bayar + 1;
 
   if (bln_bayar == 12)
@@ -211,6 +216,7 @@ void pph_hitung()
 
   pph = (temp1 + temp2 + temp3 + temp4) / 12;
 
+  // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
   struct tm due_date = {.tm_sec = 0,
                         .tm_min = 0,
                         .tm_hour = 0,
@@ -219,6 +225,7 @@ void pph_hitung()
                         .tm_year = thn_bayar - 1900,
                         .tm_isdst = 0};
 
+  // mengubah format waktu menjadi UNIX timestamp
   time_t jatuh_tempo = mktime(&due_date);
 
   denda = 0;
@@ -226,6 +233,7 @@ void pph_hitung()
   printf("\n\t--------------------------------------------------------\n");
   printf("\n\tPPh Sebulan                       : Rp.%.0f", pph);
 
+  // memnghitung denda jika pembayaran terlambat
   if (current > jatuh_tempo)
   {
     int selisih_bulan = waktu_sekarang.bulan - bln_bayar;
@@ -244,6 +252,7 @@ void pph_hitung()
   else
     strcpy(status, "Terlambat");
 
+  // menambah data transaksi ke dalam struct
   strcpy(trs_input.id, pengguna_login.npwp);
   strcpy(trs_input.jenis_pajak, "PPh");
   trs_input.total_pajak = pph;
@@ -279,6 +288,7 @@ void pph_hitung()
   }
 }
 
+// fungsi untuk melakukan konfirmasi pembayaran pph
 void pph_menu()
 {
   printf("\n\t=========================================================\n");

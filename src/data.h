@@ -7,6 +7,7 @@ FILE INI DIGUNAKAN UNTUK MENGATUR
 OPERASI FILE DAN DATA
 */
 
+// Memuat Gambar logo
 void loadImage()
 {
   FILE *file = fopen("./data/logo.txt", "r");
@@ -23,6 +24,7 @@ void loadImage()
   fclose(file);
 }
 
+// Memuat data pada file pengguna.txt dan menyimpannya pada struct Pengguna
 void sinkronDataPengguna()
 {
   FILE *file = fopen("./data/pengguna.txt", "r");
@@ -41,6 +43,7 @@ void sinkronDataPengguna()
   fclose(file);
 }
 
+// Menambah Data Pengguna
 void tambahDataPengguna()
 {
   FILE *file = fopen("./data/pengguna.txt", "a");
@@ -56,6 +59,7 @@ void tambahDataPengguna()
   fclose(file);
 }
 
+// Periksa apakah data sudah ada atau belum berdasarkan comparator atau salah satu datanya
 int checkData(char *data, char *comparator)
 {
   for (int i = 0; i < i_pga; i++)
@@ -84,6 +88,7 @@ int checkData(char *data, char *comparator)
   return -1;
 }
 
+// Mencari indeks pengguna yang memiliki username yang dicari
 int cariIndeksPengguna(char *username)
 {
   for (int i = 0; i < i_pga; i++)
@@ -94,12 +99,14 @@ int cariIndeksPengguna(char *username)
   return -1;
 }
 
+// Memindahkan data pengguna yang login ke struct pengguna_login
 void pindahData(char *username)
 {
   int index = cariIndeksPengguna(username);
   pengguna_login = pengguna[index];
 }
 
+// Memuat data pada file history.txt dan menyimpannya pada struct Transaksi
 void sinkronDataTransaksi()
 {
   FILE *file = fopen("./data/history.txt", "r");
@@ -118,6 +125,7 @@ void sinkronDataTransaksi()
   fclose(file);
 }
 
+// Menambah Data Transaksi
 void tambahDataTransaksi()
 {
   FILE *file = fopen("./data/history.txt", "a");

@@ -14,6 +14,7 @@ char lokasi[100], provinsi[100], kota_kabupaten[100], kecamatan[100], kelurahan_
 
 void pbb_menu();
 
+// Fungsi untuk mencetak bukti pembayaran pbb
 void output_pbb()
 {
   char filename[100];
@@ -105,6 +106,7 @@ void output_pbb()
   pbb_menu();
 }
 
+// Fungsi untuk melakukan pembayaran pbb
 void pbb_hitung()
 {
   printf("\n\t=========================================================\n");
@@ -224,6 +226,7 @@ void pbb_hitung()
   }
 }
 
+// Fungsi untuk melakukan konfirmasi pembayaran pbb
 void pbb_menu()
 {
   printf("\n\t=========================================================\n");

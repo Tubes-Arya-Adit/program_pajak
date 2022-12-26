@@ -1,3 +1,5 @@
+
+// Untuk menampilkan info data pribadi pengguna
 void info_pengguna()
 {
   printf("\n\t==========================================================\n");

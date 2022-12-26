@@ -1,4 +1,6 @@
 
+
+// Membuat fungsi login
 void login_menu()
 {
   char temp_username[100], temp_password[100];
@@ -13,6 +15,7 @@ void login_menu()
     printf("\n\tUsername : ");
     input_str(temp_username);
 
+    // check apakah username ada di dalam data dan pindahkan datanya ke struct pengguna_login
     check_username = checkData("username", temp_username);
     pindahData(temp_username);
 

@@ -3,6 +3,7 @@
   YANG DIMASUKAN OLEH PENGGUNA
 */
 
+// fungsi yang digunakan untuk menginput data dengan tipe data double
 double input_double()
 {
   char input[5];
@@ -77,6 +78,7 @@ double input_double()
     return output;
 }
 
+// fungsi yang digunakan untuk menginput data dengan tipe data string
 char *input_str(char *input)
 {
   int i = 0, error = 0;
@@ -111,6 +113,7 @@ char *input_str(char *input)
     return input;
 }
 
+// fungsi yang digunakan untuk menginput data dengan tipe data integer
 int input_int()
 {
   char input[5];
@@ -145,6 +148,7 @@ int input_int()
     return output;
 }
 
+// fungsi yang digunakan untuk mengganti input password menjadi tanda *
 char masking(char *password)
 {
   char ch;
@@ -174,6 +178,7 @@ char masking(char *password)
   }
 }
 
+// fungsi yang digunakan untuk mengisi password
 char *input_password(char *input)
 {
   int i = 0, error = 0;
@@ -207,6 +212,7 @@ char *input_password(char *input)
     return input;
 }
 
+// fungsi yang digunakan untuk mengisi hari
 int input_hari()
 {
   char input[5];
@@ -247,6 +253,7 @@ int input_hari()
     return output;
 }
 
+// fungsi yang digunakan untuk mengisi bulan
 int input_bulan()
 {
   char input[5];
