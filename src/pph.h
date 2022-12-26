@@ -124,6 +124,7 @@ void pph_hitung()
     menikah = input_int();
   }
 
+  // jika sudah menikah
   if (menikah == 1)
   {
     ptkp += 4500000; // ptkp ditambah 4.5jt jika sudah menikah
@@ -164,13 +165,16 @@ void pph_hitung()
     thn_bayar += 1;
   }
 
+  // menentukan bruto sebulan
   bruto = penghasilan_pokok + penghasilan_tambahan;
 
+  // menentukan biaya jabatan (max 500.000 sebulan )
   biaya_jabatan = 0.05 * bruto;
 
   if (biaya_jabatan > 500000)
     biaya_jabatan = 500000;
 
+  // menentukan iuran pensiun (max 200.000 sebulan)
   iuran_pensiun = 0.05 * bruto;
 
   if (iuran_pensiun > 200000)
@@ -202,18 +206,19 @@ void pph_hitung()
   {
     tarif_persen = 25;
     temp1 = 50000000 * 0.05;
-    temp2 = (pkp - 50000000) * 0.15;
+    temp2 = 200000000 * 0.15;
     temp3 = (pkp - 250000000) * 0.25;
   }
   else if (pkp > 500000000)
   {
     tarif_persen = 30;
     temp1 = 50000000 * 0.05;
-    temp2 = (pkp - 50000000) * 0.15;
-    temp3 = (pkp - 250000000) * 0.25;
+    temp2 = 200000000 * 0.15;
+    temp3 = 250000000 * 0.25;
     temp4 = (pkp - 500000000) * 0.30;
   }
 
+  temp1 = temp2 = temp3 = temp4 = 0;
   pph = (temp1 + temp2 + temp3 + temp4) / 12;
 
   // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
