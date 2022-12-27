@@ -11,16 +11,17 @@ void opsi_pajak()
   printf("\n\t [2] Pembayaran Pajak Pertambahan Nilai (PPN)             \n");
   printf("\n\t [3] Pembayaran Pajak Bumi dan Bangunan (PBB)             \n");
   printf("\n\t [4] Pembayaran Pajak Impor             \n");
+  printf("\n\t [5] Pembayaran Pajak Kendaraan             \n");
   printf("\n\t----------------------------------------------------------\n");
-  printf("\n\t [5] Lihat Riwayat Pembayaran                              \n");
-  printf("\n\t [6] Lihat Data Anda                               \n");
-  printf("\n\t [7] Profil Dirjen Pajak                               \n");
-  printf("\n\t [8] Keluar                               \n");
+  printf("\n\t [6] Lihat Riwayat Pembayaran                              \n");
+  printf("\n\t [7] Lihat Data Anda                               \n");
+  printf("\n\t [8] Profil Dirjen Pajak                               \n");
+  printf("\n\t [9] Keluar                               \n");
   printf("\n\t----------------------------------------------------------\n");
   printf("\n\tPilihan Anda : ");
   menu_opsi_pajak = input_int();
 
-  while (menu_opsi_pajak < 1 || menu_opsi_pajak > 8)
+  while (menu_opsi_pajak < 1 || menu_opsi_pajak > 9)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
@@ -46,19 +47,19 @@ void opsi_pajak()
     system("cls");
     impor_menu();
     break;
-  case 5:
+  case 6:
     system("cls");
     history();
     break;
-  case 6:
+  case 7:
     system("cls");
     info_pengguna();
     break;
-  case 7:
+  case 8:
     system("cls");
     profil();
     break;
-  case 8:
+  case 9:
     closing();
     break;
   default:

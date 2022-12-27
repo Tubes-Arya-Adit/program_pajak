@@ -1,22 +1,24 @@
-int i, //indeks perulangan
-    jumlah, //jumlah barang
+int i,      // indeks perulangan
+    jumlah, // jumlah barang
     lihat_rincian,
-    is_barang_mewah, //menampung nilai input saat memilih ingin melihat rincian atau tidak
-    menu_ppn, //menampung nilai input saat memilih konfirmasi pembayaran atau kembali
-    tgl_bayar, //menampung nilai input tanggal transaksi barang 
-    bln_bayar, //menampung nilai input bulan transaksi barang 
-    thn_bayar; //menampung nilai input tahun transaksi barang 
-double total_harga = 0, //set total harga default
-       ppn, //nilai pajak ppn
-       denda; //denda jika pembayaran melewati batas waktu
-char status[100]; //menyimpan string status pembayaran pajak, apakah "tepat waktu" atau "terlambat"
+    is_barang_mewah,    // menampung nilai input saat memilih ingin melihat rincian atau tidak
+    menu_ppn,           // menampung nilai input saat memilih konfirmasi pembayaran atau kembali
+    tgl_bayar,          // menampung nilai input tanggal transaksi barang
+    bln_bayar,          // menampung nilai input bulan transaksi barang
+    thn_bayar;          // menampung nilai input tahun transaksi barang
+double total_harga = 0, // set total harga default
+    ppn,                // nilai pajak ppn
+    denda;              // denda jika pembayaran melewati batas waktu
+char status[100];       // menyimpan string status pembayaran pajak, apakah "tepat waktu" atau "terlambat"
 
-struct Barang {
+struct Barang
+{
     char nama[100];
-    int is_barang_mewah;//1 = mewah 2 non mewah
+    int is_barang_mewah; // 1 = mewah 2 non mewah
     double harga;
-
 };
+
+struct Barang barang[11];
 
 // deklarasi prototype fungsi
 void ppn_menu();
@@ -24,14 +26,14 @@ void ppn_menu();
 // fungsi untuk melakukan cetak pembayaran ppn
 void output_ppn(char uraian[jumlah][51], double harga[])
 {
-    char filename[100]; //string untuk menyimpan nama file
-    //assign format nama file ke filename
-    //digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
+    char filename[100]; // string untuk menyimpan nama file
+    // assign format nama file ke filename
+    // digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
     sprintf(filename, "%s-bukti-bayar-ppn-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
-    FILE *file = fopen(filename, "a");//deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
-    //membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
-    if (file) //jika berhasil membuka file
+    FILE *file = fopen(filename, "a"); // deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
+    // membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
+    if (file) // jika berhasil membuka file
     {
         fprintf(file, "\n\t--------------------+---------------------------------");
         fprintf(file, "\n\t       *******      |                                 ");
@@ -75,9 +77,9 @@ void output_ppn(char uraian[jumlah][51], double harga[])
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n\n\n");
     }
-    else //jika file tidak berhasil dibuka
+    else // jika file tidak berhasil dibuka
         fprintf(file, "Unable to load file!");
-    fclose(file); //tutup file
+    fclose(file); // tutup file
 
     printf("\n\t==========================================================\n");
     printf("\n\t             Rincian Pembayaran berhasil dicetak          \n");
@@ -85,7 +87,7 @@ void output_ppn(char uraian[jumlah][51], double harga[])
     printf("\n\tSilahkan tekan tombol apapun untuk kembali ke Program\n");
     getch();
     system("cls");
-    ppn_menu(); //kembali ke menu sebelumnya
+    ppn_menu(); // kembali ke menu sebelumnya
 }
 
 void input_tgl_transaksi()
@@ -105,7 +107,6 @@ void ppn_hitung()
 {
     double harga[100];
     char temp[51]; // temporary string untuk input nama barang
-    struct Barang barang[11];
 
     printf("\n\t=========================================================\n");
     printf("\n\t           Pembayaran Pajak Pertambahan Nilai            \n");
@@ -113,7 +114,8 @@ void ppn_hitung()
     printf("\n\tMasukan jumlah barang : ");
     jumlah = input_int(); // input jumlah barang
     fflush(stdin);        // clear buffer
-    while(jumlah > 10) {
+    while (jumlah > 10)
+    {
         printf("\n\tMaksimal barang yang dihitung 10 barang!");
         printf("\n\tSilahkan Masukan jumlah barang yang akan dihitung : ");
         jumlah = input_int();
@@ -123,28 +125,27 @@ void ppn_hitung()
     for (i = 0; i < jumlah; i++)
     {
         printf("\n\tMasukan nama barang ke-%d : ", i + 1);
-        input_str(temp);         // input nama barang ke-i
-        strcpy(barang.nama[i], temp); // mengcopy temp ke uraian indeks ke-i
+        input_str(temp);              // input nama barang ke-i
+        strcpy(barang[i].nama, temp); // mengcopy temp ke uraian indeks ke-i
 
-        printf("\n\tApakah termasuk barang mewah ?")
+        printf("\n\tApakah termasuk barang mewah ?");
         printf("\n\t[1] Ya  [2] Tidak");
         is_barang_mewah = input_int();
 
-        while(is_barang_mewah != 1 || is_barang_mewah != 2) {
+        while (is_barang_mewah != 1 || is_barang_mewah != 2)
+        {
             printf("\n\tYang anda masukan salah!");
             printf("\n\tMasukan kembali : ");
             is_barang_mewah = input_int();
         }
 
-        if(is_barang_mewah == 1) {
-            barang.is_barang_mewah[i] = 1;
-        } else {
-            barang.is_barang_mewah[i] = 2;
-        }
+        if (is_barang_mewah == 1)
+            barang[i].is_barang_mewah = 1;
+        else
+            barang[i].is_barang_mewah = 2;
 
-        printf("\n\tMasukan harga %s : Rp.", barang.nama[i]);
-        barang.harga[i] = input_double(); // input harga barang ke-i
-
+        printf("\n\tMasukan harga %s : Rp.", barang[i].nama);
+        barang[i].harga = input_double(); // input harga barang ke-i
 
         // total_harga += [i]; // menghitung total harga barang
     }
@@ -168,7 +169,18 @@ void ppn_hitung()
         thn_bayar += 1;
     }
 
-    ppn = total_harga * 0.10;
+    ppn = 0;
+
+    // jika  barang mewah maka ppn = 10% dari harga barang dikurangi 40% (persentase blm pasti)
+    for (int i = 0; i < jumlah; i++)
+    {
+        if (barang[i].is_barang_mewah == 1)
+            ppn += (barang[i].harga * 0.1);
+        else
+            ppn += (0.1 * (barang[i].harga - (barang[i].harga * 0.4)));
+    }
+
+    // ppn = total_harga * 0.10;
 
     // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
     struct tm due_date = {.tm_sec = 0,
@@ -189,12 +201,12 @@ void ppn_hitung()
     printf("\n\tPPN                               : Rp.%.0f", ppn);
 
     // menghitung denda jika pembayaran terlambat
-    if (current > jatuh_tempo) //jika terlambat akan dikenakan denda
+    if (current > jatuh_tempo) // jika terlambat akan dikenakan denda
     {
-        int selisih_bulan = waktu_sekarang.bulan - bln_bayar; //menghitung keterlambatan (dalam bulan)
+        int selisih_bulan = waktu_sekarang.bulan - bln_bayar; // menghitung keterlambatan (dalam bulan)
         if (selisih_bulan <= 0)
             selisih_bulan = 1;
-        denda = (ppn * 0.02) * selisih_bulan; //denda didapat dari 20% ppn dikali terlambat berapa bulan
+        denda = (ppn * 0.02) * selisih_bulan; // denda didapat dari 20% ppn dikali terlambat berapa bulan
 
         printf("\n\tDenda                             : Rp.%.0f", denda);
     }
