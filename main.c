@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <conio.h>
 #include <time.h>
+#include <math.h>
 
 struct Pengguna
 {

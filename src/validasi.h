@@ -294,24 +294,70 @@ int input_bulan()
     return output;
 }
 
+// validasi tanggal
 int checkTgl(int hari, int bulan, int tahun)
 {
+  char nama_bulan[8];
+
+  switch (bulan)
+  {
+  case 1:
+    strcpy(nama_bulan, "Januari");
+    break;
+  case 2:
+    strcpy(nama_bulan, "Februari");
+    break;
+  case 3:
+    strcpy(nama_bulan, "Maret");
+    break;
+  case 4:
+    strcpy(nama_bulan, "April");
+    break;
+  case 5:
+    strcpy(nama_bulan, "Mei");
+    break;
+  case 6:
+    strcpy(nama_bulan, "Juni");
+    break;
+  case 7:
+    strcpy(nama_bulan, "Juli");
+    break;
+  case 8:
+    strcpy(nama_bulan, "Agustus");
+    break;
+  case 9:
+    strcpy(nama_bulan, "September");
+    break;
+  case 10:
+    strcpy(nama_bulan, "Oktober");
+    break;
+  case 11:
+    strcpy(nama_bulan, "November");
+    break;
+  case 12:
+    strcpy(nama_bulan, "Desember");
+    break;
+  default:
+    printf("\n\tnama bulan tidak valid!");
+    break;
+  }
+
   if ((hari > 28 && bulan == 2) || (hari > 29 && bulan == 2 && (tahun % 4 == 0 || tahun % 100 != 0 || tahun % 400 == 0)))
   {
     printf("\n\tBulan februari hanya memiliki 28 hari! ");
-    printf("\n\tSilahkan masukan angka kembali : ");
+    printf("\n\tSilahkan masukan tanggal kembali!\n");
     return 0;
   }
   else if ((bulan == 4 || bulan == 6 || bulan == 9 || bulan == 11) && hari > 30)
   {
-    printf("\n\tBulan %d hanya memiliki 30 hari! ", bulan);
-    printf("\n\tSilahkan masukan angka kembali : ");
+    printf("\n\tBulan %s hanya memiliki 30 hari! ", nama_bulan);
+    printf("\n\tSilahkan masukan tanggal kembali!\n");
     return 0;
   }
   else if (bulan == 1 || bulan == 3 || bulan == 5 || bulan == 7 || bulan == 8 || bulan == 10 || bulan == 12 && hari > 31)
   {
-    printf("\n\tBulan %d hanya memiliki 31 hari! ", bulan);
-    printf("\n\tSilahkan masukan angka kembali : ");
+    printf("\n\tBulan %s hanya memiliki 31 hari! ", nama_bulan);
+    printf("\n\tSilahkan masukan tanggal kembali!\n");
     return 0;
   }
   return 1;

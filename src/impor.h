@@ -98,6 +98,7 @@ void output_impor()
 
 void input_tgl_impor()
 {
+  tgl_tiba = bln_tiba = thn_tiba = 0;
   printf("\n\tTanggal Barang Sampai di Pelabuhan\n");
   printf("\n\tMasukan Hari  : ");
   tgl_tiba = input_hari();
@@ -222,7 +223,6 @@ void impor_hitung()
 
   // mencari selisih hari dari waktu sekarang dan waktu tiba
   int selisih_hari = (current - waktu_tiba) / 86400;
-  printf("\n\tSelisih hari : %d", selisih_hari);
   denda = 0;
 
   printf("\n\t--------------------------------------------------------\n");

@@ -71,7 +71,7 @@ void output_ppn(char uraian[jumlah][51], double harga[])
 void input_tgl_transaksi()
 {
     tgl_bayar = bln_bayar = thn_bayar = 0; // reset tanggal pembelian barang
-    printf("\n\tTanggal Transaksi Barang : ");
+    printf("\n\tTanggal Transaksi Barang\n ");
     printf("\n\tMasukan Hari  : ");
     tgl_bayar = input_hari();
     printf("\n\tMasukan Bulan : ");

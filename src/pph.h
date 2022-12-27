@@ -101,7 +101,7 @@ void input_tanggal_gajian()
 {
   tgl_bayar = bln_bayar = thn_bayar = 0;
 
-  printf("\n\tTanggal Pegawai Menerima Gaji ");
+  printf("\n\tTanggal Pegawai Menerima Gaji \n");
   printf("\n\tMasukan Hari  : ");
   tgl_bayar = input_hari();
   printf("\n\tMasukan Bulan : ");
@@ -203,6 +203,8 @@ void pph_hitung()
   if (pkp < 0)
     pkp = 0;
 
+  temp1 = temp2 = temp3 = temp4 = 0;
+
   // PPh berdasarkan tarif progresif
   if (pkp <= 50000000)
   {
@@ -231,7 +233,6 @@ void pph_hitung()
     temp4 = (pkp - 500000000) * 0.30;
   }
 
-  temp1 = temp2 = temp3 = temp4 = 0;
   pph = (temp1 + temp2 + temp3 + temp4) / 12;
 
   // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
