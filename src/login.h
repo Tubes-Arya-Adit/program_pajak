@@ -1,10 +1,7 @@
-
-
-// Membuat fungsi login
 void login_menu()
 {
-  char temp_username[100], temp_password[100];
-  int check_username, check_password;
+  char temp_username[100], temp_password[100]; //temporary variabel untuk menampung username dan password
+  int check_username, check_password; //menampung nilai hasil compare string
 
   while (1)
   {
@@ -15,16 +12,15 @@ void login_menu()
     printf("\n\tUsername : ");
     input_str(temp_username);
 
-    // check apakah username ada di dalam data dan pindahkan datanya ke struct pengguna_login
-    check_username = checkData("username", temp_username);
-    pindahData(temp_username);
+    check_username = checkData("username", temp_username); //mengecek apakah username ada didalam pengguna txt, return 0 jika ada
+    pindahData(temp_username); //pindahkan ke struct Pengguna login sebagai pengguna login saat ini
 
     printf("\n\tPassword : ");
     input_password(temp_password);
 
-    check_password = strcmp(pengguna_login.password, temp_password);
+    check_password = strcmp(pengguna_login.password, temp_password); //mengecek apakah password sesuai, return 0 jika iya
 
-    if (check_username == 0 && check_password == 0)
+    if (check_username == 0 && check_password == 0) //jika memenuhi
     {
       printf("\n\n\t----------------------------------------------------------\n");
       printf("\n\t                      Login berhasil                      ");

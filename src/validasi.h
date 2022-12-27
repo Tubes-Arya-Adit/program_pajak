@@ -1,83 +1,3 @@
-/*
-  FILE INI DIGUNAKAN UNTUK MENGATUR VALIDASI DATA
-  YANG DIMASUKAN OLEH PENGGUNA
-*/
-
-// fungsi yang digunakan untuk menginput data dengan tipe data double
-double input_double()
-{
-  char input[5];
-  int i = 0, error = 0, negative = 0, decimal = 0, whole_num = 0, fract_num = 0, chars = 0;
-  float zero_point = 1, output;
-
-  fflush(stdin);
-  scanf("%s", input);
-
-  if (input[i] == '\0')
-    error = 1;
-
-  while (input[i] != '\0')
-  {
-    if (input[i] == '-')
-    {
-      error = 1;
-      input[i] = '\0';
-    }
-    else if (input[i] == '.')
-    {
-      decimal++;
-      if (decimal > 1 || input[i + 1] == '\0' || input[0] == '.')
-      {
-        error = 1;
-        input[i] = '\0';
-      }
-      i++;
-    }
-    else if (isdigit(input[i]))
-    {
-      if (decimal == 1)
-      {
-        fract_num = (fract_num * 10) + (input[i] - 48);
-        chars++;
-        i++;
-      }
-      else
-      {
-        whole_num = (whole_num * 10) + (input[i] - 48);
-        i++;
-      }
-    }
-    else
-    {
-      error = 1;
-      input[i] = '\0';
-    }
-  }
-
-  if (decimal == 1)
-  {
-    for (int j = 0; j < chars; j++)
-    {
-      zero_point /= 10;
-    }
-    output = fract_num * zero_point + whole_num;
-  }
-  else
-    output = whole_num;
-
-  if (negative == 1)
-    output -= (output * 2);
-
-  if (error == 1)
-  {
-    printf("\n\tHarus berupa angka dan lebih dari 0! ");
-    printf("\n\tSilahkan masukan angka kembali : ");
-    return input_double();
-  }
-  else
-    return output;
-}
-
 // fungsi yang digunakan untuk menginput data dengan tipe data string
 char *input_str(char *input)
 {
@@ -155,28 +75,31 @@ char masking(char *password)
   int i = 0;
   while (1)
   {
-    ch = getch();
-    if (ch == 13)
+    ch = getch(); //input tiap karakter menggunakan fungsi getch() 
+    if (ch == 13) //Jika nilai ASCII karakter 13 (enter)
     {
-      password[i] = '\0';
+      password[i] = '\0'; //akhir dari string
       break;
     }
-    else if (ch == 8)
+    else if (ch == 8) //Jika nilai ASCII karakter 8 (backspace) 
     {
-      if (i > 0)
+      //menghapus karakter terakhir dari array 
+      if (i > 0) 
       {
-        i--;
-        printf("\b \b");
+        i--; 
+        printf("\b \b"); //mencetak karakter backspace (\b) ke console
       }
     }
     else
     {
+      // mencetak tanda bintang (*) ke console untuk memasking input
       password[i] = ch;
       i++;
       printf("*");
     }
   }
 }
+
 
 // fungsi yang digunakan untuk mengisi password
 char *input_password(char *input)
@@ -210,6 +133,81 @@ char *input_password(char *input)
   }
   else
     return input;
+}
+
+// fungsi yang digunakan untuk menginput data dengan tipe data double
+double input_double()
+{
+  char input[5];
+  int i = 0, error = 0, negative = 0, decimal = 0, whole_num = 0, fract_num = 0, chars = 0;
+  float zero_point = 1, output;
+
+  fflush(stdin);
+  scanf("%s", input);
+
+  if (input[i] == '\0')
+    error = 1;
+
+  while (input[i] != '\0')
+  {
+    if (input[i] == '-')
+    {
+      error = 1;
+      input[i] = '\0';
+    }
+    else if (input[i] == '.')
+    {
+      decimal++;
+      if (decimal > 1 || input[i + 1] == '\0' || input[0] == '.')
+      {
+        error = 1;
+        input[i] = '\0';
+      }
+      i++;
+    }
+    else if (isdigit(input[i]))
+    {
+      if (decimal == 1)
+      {
+        fract_num = (fract_num * 10) + (input[i] - 48);
+        chars++;
+        i++;
+      }
+      else
+      {
+        whole_num = (whole_num * 10) + (input[i] - 48);
+        i++;
+      }
+    }
+    else
+    {
+      error = 1;
+      input[i] = '\0';
+    }
+  }
+
+  if (decimal == 1)
+  {
+    for (int j = 0; j < chars; j++)
+    {
+      zero_point /= 10;
+    }
+    output = fract_num * zero_point + whole_num;
+  }
+  else
+    output = whole_num;
+
+  if (negative == 1)
+    output -= (output * 2);
+
+  if (error == 1)
+  {
+    printf("\n\tHarus berupa angka dan lebih dari 0! ");
+    printf("\n\tSilahkan masukan angka kembali : ");
+    return input_double();
+  }
+  else
+    return output;
 }
 
 // fungsi yang digunakan untuk mengisi hari
@@ -297,7 +295,7 @@ int input_bulan()
 // validasi tanggal
 int checkTgl(int hari, int bulan, int tahun)
 {
-  char nama_bulan[8];
+  char nama_bulan[100];
 
   switch (bulan)
   {

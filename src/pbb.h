@@ -18,6 +18,7 @@ void pbb_menu();
 void output_pbb()
 {
   char filename[100];
+  //digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
   sprintf(filename, "%s-bukti-bayar-pbb-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
   FILE *file = fopen(filename, "a");
@@ -147,26 +148,28 @@ void pbb_hitung()
   printf("\n\tMasukan nilai bangunan per meter persegi : Rp.");
   nilai_bangunan_meter = input_double();
 
-  nilai_tanah = luas_tanah * nilai_tanah_meter;
-  nilai_bangunan = luas_bangunan * nilai_bangunan_meter;
+  nilai_tanah = luas_tanah * nilai_tanah_meter; //menghitung nilai tanah
+  nilai_bangunan = luas_bangunan * nilai_bangunan_meter; //menghitung nilai bangunan
 
-  njop = nilai_tanah + nilai_bangunan;
+  njop = nilai_tanah + nilai_bangunan; //menghitung nilai jual objek pajak
 
-  if (sektor < 4)
+  if (sektor < 4) //jika bukan pedesaan dan perkotaan
     njkp = 0.4 * njop;
 
   njkp = njop > 1000000000 ? 0.4 * njop : 0.2 * njop;
 
-  pbb = 0.005 * njkp;
+  pbb = 0.005 * njkp; //menghitung pajak bumi bangunan
 
+  // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
   struct tm due_date = {.tm_sec = 0,
                         .tm_min = 0,
                         .tm_hour = 0,
                         .tm_mday = 30,
                         .tm_mon = 9 - 1,
                         .tm_year = waktu_sekarang.tahun - 1900,
-                        .tm_isdst = 0};
+                        .tm_isdst = 0}; //dayligth saving time flag
 
+  // mengubah format waktu menjadi UNIX timestamp
   time_t jatuh_tempo = mktime(&due_date);
 
   denda = 0;
@@ -174,7 +177,7 @@ void pbb_hitung()
   printf("\n\t-----------------------------------------------------------\n");
   printf("\n\tNJOP                              : Rp.%.0f", njop);
   printf("\n\tPBB                               : Rp.%.0f", pbb);
-  if (current > jatuh_tempo)
+  if (current > jatuh_tempo) // memnghitung denda jika pembayaran terlambat
   {
     int selisih_bulan = waktu_sekarang.bulan - 9;
     if (selisih_bulan <= 0)
@@ -191,6 +194,8 @@ void pbb_hitung()
   else
     strcpy(status, "Terlambat");
 
+  // proses pencatatan history
+  // menambah data transaksi ke dalam struct
   strcpy(trs_input.id, pengguna_login.npwp);
   strcpy(trs_input.jenis_pajak, "PBB");
   trs_input.total_pajak = pbb;

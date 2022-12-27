@@ -1,33 +1,30 @@
+//deklarasi prototype fungsi
 int npwp_format_check();
 int nik_format_check();
 int nama_format_check();
 int no_telp_format_check();
 
-// membuat fungsi untuk registrasi
 void register_menu()
 {
-  int check;
+  // int check; 
   printf("\n\t=========================================================\n");
   printf("\n\t                    Laman Registrasi                     \n");
   printf("\n\t=========================================================\n");
-
-  // Memasukan data - data yang dibutuhkan
-
   printf("\n\tMasukkan NPWP          : ");
-  input_str(input.npwp);
+  input_str(input.npwp); //input npwp
   fflush(stdin);
-  while (npwp_format_check() == 0)
+  while (npwp_format_check() == 0) //jika format npwp belum benar (fungsi mereturn 0), akan dilakukan perulangan
   {
     printf("\n\tFormat NPWP salah, NPWP terdiri dari 16 karakter numerik!");
     printf("\n\tMasukkan NPWP          : ");
     input_str(input.npwp);
   }
-  while (checkData("npwp", input.npwp) == 0)
+  while (checkData("npwp", input.npwp) == 0) //checkData() terdapat pada data.h, digunakan untuk mengecek apakah npwp duplicate atau tidak, jika iya akan terjadi perulangan
   {
     printf("\n\tNPWP sudah terdaftar, masukkan NPWP yang lain!");
     printf("\n\tMasukkan NPWP          : ");
     input_str(input.npwp);
-    while (npwp_format_check() == 0)
+    while (npwp_format_check() == 0) //format npwp akan dicek kembali seperti sebelumnya
     {
       printf("\n\tFormat NPWP salah, NPWP terdiri dari 16 karakter numerik!");
       printf("\n\tMasukkan NPWP          : ");
@@ -42,6 +39,19 @@ void register_menu()
     printf("\n\tFormat NIK salah, NIK terdiri dari 16 karakter numerik!");
     printf("\n\tMasukkan NIK           : ");
     input_str(input.nik);
+  }
+
+   while (checkData("nik", input.nik) == 0) //checkData() terdapat pada data.h, digunakan untuk mengecek apakah nik duplicate atau tidak, jika iya akan terjadi perulangan
+  {
+    printf("\n\tnik sudah terdaftar, masukkan NIK yang lain!");
+    printf("\n\tMasukkan NIK          : ");
+    input_str(input.nik);
+    while (nik_format_check() == 0) //format nik akan dicek kembali seperti sebelumnya
+    {
+      printf("\n\tFormat NIK salah, nik terdiri dari 16 karakter numerik!");
+      printf("\n\tMasukkan NIK          : ");
+      input_str(input.nik);
+    }
   }
 
   printf("\n\tMasukkan Nama          : ");
@@ -88,7 +98,6 @@ void register_menu()
   printf("\n\tMasukkan Password      : ");
   input_str(input.password);
 
-  // menambah data pengguna ke struct
   tambahDataPengguna();
   sinkronDataPengguna();
 
@@ -101,23 +110,21 @@ void register_menu()
   login_menu(pengguna_login);
 }
 
-// memeriksa apakah npwp yang dimasukan sesuai format
 int npwp_format_check()
 {
   int len = strlen(input.npwp);
 
-  if (len > 16)
-    return 0;
+  if (len > 16) //jika karakter pada string input.npwp lebih dari 16
+    return 0; //false
 
-  for (int i = 0; i < sizeof(input.npwp); i++)
+  for (int i = 0; i < sizeof(input.npwp); i++) //perulangan dari indeks 0 sampai size dari array char input.npwp
   {
-    if (isdigit(input.npwp[i]) == 0 && len < 15) // jika bukan 15 karakter numerik
-      return 0;
+    if (isdigit(input.npwp[i]) == 0 && len != 16) // jika bukan 16 karakter numerik
+      return 0; //false
   }
-  return 1;
+  return 1; //true
 }
 
-// memeriksa apakah nik yang dimasukan sesuai format
 int nik_format_check()
 {
   int len = strlen(input.nik);
@@ -133,7 +140,6 @@ int nik_format_check()
   return 1;
 }
 
-// memeriksa apakah nama yang dimasukan sesuai format
 int nama_format_check()
 {
   for (int i = 0; i < sizeof(input.nama); i++)
@@ -144,7 +150,6 @@ int nama_format_check()
   return 1;
 }
 
-// memeriksa apakah no_telp yang dimasukan sesuai format
 int no_telp_format_check()
 {
   int len = strlen(input.no_telp);

@@ -1,14 +1,14 @@
 double penghasilan_pokok, // perbulan
-    penghasilan_tambahan,
+    penghasilan_tambahan, //perbulan
     biaya_jabatan,
     iuran_pensiun,
-    bruto,
-    netto,
-    ptkp = 54000000, // set default
-    pkp,
-    pph,
+    bruto, //penghasilan kotor
+    netto, //penghasilan bersih
+    ptkp = 54000000, //set default penghasilan tidak kena pajak
+    pkp, //penghasilan kena pajak
+    pph, //pajak penghasilan
     denda = 0,
-    temp1, temp2, temp3, temp4;
+    temp1, temp2, temp3, temp4; //temporary variabel, digunakan untuk menghitung tarif progresif
 int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian, tgl_bayar, bln_bayar, thn_bayar;
 char nama_jabatan[100], status[100];
 
@@ -17,11 +17,14 @@ void pph_menu();
 // fungsi untuk mencetak pembayaran pph
 void output_pph()
 {
-  char filename[100];
+  char filename[100]; //string untuk menyimpan nama file
+  //assign string nama file ke filename
+  //digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
   sprintf(filename, "%s-bukti-bayar-pph-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
-  FILE *file = fopen(filename, "a");
-  if (file)
+  FILE *file = fopen(filename, "a"); //deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
+  //membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
+  if (file) //jika berhasil membuka file
   {
     fprintf(file, "\n\t--------------------+----------------------------------------");
     fprintf(file, "\n\t       *******      |                                        ");
@@ -84,9 +87,9 @@ void output_pph()
     fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t-------------------------------------------------------------");
   }
-  else
+  else //jika file tidak berhasil dibuka
     printf("Unable to load file!");
-  fclose(file);
+  fclose(file); //tutup file
 
   printf("\n\t==========================================================\n");
   printf("\n\t             Rincian Pembayaran berhasil dicetak          \n");
@@ -152,10 +155,10 @@ void pph_hitung()
       jml_anak = input_int();
     }
 
-    if (jml_anak > 3)
+    if (jml_anak > 3) //jika jumlah anak lebih dari 3
     {
-      jml_anak = 3;
-      ptkp += (4500000 * jml_anak);
+      jml_anak = 3; //max 3 anak, jumlah anak dihitung 3 jika lebih dari 3
+      ptkp += (4500000 * jml_anak); //ptkp ditambah 4.5 jt peranak
     }
   }
 
@@ -172,7 +175,7 @@ void pph_hitung()
   // apakah bulan yang dimasukan adalah desember
   bln_bayar + 1;
 
-  if (bln_bayar == 12)
+  if (bln_bayar >= 12)
   {
     bln_bayar = 1;
     thn_bayar += 1;
@@ -195,7 +198,7 @@ void pph_hitung()
 
   // netto dalam sebulan
   netto = bruto - (biaya_jabatan + iuran_pensiun);
-  // netto dalam setahub
+  // netto dalam setahun
   netto *= 12;
 
   // penghasilan kena pajak

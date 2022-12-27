@@ -1,12 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-/*
-FILE INI DIGUNAKAN UNTUK MENGATUR
-OPERASI FILE DAN DATA
-*/
-
 // Memuat Gambar logo
 void loadImage()
 {
@@ -29,7 +20,7 @@ void sinkronDataPengguna()
 {
   FILE *file = fopen("./data/pengguna.txt", "r");
   i_pga = 0;
-  memset(pengguna, 0, sizeof(pengguna));
+  memset(pengguna, 0, sizeof(pengguna)); //men-setting ulang data dari 0
   if (file)
   {
     while (!feof(file))
@@ -82,6 +73,11 @@ int checkData(char *data, char *comparator)
     else if (strcmp(data, "no_telp") == 0)
     {
       if (strcmp(pengguna[i].no_telp, comparator) == 0)
+        return 0;
+    }
+    else if (strcmp(data, "nik") == 0)
+    {
+      if (strcmp(pengguna[i].nik, comparator) == 0)
         return 0;
     }
   }
