@@ -62,6 +62,7 @@ struct Transaksi trs_input;
 #include "src/ppn.h"
 #include "src/pbb.h"
 #include "src/impor.h"
+#include "src/pkb.h"
 #include "src/info-pengguna.h"
 #include "src/history.h"
 

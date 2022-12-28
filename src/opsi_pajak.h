@@ -1,4 +1,4 @@
-void pph_menu(), pbb_menu(), ppn_menu(), impor_menu(), profil(), info_pengguna(), history();
+void pph_menu(), pbb_menu(), ppn_menu(), impor_menu(), pkb_menu(), profil(), info_pengguna(), history();
 
 // Fungsi menu utama program pembayaran pajak
 void opsi_pajak()
@@ -46,6 +46,10 @@ void opsi_pajak()
   case 4:
     system("cls");
     impor_menu();
+    break;
+  case 5:
+    system("cls");
+    pkb_menu();
     break;
   case 6:
     system("cls");
