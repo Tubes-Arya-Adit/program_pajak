@@ -55,14 +55,14 @@ void output_ppn()
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n");
         fprintf(file, "\n\tB. RINCIAN BARANG/JASA KENA PAJAK DAN PERHITUNGAN PPN");
-        fprintf(file, "\n\t+----+-----------------------------------------------+--------------------+-----------------------");
-        fprintf(file, "\n\t| NO |              URAIAN BARANG/JASA               |        HARGA       |        Status        |");
-        fprintf(file, "\n\t|----|-----------------------------------------------|--------------------|-----------------------");
+        fprintf(file, "\n\t+----+--------------------------------------------------+--------------------+------------------+");
+        fprintf(file, "\n\t| NO |              URAIAN BARANG/JASA                  |        HARGA       |       Status     |");
+        fprintf(file, "\n\t+----+--------------------------------------------------+--------------------+------------------+");
         for (i = 0; i < jumlah; i++) // perulangan sebanyak jumlah barang
         {
-            fprintf(file, "\n\t| %-2d | %-48s | Rp.%15.0f | %-20s |", i + 1, barang[i].nama, barang[i].harga, barang[i].status); // menampilkan nomor, nama barang, dan harga
+            fprintf(file, "\n\t| %-2d | %-48s | Rp.%15.0f | %-16s |", i + 1, barang[i].nama, barang[i].harga, barang[i].status); // menampilkan nomor, nama barang, dan harga
         }
-        fprintf(file, "\n\t+----+----------------------------------------------------+--------------------+");
+        fprintf(file, "\n\t+----+--------------------------------------------------+--------------------+------------------+");
         fprintf(file, "\n\t Total Harga                   : %.0f", total_harga);
         fprintf(file, "\n\t PPN                           : %.0f", ppn);
         fprintf(file, "\n\t Denda                         : %.0f", denda);
@@ -154,7 +154,7 @@ void ppn_hitung()
         printf("\n\tMasukan harga %s : Rp.", barang[i].nama);
         barang[i].harga = input_double(); // input harga barang ke-i
 
-        // total_harga += [i]; // menghitung total harga barang
+        total_harga += barang[i].harga; // menghitung total harga barang
     }
 
     // memasukan tanggal transaksi barang
@@ -238,7 +238,7 @@ void ppn_hitung()
     tambahDataTransaksi();
     sinkronDataTransaksi();
 
-    printf("\n\n\tLihat rincian pembayaran?");
+    printf("\n\tLihat rincian pembayaran?");
     printf("\n\t[1] Ya    [2] Tidak ");
     printf("\n\tMasukan Pilihan Anda : ");
     lihat_rincian = input_int();
