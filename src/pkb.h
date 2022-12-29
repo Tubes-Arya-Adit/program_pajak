@@ -1,12 +1,11 @@
-#define admin 0
-
 int jenis_kendaraan, tahunan_pajak, kode_ranmor, is_thn_pertama, kepemilikan_ke, menu_pkb, lihat_rincian, thn_bayar, bln_bayar, tgl_bayar;
-float njkb,    // nilai jual kendaraan bermotor
+double njkb,   // nilai jual kendaraan bermotor
     bbnkb = 0, // Bea Balik Nama Kendaraan Bermotor (BBN KB)
     pkb,
     swdkllj,
     pnbp_stnk,
     pnbp_tnkb,
+    denda,
     pengesahan_stnk,
     koefisien,
     total;
@@ -60,16 +59,15 @@ void output_pkb()
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n\t                  URAIAN               |        JUMLAH       ");
     fprintf(file, "\n\t---------------------------------------+---------------------");
-    fprintf(file, "\n\t Bea Balik Nama Kendaraan (BBN-KB)     | Rp.%*.0f", 16, bbnkb);
-    fprintf(file, "\n\t Nilai Jual Kendaraan Bermotor (NJKB)  | Rp.%*.0f", 16, njkb);
-    fprintf(file, "\n\t Pajak Kendaraan Bermotor (PKB)        | Rp.%*.0f", 16, pkb);
-    fprintf(file, "\n\t SWDKLLJ                               | Rp.%*.0f", 16, swdkllj);
-    fprintf(file, "\n\t Biaya Perpanjangan STNK               | Rp.%*.0f", 16, pnbp_stnk);
-    fprintf(file, "\n\t Biaya Pengesahan STNK                 | Rp.%*.0f", 16, pengesahan_stnk);
-    fprintf(file, "\n\t Biaya TNKB                            | Rp.%*.0f", 16, pnbp_tnkb);
-    fprintf(file, "\n\t Biaya Administrasi                    | Rp.%*.0f", 16, admin);
-    fprintf(file, "\n\t Denda                                 | Rp.%*.0f", 16, denda);
-    fprintf(file, "\n\t Total Pajak Kendaraan Bermotor        | Rp.%*.0f", 16, total + denda);
+    fprintf(file, "\n\t Bea Balik Nama Kendaraan (BBN-KB)     | Rp.%*.0lf", 16, bbnkb);
+    fprintf(file, "\n\t Nilai Jual Kendaraan Bermotor (NJKB)  | Rp.%*.0lf", 16, njkb);
+    fprintf(file, "\n\t Pajak Kendaraan Bermotor (PKB)        | Rp.%*.0lf", 16, pkb);
+    fprintf(file, "\n\t SWDKLLJ                               | Rp.%*.0lf", 16, swdkllj);
+    fprintf(file, "\n\t Biaya Perpanjangan STNK               | Rp.%*.0lf", 16, pnbp_stnk);
+    fprintf(file, "\n\t Biaya Pengesahan STNK                 | Rp.%*.0lf", 16, pengesahan_stnk);
+    fprintf(file, "\n\t Biaya TNKB                            | Rp.%*.0lf", 16, pnbp_tnkb);
+    fprintf(file, "\n\t Denda                                 | Rp.%*.0lf", 16, denda);
+    fprintf(file, "\n\t Total Pajak Kendaraan Bermotor        | Rp.%*.0lf", 16, total + denda);
     fprintf(file, "\n\t---------------------------------------+---------------------");
     fprintf(file, "\n");
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
@@ -107,6 +105,7 @@ void input_tgl_bayar()
 // Fungsi untuk melakukan pembayaran pkb
 void pkb_hitung()
 {
+  total = 0;
   printf("\n\t=========================================================\n");
   printf("\n\t           Pembayaran Pajak Kendaraan Bermotor           \n");
   printf("\n\t=========================================================\n");
@@ -212,7 +211,7 @@ void pkb_hitung()
   struct tm due_date = {.tm_sec = 0,
                         .tm_min = 0,
                         .tm_hour = 0,
-                        .tm_mday = 26,
+                        .tm_mday = 31,
                         .tm_mon = 12 - 1,
                         .tm_year = waktu_sekarang.tahun - 1900,
                         .tm_isdst = 0}; // dayligth saving time flag
@@ -229,7 +228,7 @@ void pkb_hitung()
   int selisih_hari = difftime(current, jatuh_tempo) / (60 * 60 * 24);
 
   printf("\n\t-----------------------------------------------------------\n");
-  printf("\n\tTotal Pajak Kendaraan Bermotor    : Rp.%.0f\n", total);
+  printf("\n\tTotal Pajak Kendaraan Bermotor    : Rp.%.0lf\n", total);
 
   if (tgl_pajak_sblmnya > jatuh_tempo)
   {
@@ -250,10 +249,10 @@ void pkb_hitung()
     else if (selisih_hari >= 2)
       denda = pkb * 0.25;
 
-    printf("\n\tDenda Pajak Kendaraan Bermotor  : Rp.%.0f\n", denda);
+    printf("\n\tDenda Pajak Kendaraan Bermotor  : Rp.%.0lf\n", denda);
   }
 
-  printf("\n\tJumlah Nominal Yang Harus Dibayar : Rp.%.0f\n", total + denda);
+  printf("\n\tJumlah Nominal Yang Harus Dibayar : Rp.%.0lf\n", total + denda);
   printf("\n\t-----------------------------------------------------------");
 
   if (denda == 0)
@@ -466,10 +465,10 @@ void mobil()
   {
     // jika pajak kendaraan tahun pertama (baru)
     if (is_thn_pertama == 1)
-      total = pkb + bbnkb + swdkllj + admin + pnbp_stnk + pnbp_tnkb;
+      total = pkb + bbnkb + swdkllj + pnbp_stnk + pnbp_tnkb;
     // jika pajak kendaraan bukan tahun pertama (lama)
     else
-      total = pkb + swdkllj + admin;
+      total = pkb + swdkllj;
   }
   // jika pajak dibayar per lima tahun
   else
@@ -477,7 +476,7 @@ void mobil()
     pengesahan_stnk = 50000;
     pnbp_tnkb = 100000;
 
-    total = pkb + swdkllj + admin + pengesahan_stnk + pnbp_stnk + pnbp_tnkb;
+    total = pkb + swdkllj + pengesahan_stnk + pnbp_stnk + pnbp_tnkb;
   }
 }
 
@@ -525,10 +524,10 @@ void motor()
 
     // jika pajak kendaraan tahun pertama (baru)
     if (is_thn_pertama == 1)
-      total = pkb + bbnkb + swdkllj + pnbp_stnk + pnbp_tnkb + admin;
+      total = pkb + bbnkb + swdkllj + pnbp_stnk + pnbp_tnkb;
     // jika pajak kendaraan bukan tahun pertama (lama)
     else
-      total = pkb + swdkllj + admin;
+      total = pkb + swdkllj;
   }
   // jika pajak dibayar per lima tahun
   else
@@ -537,6 +536,6 @@ void motor()
     pengesahan_stnk = 50000;
     pnbp_tnkb = 60000;
 
-    total = pkb + swdkllj + pengesahan_stnk + pnbp_stnk + pnbp_tnkb + admin;
+    total = pkb + swdkllj + pengesahan_stnk + pnbp_stnk + pnbp_tnkb;
   }
 }
