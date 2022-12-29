@@ -130,9 +130,10 @@ void ppn_hitung()
 
         printf("\n\tApakah termasuk barang mewah ?");
         printf("\n\t[1] Ya  [2] Tidak");
+        printf("\n\tMasukan pilihan :");
         menu_status = input_int();
 
-        while (menu_status != 1 || menu_status != 2)
+        while (menu_status < 1 || menu_status > 2)
         {
             printf("\n\tYang anda masukan salah!");
             printf("\n\tMasukan kembali : ");
@@ -241,7 +242,7 @@ void ppn_hitung()
     printf("\n\t[1] Ya    [2] Tidak ");
     printf("\n\tMasukan Pilihan Anda : ");
     lihat_rincian = input_int();
-    while (lihat_rincian != 1 && lihat_rincian != 2)
+    while (lihat_rincian < 1 && lihat_rincian > 2)
     {
         printf("\n\tPilihan Anda Salah!");
         printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
@@ -274,7 +275,7 @@ void ppn_menu()
     printf("\n\tPilihan Anda : ");
     menu_ppn = input_int();
 
-    while (menu_ppn != 1 && menu_ppn != 2)
+    while (menu_ppn < 1 && menu_ppn > 2)
     {
         printf("\n\tPilihan Anda Salah!");
         printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
