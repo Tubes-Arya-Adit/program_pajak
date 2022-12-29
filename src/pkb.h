@@ -8,9 +8,11 @@ double njkb,   // nilai jual kendaraan bermotor
     denda,
     pengesahan_stnk,
     koefisien,
-    total;
+    total, 
+    admin = 50000;
 char merk[100], tipe[100], str_jenis_kendaraan[100], str_kode_ranmor[100], stnk[100], str_tahunan_pajak[100], status[100];
 
+void output_pkb();
 void pkb_menu();
 void motor();
 void mobil();
@@ -51,7 +53,7 @@ void output_pkb()
     fprintf(file, "\n\t Tipe Kendaraan  : %s", tipe);
     fprintf(file, "\n\t Merk            : %s", merk);
     fprintf(file, "\n\t Kode Kendaraan  : %s", str_kode_ranmor);
-    fprintf(file, "\n\t Kepemilikan Ke  : %s", kepemilikan_ke);
+    fprintf(file, "\n\t Kepemilikan Ke  : %d", kepemilikan_ke);
     fprintf(file, "\n\t Jenis Pajak     : %s", str_tahunan_pajak);
     fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n");
@@ -73,7 +75,7 @@ void output_pkb()
     fprintf(file, "\n\tD. RINCIAN TRANSAKSI");
     fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n\t Tahun Pajak     : %02d", waktu_sekarang.tahun);
-    fprintf(file, "\n\t Tenggat         : ");
+    fprintf(file, "\n\t Tenggat         : 31 Desember");
     fprintf(file, "\n\t Waktu Transaksi : %d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
     fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t-------------------------------------------------------------");
