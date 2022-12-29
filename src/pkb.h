@@ -1,6 +1,6 @@
 #define admin 0
 
-int jenis_kendaraan, tahunan_pajak, kode_ranmor, is_thn_pertama, kepemilikan_ke, menu_pkb, lihat_rincian;
+int jenis_kendaraan, tahunan_pajak, kode_ranmor, is_thn_pertama, kepemilikan_ke, menu_pkb, lihat_rincian, thn_bayar, bln_bayar, tgl_bayar;
 float njkb,    // nilai jual kendaraan bermotor
     bbnkb = 0, // Bea Balik Nama Kendaraan Bermotor (BBN KB)
     pkb,
@@ -93,6 +93,17 @@ void output_pkb()
   pkb_menu();
 }
 
+void input_tgl_bayar()
+{
+  printf("\n\tMasukan Tanggal Pembayaran Pajak Sebelumnya : ");
+  printf("\n\tMasukan Hari : ");
+  tgl_bayar = input_int();
+  printf("\n\tMasukan Bulan : ");
+  bln_bayar = input_int();
+  printf("\n\tMasukan Tahun : ");
+  thn_bayar = input_int();
+}
+
 // Fungsi untuk melakukan pembayaran pkb
 void pkb_hitung()
 {
@@ -150,6 +161,34 @@ void pkb_hitung()
     }
   }
 
+  // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
+  struct tm pajak_sblmnya = {.tm_sec = 0,
+                             .tm_min = 0,
+                             .tm_hour = 0,
+                             .tm_mday = waktu_sekarang.hari,
+                             .tm_mon = waktu_sekarang.bulan - 1,
+                             .tm_year = waktu_sekarang.tahun - 1900,
+                             .tm_isdst = 0}; // dayligth saving time flag
+
+  // jika bukan tahun pertama masukan tanggal pembayaran pajak sebelumnya
+  if (is_thn_pertama == 2)
+  {
+    input_tgl_bayar();
+
+    while (checkTgl(tgl_bayar, bln_bayar, thn_bayar) == 0)
+    {
+      printf("\n\tTanggal Pembayaran Tidak Valid!");
+      input_tgl_bayar();
+    }
+
+    pajak_sblmnya.tm_mday = tgl_bayar;
+    pajak_sblmnya.tm_mon = bln_bayar - 1;
+    pajak_sblmnya.tm_year = thn_bayar - 1900;
+  }
+
+  // mengubah format waktu menjadi UNIX timestamp
+  time_t tgl_pajak_sblmnya = mktime(&pajak_sblmnya);
+
   printf("\n\tMasukan merk kendaraan : ");
   input_str(merk);
 
@@ -178,6 +217,10 @@ void pkb_hitung()
                         .tm_year = waktu_sekarang.tahun - 1900,
                         .tm_isdst = 0}; // dayligth saving time flag
 
+  // jika memilih pajak lima tahunan tambah tenggat tahun 5 tahun
+  if (tahunan_pajak == 2)
+    due_date.tm_year += 5;
+
   // mengubah format waktu menjadi UNIX timestamp
   time_t jatuh_tempo = mktime(&due_date);
 
@@ -188,7 +231,7 @@ void pkb_hitung()
   printf("\n\t-----------------------------------------------------------\n");
   printf("\n\tTotal Pajak Kendaraan Bermotor    : Rp.%.0f\n", total);
 
-  if (current > jatuh_tempo)
+  if (tgl_pajak_sblmnya > jatuh_tempo)
   {
     if (selisih_tahun >= 3)
       denda = 3 * pkb * 0.25 + swdkllj;
