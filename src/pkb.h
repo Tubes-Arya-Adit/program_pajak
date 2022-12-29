@@ -1,16 +1,16 @@
 #define admin 0
 
 int jenis_kendaraan, tahunan_pajak, kode_ranmor, is_thn_pertama, kepemilikan_ke, menu_pkb, lihat_rincian;
-float njkb, //nilai jual kendaraan bermotor
-      bbnkb = 0, //Bea Balik Nama Kendaraan Bermotor (BBN KB)
-      pkb,
-      swdkllj,
-      pnbp_stnk,
-      pnbp_tnkb,
-      pengesahan_stnk,
-      koefisien,
-      total;
-char merk[100], tipe[100], str_jenis_kendaraan[100], str_kode_ranmor[100], stnk[100], str_tahunan_pajak[100];
+float njkb,    // nilai jual kendaraan bermotor
+    bbnkb = 0, // Bea Balik Nama Kendaraan Bermotor (BBN KB)
+    pkb,
+    swdkllj,
+    pnbp_stnk,
+    pnbp_tnkb,
+    pengesahan_stnk,
+    koefisien,
+    total;
+char merk[100], tipe[100], str_jenis_kendaraan[100], str_kode_ranmor[100], stnk[100], str_tahunan_pajak[100], status[100];
 
 void pkb_menu();
 void motor();
@@ -21,7 +21,7 @@ void tarif_progresif();
 void output_pkb()
 {
   char filename[100];
-  //digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
+  // digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
   sprintf(filename, "%s-bukti-bayar-pkb-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
   FILE *file = fopen(filename, "a");
@@ -105,7 +105,7 @@ void pkb_hitung()
   printf("\n\t[2] Pajak Motor");
   printf("\n\tMasukan Pilihan : ");
   jenis_kendaraan = input_int();
-  while (jenis_kendaraan != 1 || jenis_kendaraan != 2)
+  while (jenis_kendaraan < 1 || jenis_kendaraan > 2)
   {
     printf("\n\tPilihan Tidak Tersedia!");
     printf("\n\tMasukan Pilihan Anda : ");
@@ -116,47 +116,47 @@ void pkb_hitung()
   printf("\n\t[1] Pajak Tahunan");
   printf("\n\t[2] Pajak Lima Tahunan");
   printf("\n\tMasukan Pilihan : ");
-	tahunan_pajak = input_int();
-  while (tahunan_pajak != 1 || tahunan_pajak != 2)
+  tahunan_pajak = input_int();
+  while (tahunan_pajak < 1 || tahunan_pajak > 2)
   {
     printf("\n\tPilihan Tidak Tersedia!");
     printf("\n\tMasukan Pilihan Anda : ");
     tahunan_pajak = input_int();
   }
 
-  if(tahunan_pajak == 1)
+  if (tahunan_pajak == 1)
     strcpy(str_tahunan_pajak, "Pajak Tahunan");
   else
     strcpy(str_tahunan_pajak, "Pajak 5 Tahunan");
 
   printf("\n\tMasukan Nomor STNK : ");
-	input_str(stnk);
+  input_str(stnk);
 
   printf("\n\tMasukan Harga Pasaran Umum Kendaraan : ");
-	njkb = input_double();
+  njkb = input_double();
 
   printf("\n\tMasukan kepemilikan ke : ");
-	kepemilikan_ke = input_int();
+  kepemilikan_ke = input_int();
 
   if (tahunan_pajak == 1)
   {
     printf("\n\tApakah Pajak Tahun Pertama?\n\t[1] Ya [2] Tidak\n\tMasukan Pilihan : ");
     is_thn_pertama = input_int();
-		while (is_thn_pertama != 1 || is_thn_pertama != 2)
-		{
-			printf("\n\tPilihan Tidak Tersedia!");
-			printf("\n\tMasukan Pilihan Anda : ");
-			is_thn_pertama = input_int();
-		}
+    while (is_thn_pertama < 1 || is_thn_pertama > 2)
+    {
+      printf("\n\tPilihan Tidak Tersedia!");
+      printf("\n\tMasukan Pilihan Anda : ");
+      is_thn_pertama = input_int();
+    }
   }
 
   printf("\n\tMasukan merk kendaraan : ");
-	input_str(merk);
+  input_str(merk);
 
   printf("\n\tMasukan tipe kendaraan : ");
-	input_str(tipe);
+  input_str(tipe);
 
-  if(jenis_kendaraan == 1)
+  if (jenis_kendaraan == 1)
   {
     strcpy(str_jenis_kendaraan, "Mobil");
     mobil();
@@ -167,10 +167,65 @@ void pkb_hitung()
     motor();
   }
 
-	denda = 0;
+  denda = 0;
+
+  // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
+  struct tm due_date = {.tm_sec = 0,
+                        .tm_min = 0,
+                        .tm_hour = 0,
+                        .tm_mday = 26,
+                        .tm_mon = 12 - 1,
+                        .tm_year = waktu_sekarang.tahun - 1900,
+                        .tm_isdst = 0}; // dayligth saving time flag
+
+  // mengubah format waktu menjadi UNIX timestamp
+  time_t jatuh_tempo = mktime(&due_date);
+
+  int selisih_tahun = difftime(current, jatuh_tempo) / (60 * 60 * 24 * 365);
+  int selisih_bulan = difftime(current, jatuh_tempo) / (60 * 60 * 24 * 30);
+  int selisih_hari = difftime(current, jatuh_tempo) / (60 * 60 * 24);
+
   printf("\n\t-----------------------------------------------------------\n");
-  printf("\n\tTotal Pajak Kendaraan Bermotor : Rp.%.0f\n", total);
+  printf("\n\tTotal Pajak Kendaraan Bermotor    : Rp.%.0f\n", total);
+
+  if (current > jatuh_tempo)
+  {
+    if (selisih_tahun >= 3)
+      denda = 3 * pkb * 0.25 + swdkllj;
+    else if (selisih_tahun == 2)
+      denda = 2 * pkb * 0.25 + swdkllj;
+    else if (selisih_tahun == 1)
+      denda = pkb * 0.25 + swdkllj;
+    else if (selisih_bulan >= 6)
+      denda = pkb * 0.25 * (6 / 12) + swdkllj;
+    else if (selisih_bulan >= 3)
+      denda = pkb * 0.25 * (3 / 12) + swdkllj;
+    else if (selisih_bulan >= 2)
+      denda = pkb * 0.25 * (2 / 12) + swdkllj;
+    else if (selisih_bulan >= 1)
+      denda = pkb * 0.25;
+    else if (selisih_hari >= 2)
+      denda = pkb * 0.25;
+
+    printf("\n\tDenda Pajak Kendaraan Bermotor  : Rp.%.0f\n", denda);
+  }
+
+  printf("\n\tJumlah Nominal Yang Harus Dibayar : Rp.%.0f\n", total + denda);
   printf("\n\t-----------------------------------------------------------");
+
+  if (denda == 0)
+    strcpy(status, "Tepat Waktu");
+  else
+    strcpy(status, "Terlambat");
+
+  // memasukan data transaksi ke dalam struct
+  strcpy(trs_input.id, pengguna_login.npwp);
+  strcpy(trs_input.jenis_pajak, "PKB");
+  trs_input.total_pajak = total;
+  trs_input.denda = denda;
+  trs_input.jumlah_nominal = total + denda;
+  sprintf(trs_input.tanggal, "%d-%02d-%02d %02d:%02d:%02d", waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit, waktu_sekarang.detik);
+  strcpy(trs_input.status, status);
 
   tambahDataTransaksi();
   sinkronDataTransaksi();
@@ -234,213 +289,211 @@ void pkb_menu()
   }
 }
 
-
-//fungsi untuk menghitung tarif progresif berdasarkan kepemilikan kendaraan ke berapa
+// fungsi untuk menghitung tarif progresif berdasarkan kepemilikan kendaraan ke berapa
 void tarif_progresif()
 {
-    if(kepemilikan_ke == 1)
-        pkb = 0.02 * njkb;
-    else if(kepemilikan_ke == 2)
-        pkb = 0.025 * njkb;
-    else if(kepemilikan_ke == 3)
-        pkb = 0.03 * njkb;
-    else if(kepemilikan_ke == 4)
-        pkb = 0.035 * njkb;
-    else if(kepemilikan_ke == 5)
-        pkb = 0.04 * njkb;
-    else if(kepemilikan_ke == 6)
-        pkb = 0.045 * njkb;
-    else if(kepemilikan_ke == 7)
-        pkb = 0.05 * njkb;
-    else if(kepemilikan_ke == 8)
-        pkb = 0.055 * njkb;
-    else if(kepemilikan_ke == 9)
-        pkb = 0.06 * njkb;
-    else if(kepemilikan_ke == 10)
-        pkb = 0.065 * njkb;
-    else if(kepemilikan_ke == 11)
-        pkb = 0.07 * njkb;
-    else if(kepemilikan_ke == 12)
-        pkb = 0.075 * njkb;
-    else if(kepemilikan_ke == 13)
-        pkb = 0.08 * njkb;
-    else if(kepemilikan_ke == 14)
-        pkb = 0.085 * njkb;
-    else if(kepemilikan_ke == 15)
-        pkb = 0.09 * njkb;
-    else if(kepemilikan_ke == 16)
-        pkb = 0.085 * njkb;
-    else
-        pkb = 0.09 * njkb;
+  if (kepemilikan_ke == 1)
+    pkb = 0.02 * njkb;
+  else if (kepemilikan_ke == 2)
+    pkb = 0.025 * njkb;
+  else if (kepemilikan_ke == 3)
+    pkb = 0.03 * njkb;
+  else if (kepemilikan_ke == 4)
+    pkb = 0.035 * njkb;
+  else if (kepemilikan_ke == 5)
+    pkb = 0.04 * njkb;
+  else if (kepemilikan_ke == 6)
+    pkb = 0.045 * njkb;
+  else if (kepemilikan_ke == 7)
+    pkb = 0.05 * njkb;
+  else if (kepemilikan_ke == 8)
+    pkb = 0.055 * njkb;
+  else if (kepemilikan_ke == 9)
+    pkb = 0.06 * njkb;
+  else if (kepemilikan_ke == 10)
+    pkb = 0.065 * njkb;
+  else if (kepemilikan_ke == 11)
+    pkb = 0.07 * njkb;
+  else if (kepemilikan_ke == 12)
+    pkb = 0.075 * njkb;
+  else if (kepemilikan_ke == 13)
+    pkb = 0.08 * njkb;
+  else if (kepemilikan_ke == 14)
+    pkb = 0.085 * njkb;
+  else if (kepemilikan_ke == 15)
+    pkb = 0.09 * njkb;
+  else if (kepemilikan_ke == 16)
+    pkb = 0.085 * njkb;
+  else
+    pkb = 0.09 * njkb;
 }
-
 
 void mobil()
 {
-    printf("\n\tPilih Kode Ranmor Sesuai Kendaraan Anda");
-    printf("\n\t[1] A (Mobil Ambulance, Mobil Jenazah, dan Mobil Damkar)");
-    printf("\n\t[2] B (Traktor, Buldozer, Forklift, Mobil Derek, Excafator, dan Crane)");
-    printf("\n\t[3] DP (Sedan, Mobil Penumpang Bukan Umum, Mobil Barang s.d 2400cc)");
-    printf("\n\t[4] DU (Mobil Penumpang Angkutan Umum s.d 1600 cc, Jeep, Minibus)");
-    printf("\n\t[5] EP (Bus dan Mikrobus, Bukan Angkutan Umum)");
-    printf("\n\t[6] EU (Mikrobus Angkutan Umum, Mobil Penumpang > 1600cc, Blind Van, Pickup)");
-    printf("\n\t[7] F (Truk, Mobil Tangki, Mobil Gandeng, Truk Container > 2400cc)");
-    printf("\n\tMasukan Pilihan : ");
-		kode_ranmor = input_int();
-		while (kode_ranmor < 1 || kode_ranmor > 7)
-		{
-			printf("\n\tPilihan Tidak Tersedia!");
-			printf("\n\tMasukan Pilihan Anda : ");
-			kode_ranmor = input_int();
-		}
-		
-    if(is_thn_pertama == 1)
-        bbnkb = 0.1 * njkb;
+  printf("\n\tPilih Kode Ranmor Sesuai Kendaraan Anda");
+  printf("\n\t[1] A (Mobil Ambulance, Mobil Jenazah, dan Mobil Damkar)");
+  printf("\n\t[2] B (Traktor, Buldozer, Forklift, Mobil Derek, Excafator, dan Crane)");
+  printf("\n\t[3] DP (Sedan, Mobil Penumpang Bukan Umum, Mobil Barang s.d 2400cc)");
+  printf("\n\t[4] DU (Mobil Penumpang Angkutan Umum s.d 1600 cc, Jeep, Minibus)");
+  printf("\n\t[5] EP (Bus dan Mikrobus, Bukan Angkutan Umum)");
+  printf("\n\t[6] EU (Mikrobus Angkutan Umum, Mobil Penumpang > 1600cc, Blind Van, Pickup)");
+  printf("\n\t[7] F (Truk, Mobil Tangki, Mobil Gandeng, Truk Container > 2400cc)");
+  printf("\n\tMasukan Pilihan : ");
+  kode_ranmor = input_int();
+  while (kode_ranmor < 1 || kode_ranmor > 7)
+  {
+    printf("\n\tPilihan Tidak Tersedia!");
+    printf("\n\tMasukan Pilihan Anda : ");
+    kode_ranmor = input_int();
+  }
 
-    // menetapkan tarif berdasarkan kode kendaraan bermotor
-    if(kode_ranmor == 1)
-    {
-        koefisien = 1;
-        njkb *= koefisien;
-        swdkllj = 0;
-        pnbp_stnk = 200000;
-        pnbp_tnkb = 100000;
-        strcpy(str_kode_ranmor, "A");
-    }
-    else if(kode_ranmor == 2)
-    {
-        koefisien = 1;
-        njkb *= koefisien;
-        swdkllj = 23000;
-        pnbp_stnk = 0;
-        pnbp_tnkb = 0;
-        strcpy(str_kode_ranmor, "B");
-    }
-    else if(kode_ranmor == 3)
-    {
-        koefisien = 1.025;
-        njkb *= koefisien;
-        swdkllj = 143000;
-        pnbp_stnk = 200000;
-        pnbp_tnkb = 100000;
-        strcpy(str_kode_ranmor, "DP");
-    }
-    else if(kode_ranmor == 4)
-    {
-        koefisien = 1.050;
-        njkb *= koefisien;
-        swdkllj = 73000;
-        pnbp_stnk = 200000;
-        pnbp_tnkb = 100000;
-        strcpy(str_kode_ranmor, "DU");
-    }
-    else if(kode_ranmor == 5)
-    {
-        koefisien = 1.100;
-        njkb *= koefisien;
-        swdkllj = 153000;
-        pnbp_stnk = 200000;
-        pnbp_tnkb = 100000;
-        strcpy(str_kode_ranmor, "EP");
-    }
-    else if(kode_ranmor == 6)
-    {
-        koefisien = 1.085;
-        njkb *= koefisien;
-        swdkllj = 73000;
-        pnbp_stnk = 200000;
-        pnbp_tnkb = 100000;
-        strcpy(str_kode_ranmor, "EU");
-    }
+  if (is_thn_pertama == 1)
+    bbnkb = 0.1 * njkb;
+
+  // menetapkan tarif berdasarkan kode kendaraan bermotor
+  if (kode_ranmor == 1)
+  {
+    koefisien = 1;
+    njkb *= koefisien;
+    swdkllj = 0;
+    pnbp_stnk = 200000;
+    pnbp_tnkb = 100000;
+    strcpy(str_kode_ranmor, "A");
+  }
+  else if (kode_ranmor == 2)
+  {
+    koefisien = 1;
+    njkb *= koefisien;
+    swdkllj = 23000;
+    pnbp_stnk = 0;
+    pnbp_tnkb = 0;
+    strcpy(str_kode_ranmor, "B");
+  }
+  else if (kode_ranmor == 3)
+  {
+    koefisien = 1.025;
+    njkb *= koefisien;
+    swdkllj = 143000;
+    pnbp_stnk = 200000;
+    pnbp_tnkb = 100000;
+    strcpy(str_kode_ranmor, "DP");
+  }
+  else if (kode_ranmor == 4)
+  {
+    koefisien = 1.050;
+    njkb *= koefisien;
+    swdkllj = 73000;
+    pnbp_stnk = 200000;
+    pnbp_tnkb = 100000;
+    strcpy(str_kode_ranmor, "DU");
+  }
+  else if (kode_ranmor == 5)
+  {
+    koefisien = 1.100;
+    njkb *= koefisien;
+    swdkllj = 153000;
+    pnbp_stnk = 200000;
+    pnbp_tnkb = 100000;
+    strcpy(str_kode_ranmor, "EP");
+  }
+  else if (kode_ranmor == 6)
+  {
+    koefisien = 1.085;
+    njkb *= koefisien;
+    swdkllj = 73000;
+    pnbp_stnk = 200000;
+    pnbp_tnkb = 100000;
+    strcpy(str_kode_ranmor, "EU");
+  }
+  else
+  {
+    koefisien = 1.300;
+    njkb *= koefisien;
+    swdkllj = 73000;
+    pnbp_stnk = 200000;
+    pnbp_tnkb = 163000;
+    strcpy(str_kode_ranmor, "F");
+  }
+
+  // menghitung tarif progresif berdasarkan kepemilikan kendaraan ke berapa
+  tarif_progresif();
+
+  // jika pajak dibayar per tahun
+  if (tahunan_pajak == 1)
+  {
+    // jika pajak kendaraan tahun pertama (baru)
+    if (is_thn_pertama == 1)
+      total = pkb + bbnkb + swdkllj + admin + pnbp_stnk + pnbp_tnkb;
+    // jika pajak kendaraan bukan tahun pertama (lama)
     else
-    {
-        koefisien = 1.300;
-        njkb *= koefisien;
-        swdkllj = 73000;
-        pnbp_stnk = 200000;
-        pnbp_tnkb = 163000;
-        strcpy(str_kode_ranmor, "F");
-    }
+      total = pkb + swdkllj + admin;
+  }
+  // jika pajak dibayar per lima tahun
+  else
+  {
+    pengesahan_stnk = 50000;
+    pnbp_tnkb = 100000;
 
-    //menghitung tarif progresif berdasarkan kepemilikan kendaraan ke berapa
-    tarif_progresif();
-
-    //jika pajak dibayar per tahun
-    if(tahunan_pajak == 1)
-    {
-        // jika pajak kendaraan tahun pertama (baru)
-        if(is_thn_pertama == 1)
-            total = pkb + bbnkb + swdkllj + admin + pnbp_stnk + pnbp_tnkb;
-        // jika pajak kendaraan bukan tahun pertama (lama)
-        else
-            total = pkb + swdkllj + admin;
-    }
-    //jika pajak dibayar per lima tahun
-    else
-    {
-        pengesahan_stnk = 50000;
-        pnbp_tnkb = 100000;
-
-        total = pkb + swdkllj + admin + pengesahan_stnk + pnbp_stnk + pnbp_tnkb; 
-    }
+    total = pkb + swdkllj + admin + pengesahan_stnk + pnbp_stnk + pnbp_tnkb;
+  }
 }
 
 void motor()
 {
-    printf("\n\tPilih Kode Ranmor Sesuai Kendaraan Anda");
-    printf("\n\t[1] C1 (Sepeda Motor, Sepeda Kumbang, Scooter 50cc s.d 250cc)");
-    printf("\n\t[2] C2 (Sepeda Motor dan Skuter > 250cc)");
-    printf("\n\tMasukan Pilihan : ");
+  printf("\n\tPilih Kode Ranmor Sesuai Kendaraan Anda");
+  printf("\n\t[1] C1 (Sepeda Motor, Sepeda Kumbang, Scooter 50cc s.d 250cc)");
+  printf("\n\t[2] C2 (Sepeda Motor dan Skuter > 250cc)");
+  printf("\n\tMasukan Pilihan : ");
+  kode_ranmor = input_int();
+  while (kode_ranmor < 1 || kode_ranmor > 7)
+  {
+    printf("\n\tPilihan Tidak Tersedia!");
+    printf("\n\tMasukan Pilihan Anda : ");
     kode_ranmor = input_int();
-		while (kode_ranmor < 1 || kode_ranmor > 7)
-		{
-			printf("\n\tPilihan Tidak Tersedia!");
-			printf("\n\tMasukan Pilihan Anda : ");
-			kode_ranmor = input_int();
-		}
+  }
 
-    if(is_thn_pertama == 1)
-        bbnkb = 0.1 * njkb;
+  if (is_thn_pertama == 1)
+    bbnkb = 0.1 * njkb;
 
-    // menetapkan tarif berdasarkan kode kendaraan bermotor
-    if(kode_ranmor == 1)
-    {
-        koefisien = 1;
-        njkb *= koefisien;
-        swdkllj = 35000;
-        strcpy(str_kode_ranmor, "C1");
-    }
-    else if(kode_ranmor == 2)
-    {
-        koefisien = 1;
-        njkb *= koefisien;
-        swdkllj = 83000;
-        strcpy(str_kode_ranmor, "C2");
-    }
+  // menetapkan tarif berdasarkan kode kendaraan bermotor
+  if (kode_ranmor == 1)
+  {
+    koefisien = 1;
+    njkb *= koefisien;
+    swdkllj = 35000;
+    strcpy(str_kode_ranmor, "C1");
+  }
+  else if (kode_ranmor == 2)
+  {
+    koefisien = 1;
+    njkb *= koefisien;
+    swdkllj = 83000;
+    strcpy(str_kode_ranmor, "C2");
+  }
 
-    //menghitung tarif progresif berdasarkan kepemilikan kendaraan ke berapa
-    tarif_progresif();
+  // menghitung tarif progresif berdasarkan kepemilikan kendaraan ke berapa
+  tarif_progresif();
 
-    //jika pajak dibayar per tahun
-    if(tahunan_pajak == 1)
-    {
-        pnbp_stnk = 100000;
-        pnbp_tnkb = 60000;
+  // jika pajak dibayar per tahun
+  if (tahunan_pajak == 1)
+  {
+    pnbp_stnk = 100000;
+    pnbp_tnkb = 60000;
 
-        // jika pajak kendaraan tahun pertama (baru)
-        if(is_thn_pertama == 1)
-            total = pkb + bbnkb + swdkllj +  pnbp_stnk + pnbp_tnkb + admin;
-        // jika pajak kendaraan bukan tahun pertama (lama)
-        else
-            total = pkb + swdkllj + admin;
-    }
-    //jika pajak dibayar per lima tahun
+    // jika pajak kendaraan tahun pertama (baru)
+    if (is_thn_pertama == 1)
+      total = pkb + bbnkb + swdkllj + pnbp_stnk + pnbp_tnkb + admin;
+    // jika pajak kendaraan bukan tahun pertama (lama)
     else
-    {
-        pnbp_stnk = 100000;
-        pengesahan_stnk = 50000;
-        pnbp_tnkb = 60000; 
+      total = pkb + swdkllj + admin;
+  }
+  // jika pajak dibayar per lima tahun
+  else
+  {
+    pnbp_stnk = 100000;
+    pengesahan_stnk = 50000;
+    pnbp_tnkb = 60000;
 
-        total = pkb + swdkllj + pengesahan_stnk + pnbp_stnk + pnbp_tnkb + admin; 
-    }
+    total = pkb + swdkllj + pengesahan_stnk + pnbp_stnk + pnbp_tnkb + admin;
+  }
 }

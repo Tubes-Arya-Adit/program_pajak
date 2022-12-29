@@ -42,7 +42,7 @@ struct Transaksi
 int menu_awal, menu_opsi_pajak, i_pga, i_trs, i_trs_filtered;
 time_t current;
 
-//deklarasi struct
+// deklarasi struct
 struct Pengguna pengguna[50];
 struct Pengguna input;
 struct Pengguna pengguna_login;
@@ -77,15 +77,15 @@ int main()
 
     // membuat variabel untuk memuat data waktu sekarang
     // dengan menggunakan fungsi time() dan localtime()
-    current = time(NULL); //menyimpan waktu saat ini dalam bentuk timestamp UNIX dengan memanggil fungsi time(NULL)
-    struct tm tm = *localtime(&current); //fungsi localtime dipanggil dengan parameter &current, yang mengembalikan pointer 
-    //ke struct tm yang menyimpan informasi waktu saat ini dalam bentuk waktu lokal. Struktur data tersebut disimpan dalam variabel tm.
+    current = time(NULL);                // menyimpan waktu saat ini dalam bentuk timestamp UNIX dengan memanggil fungsi time(NULL)
+    struct tm tm = *localtime(&current); // fungsi localtime dipanggil dengan parameter &current, yang mengembalikan pointer
+    // ke struct tm yang menyimpan informasi waktu saat ini dalam bentuk waktu lokal. Struktur data tersebut disimpan dalam variabel tm.
 
     // memasukkan data waktu sekarang ke dalam struct Tanggal
     waktu_sekarang.hari = tm.tm_mday;
     waktu_sekarang.bulan = tm.tm_mon + 1;
-    //tm_year berisi selisih dari tahun sekarang dan 1900
-    waktu_sekarang.tahun = tm.tm_year + 1900; //maka harus ditambah 1900 untuk mendapat tahun sekarang
+    // tm_year berisi selisih dari tahun sekarang dan 1900
+    waktu_sekarang.tahun = tm.tm_year + 1900; // maka harus ditambah 1900 untuk mendapat tahun sekarang
     waktu_sekarang.jam = tm.tm_hour;
     waktu_sekarang.menit = tm.tm_min;
     waktu_sekarang.detik = tm.tm_sec;

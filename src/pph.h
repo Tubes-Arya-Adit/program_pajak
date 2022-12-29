@@ -1,15 +1,15 @@
 double penghasilan_pokok, // perbulan
-    penghasilan_tambahan, //perbulan
+    penghasilan_tambahan, // perbulan
     biaya_jabatan,
     iuran_pensiun,
-    bruto, //penghasilan kotor
-    netto, //penghasilan bersih
-    ptkp = 54000000, //set default penghasilan tidak kena pajak
-    pkp, //penghasilan kena pajak
-    pph, //pajak penghasilan
+    bruto, // penghasilan kotor
+    netto, // penghasilan bersih
+    ptkp,  // set default penghasilan tidak kena pajak
+    pkp,   // penghasilan kena pajak
+    pph,   // pajak penghasilan
     denda = 0,
-    temp1, temp2, temp3, temp4; //temporary variabel, digunakan untuk menghitung tarif progresif
-int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian, tgl_bayar, bln_bayar, thn_bayar;
+    temp1, temp2, temp3, temp4; // temporary variabel, digunakan untuk menghitung tarif progresif
+int jml_anak = 0, menikah = 1, menu_pph, tarif_persen, lihat_rincian, tgl_bayar, bln_bayar, thn_bayar, golongan;
 char nama_jabatan[100], status[100];
 
 void pph_menu();
@@ -17,14 +17,14 @@ void pph_menu();
 // fungsi untuk mencetak pembayaran pph
 void output_pph()
 {
-  char filename[100]; //string untuk menyimpan nama file
-  //assign string nama file ke filename
-  //digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
+  char filename[100]; // string untuk menyimpan nama file
+  // assign string nama file ke filename
+  // digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
   sprintf(filename, "%s-bukti-bayar-pph-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
-  FILE *file = fopen(filename, "a"); //deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
-  //membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
-  if (file) //jika berhasil membuka file
+  FILE *file = fopen(filename, "a"); // deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
+  // membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
+  if (file) // jika berhasil membuka file
   {
     fprintf(file, "\n\t--------------------+----------------------------------------");
     fprintf(file, "\n\t       *******      |                                        ");
@@ -48,6 +48,7 @@ void output_pph()
     else if (menikah == 2)
       fprintf(file, "Lajang");
     fprintf(file, "\n\t Jumlah Tanggungan : %d", jml_anak);
+    fprintf(file, "\n\t Golongan          : %d", golongan);
     fprintf(file, "\n\t Nama Jabatan      : %s", nama_jabatan);
     fprintf(file, "\n\t-------------------------------------------------------------");
     fprintf(file, "\n");
@@ -87,9 +88,9 @@ void output_pph()
     fprintf(file, "\n\t Status          : %s", status);
     fprintf(file, "\n\t-------------------------------------------------------------");
   }
-  else //jika file tidak berhasil dibuka
+  else // jika file tidak berhasil dibuka
     printf("Unable to load file!");
-  fclose(file); //tutup file
+  fclose(file); // tutup file
 
   printf("\n\t==========================================================\n");
   printf("\n\t             Rincian Pembayaran berhasil dicetak          \n");
@@ -119,7 +120,23 @@ void pph_hitung()
   printf("\n\t=========================================================\n");
   printf("\n\t              Pembayaran Pajak Penghasilan               \n");
   printf("\n\t=========================================================\n");
-  printf("\n\tMasukan Nama Jabatan : ");
+  printf("\n\tGolongan Jabatan");
+  printf("\n\t[1] PNS Golongan I dan II");
+  printf("\n\t[2] PNS Golongan III");
+  printf("\n\t[3] Pejabat Negara dan PNS Golongan IV");
+  printf("\n\t[4] Selain Pejabat Negara");
+  printf("\n\tMasukan Golonggan Jabatan Anda  : ");
+  golongan = input_int();
+
+  while (golongan < 1 || golongan > 4)
+  {
+    printf("\n\tPilihan anda salah!");
+    printf("\n\tSilahkan Masukan Pilihan Anda Kembali!");
+    printf("\n\tMasukan Pilihan Anda : ");
+    golongan = input_int();
+  }
+
+  printf("\n\tMasukan Nama Jabatan   : ");
   input_str(nama_jabatan);
 
   printf("\n\tMasukan penghasilan pokok    : Rp.");
@@ -155,10 +172,10 @@ void pph_hitung()
       jml_anak = input_int();
     }
 
-    if (jml_anak > 3) //jika jumlah anak lebih dari 3
+    if (jml_anak > 3) // jika jumlah anak lebih dari 3
     {
-      jml_anak = 3; //max 3 anak, jumlah anak dihitung 3 jika lebih dari 3
-      ptkp += (4500000 * jml_anak); //ptkp ditambah 4.5 jt peranak
+      jml_anak = 3;                 // max 3 anak, jumlah anak dihitung 3 jika lebih dari 3
+      ptkp += (4500000 * jml_anak); // ptkp ditambah 4.5 jt peranak
     }
   }
 
@@ -175,7 +192,7 @@ void pph_hitung()
   // apakah bulan yang dimasukan adalah desember
   bln_bayar + 1;
 
-  if (bln_bayar >= 12)
+  if (bln_bayar > 12)
   {
     bln_bayar = 1;
     thn_bayar += 1;
@@ -184,59 +201,81 @@ void pph_hitung()
   // menentukan bruto sebulan
   bruto = penghasilan_pokok + penghasilan_tambahan;
 
-  // menentukan biaya jabatan (max 500.000 sebulan )
-  biaya_jabatan = 0.05 * bruto;
-
-  if (biaya_jabatan > 500000)
-    biaya_jabatan = 500000;
-
   // menentukan iuran pensiun (max 200.000 sebulan)
   iuran_pensiun = 0.05 * bruto;
 
   if (iuran_pensiun > 200000)
     iuran_pensiun = 200000;
 
+  biaya_jabatan = 0;
+
   // netto dalam sebulan
   netto = bruto - (biaya_jabatan + iuran_pensiun);
   // netto dalam setahun
   netto *= 12;
 
-  // penghasilan kena pajak
-  pkp = netto - ptkp;
-  if (pkp < 0)
-    pkp = 0;
+  ptkp = pkp = 0;
 
-  temp1 = temp2 = temp3 = temp4 = 0;
+  if (golongan == 1)
+  {
+    pph = 0;
+  }
+  else if (golongan == 2)
+  {
+    pph = bruto * 0.05;
+  }
+  else if (golongan == 3)
+  {
+    pph = bruto * 0.15;
+  }
+  else
+  {
+    // menentukan biaya jabatan (max 500.000 sebulan )
+    biaya_jabatan = 0.05 * bruto;
 
-  // PPh berdasarkan tarif progresif
-  if (pkp <= 50000000)
-  {
-    tarif_persen = 5;
-    temp1 = pkp * 0.05;
-  }
-  else if (pkp > 50000000 && pkp <= 250000000)
-  {
-    tarif_persen = 15;
-    temp1 = 50000000 * 0.05;
-    temp2 = (pkp - 50000000) * 0.15;
-  }
-  else if (pkp > 250000000 && pkp <= 500000000)
-  {
-    tarif_persen = 25;
-    temp1 = 50000000 * 0.05;
-    temp2 = 200000000 * 0.15;
-    temp3 = (pkp - 250000000) * 0.25;
-  }
-  else if (pkp > 500000000)
-  {
-    tarif_persen = 30;
-    temp1 = 50000000 * 0.05;
-    temp2 = 200000000 * 0.15;
-    temp3 = 250000000 * 0.25;
-    temp4 = (pkp - 500000000) * 0.30;
-  }
+    if (biaya_jabatan > 500000)
+      biaya_jabatan = 500000;
 
-  pph = (temp1 + temp2 + temp3 + temp4) / 12;
+    // set default ptkp
+    ptkp = 54000000;
+
+    // penghasilan kena pajak
+    pkp = netto - ptkp;
+    if (pkp < 0)
+      pkp = 0;
+
+    temp1 = temp2 = temp3 = temp4 = 0;
+
+    // PPh berdasarkan tarif progresif
+    if (pkp <= 50000000)
+    {
+      tarif_persen = 5;
+      temp1 = pkp * 0.05;
+    }
+    else if (pkp > 50000000 && pkp <= 250000000)
+    {
+      tarif_persen = 15;
+      temp1 = 50000000 * 0.05;
+      temp2 = (pkp - 50000000) * 0.15;
+    }
+    else if (pkp > 250000000 && pkp <= 500000000)
+    {
+      tarif_persen = 25;
+      temp1 = 50000000 * 0.05;
+      temp2 = 200000000 * 0.15;
+      temp3 = (pkp - 250000000) * 0.25;
+    }
+    else if (pkp > 500000000)
+    {
+      tarif_persen = 30;
+      temp1 = 50000000 * 0.05;
+      temp2 = 200000000 * 0.15;
+      temp3 = 250000000 * 0.25;
+      temp4 = (pkp - 500000000) * 0.30;
+    }
+
+    pph = (temp1 + temp2 + temp3 + temp4) / 12;
+  }
 
   // membuat tanggal atau waktu menggunakan struct dengan waktu yang spesifik
   struct tm due_date = {.tm_sec = 0,

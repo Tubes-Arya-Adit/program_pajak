@@ -1,7 +1,7 @@
 int i,      // indeks perulangan
     jumlah, // jumlah barang
     lihat_rincian,
-    is_barang_mewah,    // menampung nilai input saat memilih ingin melihat rincian atau tidak
+    menu_status,
     menu_ppn,           // menampung nilai input saat memilih konfirmasi pembayaran atau kembali
     tgl_bayar,          // menampung nilai input tanggal transaksi barang
     bln_bayar,          // menampung nilai input bulan transaksi barang
@@ -16,6 +16,7 @@ struct Barang
     char nama[100];
     int is_barang_mewah; // 1 = mewah 2 non mewah
     double harga;
+    char status[100];
 };
 
 struct Barang barang[11];
@@ -24,7 +25,7 @@ struct Barang barang[11];
 void ppn_menu();
 
 // fungsi untuk melakukan cetak pembayaran ppn
-void output_ppn(char uraian[jumlah][51], double harga[])
+void output_ppn()
 {
     char filename[100]; // string untuk menyimpan nama file
     // assign format nama file ke filename
@@ -54,12 +55,12 @@ void output_ppn(char uraian[jumlah][51], double harga[])
         fprintf(file, "\n\t------------------------------------------------------");
         fprintf(file, "\n");
         fprintf(file, "\n\tB. RINCIAN BARANG/JASA KENA PAJAK DAN PERHITUNGAN PPN");
-        fprintf(file, "\n\t+----+----------------------------------------------------+--------------------+");
-        fprintf(file, "\n\t| NO |                 URAIAN BARANG/JASA                 |        HARGA       |");
-        fprintf(file, "\n\t|----|----------------------------------------------------|--------------------|");
+        fprintf(file, "\n\t+----+-----------------------------------------------+--------------------+-----------------------");
+        fprintf(file, "\n\t| NO |              URAIAN BARANG/JASA               |        HARGA       |        Status        |");
+        fprintf(file, "\n\t|----|-----------------------------------------------|--------------------|-----------------------");
         for (i = 0; i < jumlah; i++) // perulangan sebanyak jumlah barang
         {
-            fprintf(file, "\n\t| %-2d | %-50s | Rp.%15.0f |", i + 1, uraian[i], harga[i]); // menampilkan nomor, nama barang, dan harga
+            fprintf(file, "\n\t| %-2d | %-48s | Rp.%15.0f | %-20s |", i + 1, barang[i].nama, barang[i].harga, barang[i].status); // menampilkan nomor, nama barang, dan harga
         }
         fprintf(file, "\n\t+----+----------------------------------------------------+--------------------+");
         fprintf(file, "\n\t Total Harga                   : %.0f", total_harga);
@@ -120,7 +121,6 @@ void ppn_hitung()
         printf("\n\tSilahkan Masukan jumlah barang yang akan dihitung : ");
         jumlah = input_int();
     }
-    char uraian[jumlah][51]; // array of string untuk menampung daftar nama barang
 
     for (i = 0; i < jumlah; i++)
     {
@@ -130,19 +130,25 @@ void ppn_hitung()
 
         printf("\n\tApakah termasuk barang mewah ?");
         printf("\n\t[1] Ya  [2] Tidak");
-        is_barang_mewah = input_int();
+        menu_status = input_int();
 
-        while (is_barang_mewah != 1 || is_barang_mewah != 2)
+        while (menu_status != 1 || menu_status != 2)
         {
             printf("\n\tYang anda masukan salah!");
             printf("\n\tMasukan kembali : ");
-            is_barang_mewah = input_int();
+            barang[i].is_barang_mewah = input_int();
         }
 
-        if (is_barang_mewah == 1)
+        if (menu_status == 1)
+        {
             barang[i].is_barang_mewah = 1;
+            strcpy(barang[i].status, "Barang Mewah");
+        }
         else
+        {
             barang[i].is_barang_mewah = 2;
+            strcpy(barang[i].status, "Barang Non Mewah");
+        }
 
         printf("\n\tMasukan harga %s : Rp.", barang[i].nama);
         barang[i].harga = input_double(); // input harga barang ke-i
@@ -163,7 +169,7 @@ void ppn_hitung()
     // apakah bulan yang dimasukan adalah desember
     bln_bayar + 1;
 
-    if (bln_bayar >= 12)
+    if (bln_bayar > 12)
     {
         bln_bayar = 1;
         thn_bayar += 1;
@@ -246,7 +252,7 @@ void ppn_hitung()
     if (lihat_rincian == 1)
     {
         system("cls");
-        output_ppn(uraian, harga);
+        output_ppn();
     }
     else
     {
