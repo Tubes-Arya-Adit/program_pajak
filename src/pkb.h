@@ -277,7 +277,7 @@ void pkb_hitung()
   printf("\n\t[1] Ya    [2] Tidak ");
   printf("\n\tMasukan Pilihan Anda : ");
   lihat_rincian = input_int();
-  while (lihat_rincian != 1 && lihat_rincian != 2)
+  while (lihat_rincian < 1 && lihat_rincian > 2)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
