@@ -121,14 +121,13 @@ void pph_hitung()
   printf("\n\t              Pembayaran Pajak Penghasilan               \n");
   printf("\n\t=========================================================\n");
   printf("\n\tGolongan Jabatan");
-  printf("\n\t[1] PNS Golongan I dan II");
-  printf("\n\t[2] PNS Golongan III");
-  printf("\n\t[3] Pejabat Negara dan PNS Golongan IV");
-  printf("\n\t[4] Selain Pejabat Negara");
+  printf("\n\t[1] PNS Golongan III");
+  printf("\n\t[2] Pejabat Negara dan PNS Golongan IV");
+  printf("\n\t[3] Selain Pejabat Negara");
   printf("\n\tMasukan Golonggan Jabatan Anda  : ");
   golongan = input_int();
 
-  while (golongan < 1 || golongan > 4)
+  while (golongan < 1 || golongan > 3)
   {
     printf("\n\tPilihan anda salah!");
     printf("\n\tSilahkan Masukan Pilihan Anda Kembali!");
@@ -149,7 +148,7 @@ void pph_hitung()
   printf("\n\tMasukan Pilihan Anda : ");
   menikah = input_int();
 
-  while (menikah != 1 && menikah != 2)
+  while (menikah < 1 && menikah > 2)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");
@@ -218,13 +217,9 @@ void pph_hitung()
 
   if (golongan == 1)
   {
-    pph = 0;
-  }
-  else if (golongan == 2)
-  {
     pph = bruto * 0.05;
   }
-  else if (golongan == 3)
+  else if (golongan == 2)
   {
     pph = bruto * 0.15;
   }
@@ -362,7 +357,7 @@ void pph_menu()
   printf("\n\tPilihan Anda : ");
   menu_pph = input_int();
 
-  while (menu_pph != 1 && menu_pph != 2)
+  while (menu_pph < 1 && menu_pph > 2)
   {
     printf("\n\tPilihan Anda Salah!");
     printf("\n\tSilahkan Masukkan Pilihan Anda Kembali!");

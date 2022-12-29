@@ -9,14 +9,14 @@ void impor_menu();
 // Mmebuat fungsi untuk mencetak bukti bayar pajak impor
 void output_impor()
 {
-  char filename[100]; //string untuk menyimpan nama file
-  //assign format nama file ke filename
-  //digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
+  char filename[100]; // string untuk menyimpan nama file
+  // assign format nama file ke filename
+  // digunakan untuk menyimpan output variabel yang dituju dengan format yang kita buat
   sprintf(filename, "%s-bukti-bayar-impor-%d-%02d-%02d-%02d-%02d.txt", pengguna_login.npwp, waktu_sekarang.hari, waktu_sekarang.bulan, waktu_sekarang.tahun, waktu_sekarang.jam, waktu_sekarang.menit);
 
-  FILE *file = fopen(filename, "a"); //deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
-  //membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
-  if (file) //jika berhasil membuka file
+  FILE *file = fopen(filename, "a"); // deklarasi tipe data FILE, variabel file merupakan pointer ke tipe data FILE.
+  // membuka file dengan nama filename, "a" (append) membuka file untuk ditulis di akhir file. Jika file tidak ada, maka file akan dibuat.
+  if (file) // jika berhasil membuka file
   {
     fprintf(file, "\n\t--------------------+--------------------------------------");
     fprintf(file, "\n\t       *******      |                                      ");
@@ -86,9 +86,9 @@ void output_impor()
     fprintf(file, "\n\t Status                      : %s", status);
     fprintf(file, "\n\t-----------------------------------------------------------");
   }
-  else //jika file tidak berhasil dibuka
+  else // jika file tidak berhasil dibuka
     printf("Unable to load file!");
-  fclose(file); //tutup file
+  fclose(file); // tutup file
 
   printf("\n\t==========================================================\n");
   printf("\n\t             Rincian Pembayaran berhasil dicetak          \n");
@@ -96,7 +96,7 @@ void output_impor()
   printf("\n\tSilahkan tekan tombol apapun untuk kembali ke Program\n");
   getch();
   system("cls");
-  impor_menu(); //kembali ke menu sebelumnya
+  impor_menu(); // kembali ke menu sebelumnya
 }
 
 void input_tgl_impor()
